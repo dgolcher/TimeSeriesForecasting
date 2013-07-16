@@ -1,0 +1,18 @@
+﻿AVALIACAO FRAMEWORKS DE GRAFICOS:
+Chart.js
+  + Fácil de utilizar
+  + Bom design
+  + Possibilita a apresentacao de diversas series temporais em um mesmo gráfico (importante para a utilizacao para a apresentacao da evolucao de diversas ilhas.)
+  - não possibilita eventos no gráfico
+  - Não apresenta dados nos pontos do gráfico.
+  
+highcharts
+  + Possui biblioteca para apresentacao de dados via ajax (possibilita acompanhamento da evolucao em "tempo real")
+  + Possibilita a apresentacao de diversas series temporais em um mesmo gráfico (importante para a utilizacao para a apresentacao da evolucao de diversas ilhas.)
+  + Bom design
+  + Apresenta a descrição de cada nó da série temporal.
+  + Disponibiliza opções de download do gráfico gerado em diversos formatos.
+  + Facil utilização
+  + Multi-parametrizável.
+  + Ajusta os pontos inicial e final do gráfico para os valores necessários (inclulindo a dimensão apresentada para cada ponto)
+  + Permite inclusao de eventos (click, por exemplo).
