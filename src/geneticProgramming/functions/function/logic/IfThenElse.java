@@ -1,9 +1,9 @@
-package geneticProgramming.function;
+package geneticProgramming.functions.function.logic;
 
 import org.uncommons.maths.random.Probability;
-import geneticProgramming.terminal.Node;
+import geneticProgramming.functions.Node;
 import geneticProgramming.geneticOperators.TreeFactory;
-import geneticProgramming.terminal.Constant;
+import geneticProgramming.functions.terminal.Constant;
 
 import java.util.Random;
 

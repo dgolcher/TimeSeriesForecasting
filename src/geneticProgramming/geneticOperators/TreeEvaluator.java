@@ -1,7 +1,7 @@
-package geneticProgramming;
+package geneticProgramming.geneticOperators;
 
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
-import geneticProgramming.terminal.Node;
+import geneticProgramming.functions.Node;
 
 import java.util.List;
 import java.util.Map;

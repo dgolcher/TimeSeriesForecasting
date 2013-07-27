@@ -1,5 +1,12 @@
 package geneticProgramming;
 
+import geneticProgramming.functions.Node;
+import geneticProgramming.functions.function.basic.Addition;
+import geneticProgramming.functions.function.basic.Subtraction;
+import geneticProgramming.functions.function.logic.Equals;
+import geneticProgramming.functions.function.logic.IfThenElse;
+import geneticProgramming.functions.function.logic.Not;
+import geneticProgramming.geneticOperators.*;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.*;
@@ -8,12 +15,8 @@ import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.Stagnation;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
-import geneticProgramming.function.*;
-import geneticProgramming.geneticOperators.Plague;
-import geneticProgramming.geneticOperators.TreeCrossover;
-import geneticProgramming.geneticOperators.TreeFactory;
-import geneticProgramming.geneticOperators.TreeMutation;
-import geneticProgramming.terminal.*;
+import geneticProgramming.functions.function.*;
+import geneticProgramming.functions.terminal.*;
 
 import java.util.*;
 

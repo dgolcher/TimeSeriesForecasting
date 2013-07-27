@@ -1,7 +1,7 @@
 package geneticProgramming.geneticOperators;
 
 import org.uncommons.watchmaker.framework.operators.AbstractCrossover;
-import geneticProgramming.terminal.Node;
+import geneticProgramming.functions.Node;
 
 import java.util.ArrayList;
 import java.util.List;

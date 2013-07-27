@@ -1,6 +1,8 @@
-package geneticProgramming.function;
+package geneticProgramming.functions.function.complex;
 
-import geneticProgramming.terminal.*;
+import geneticProgramming.functions.Node;
+import geneticProgramming.functions.function.UnaryNode;
+import geneticProgramming.functions.terminal.*;
 
 /**
  * Absolute operator.

@@ -1,13 +1,15 @@
-package geneticProgramming.function;
+package geneticProgramming.functions.function.logic;
 
-import geneticProgramming.terminal.*;
+import geneticProgramming.functions.Node;
+import geneticProgramming.functions.function.BinaryNode;
+import geneticProgramming.functions.terminal.*;
 
 /**
- * Or operator.
+ * And operator.
  *
- * This is an implementation of Or operator.
+ * This is an implementation of and operator.
  *
- * This class must join two sentences in an "or" operation. This class must receive two parameters and compare them.
+ * This class must join two sentences in an "and" operation. This class must receive two parameters and compare them.
  * This two parameters must be instances of boolean classes.
  *
  * This class will evaluate boolean results.
@@ -19,12 +21,13 @@ import geneticProgramming.terminal.*;
  * Date: 25/06/13
  * Time: 09:13
  */
-public class Or extends BinaryNode
+public class And extends BinaryNode
 {
-    public static final String OR_SYMBOL = "||";
 
-    public Or(Node left, Node right) {
-        super(left, right, Or.OR_SYMBOL);
+    public static final String AND_SYMBOL = "&&";
+
+    public And(Node left, Node right) {
+        super(left, right, AND_SYMBOL);
     }
 
     /**
@@ -36,8 +39,8 @@ public class Or extends BinaryNode
      */
     @Override
     public double evaluate(double[] programParameters) {
-        return this.left.evaluate(programParameters) == new True().evaluate(programParameters) ||
-                this.right.evaluate(programParameters) == new True().evaluate(programParameters) ? 1 : 0;
+        return this.left.evaluate(programParameters) == new True().evaluate(programParameters) &&
+               this.right.evaluate(programParameters) == new True().evaluate(programParameters) ? 1 : 0;
     }
 
     /**
@@ -59,19 +62,15 @@ public class Or extends BinaryNode
         Node simplifiedLeft  = this.left.simplify();
         Node simplifiedRight = this.right.simplify();
 
-        if (simplifiedLeft instanceof True || simplifiedRight instanceof True) {
-            return new True();
-        }
-
-        if (simplifiedLeft instanceof False && simplifiedRight instanceof False) {
+        if (simplifiedLeft instanceof False || simplifiedRight instanceof False) {
             return new False();
         }
 
-        if (simplifiedLeft instanceof False) {
+        if (simplifiedLeft instanceof True) {
             return simplifiedRight;
         }
 
-        if (simplifiedRight instanceof False) {
+        if (simplifiedRight instanceof True) {
             return simplifiedLeft;
         }
 

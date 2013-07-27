@@ -1,5 +1,6 @@
-package geneticProgramming.terminal;
+package geneticProgramming.functions.function;
 
+import geneticProgramming.functions.Node;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.util.reflection.ReflectionUtils;
 import geneticProgramming.geneticOperators.TreeFactory;

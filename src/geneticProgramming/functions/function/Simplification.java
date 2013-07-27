@@ -1,8 +1,8 @@
-package geneticProgramming.function;
+package geneticProgramming.functions.function;
 
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
-import geneticProgramming.terminal.Node;
+import geneticProgramming.functions.Node;
 
 import java.util.ArrayList;
 import java.util.List;

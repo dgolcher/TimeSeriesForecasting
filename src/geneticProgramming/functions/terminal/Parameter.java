@@ -1,4 +1,4 @@
-package geneticProgramming.terminal;
+package geneticProgramming.functions.terminal;
 
 /**
  * Parameter.

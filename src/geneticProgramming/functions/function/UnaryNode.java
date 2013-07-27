@@ -1,5 +1,6 @@
-package geneticProgramming.terminal;
+package geneticProgramming.functions.function;
 
+import geneticProgramming.functions.Node;
 import org.uncommons.maths.random.Probability;
 import geneticProgramming.geneticOperators.TreeFactory;
 
@@ -22,6 +23,7 @@ import java.util.Random;
  */
 abstract public class UnaryNode implements Node
 {
+    protected static final double[] NO_ARGS = new double[0];
     private double fitnessValue;
     protected Node node;
 

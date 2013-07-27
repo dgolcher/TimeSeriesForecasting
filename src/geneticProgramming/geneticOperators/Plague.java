@@ -1,7 +1,7 @@
 package geneticProgramming.geneticOperators;
 
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
-import geneticProgramming.terminal.Node;
+import geneticProgramming.functions.Node;
 
 import java.util.*;
 

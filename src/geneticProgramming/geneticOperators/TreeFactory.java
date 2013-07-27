@@ -1,9 +1,16 @@
 package geneticProgramming.geneticOperators;
 
+import geneticProgramming.functions.Node;
+import geneticProgramming.functions.function.basic.Addition;
+import geneticProgramming.functions.function.basic.Divide;
+import geneticProgramming.functions.function.basic.Multiplication;
+import geneticProgramming.functions.function.basic.Subtraction;
+import geneticProgramming.functions.function.complex.Abs;
+import geneticProgramming.functions.function.complex.Pow;
+import geneticProgramming.functions.function.logic.*;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.factories.AbstractCandidateFactory;
-import geneticProgramming.function.*;
-import geneticProgramming.terminal.*;
+import geneticProgramming.functions.terminal.*;
 
 import java.util.Random;
 

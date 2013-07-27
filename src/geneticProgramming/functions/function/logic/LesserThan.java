@@ -1,6 +1,8 @@
-package geneticProgramming.function;
+package geneticProgramming.functions.function.logic;
 
-import geneticProgramming.terminal.*;
+import geneticProgramming.functions.Node;
+import geneticProgramming.functions.function.BinaryNode;
+import geneticProgramming.functions.terminal.*;
 
 /**
  * LesserThan operator.

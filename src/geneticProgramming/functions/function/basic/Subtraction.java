@@ -1,8 +1,8 @@
-package geneticProgramming.function;
+package geneticProgramming.functions.function.basic;
 
-import geneticProgramming.terminal.BinaryNode;
-import geneticProgramming.terminal.Constant;
-import geneticProgramming.terminal.Node;
+import geneticProgramming.functions.function.BinaryNode;
+import geneticProgramming.functions.terminal.Constant;
+import geneticProgramming.functions.Node;
 
 /**
  * Subtraction operator.
@@ -59,18 +59,18 @@ public class Subtraction extends BinaryNode
         }
 
         // Adding zero is pointless, the expression can be reduced to its other argument.
-        if (simplifiedLeft instanceof Constant && simplifiedLeft.evaluate(Addition.NO_ARGS) == 0) {
+        if (simplifiedLeft instanceof Constant && simplifiedLeft.evaluate(NO_ARGS) == 0) {
             return simplifiedLeft;
         }
 
-        if (simplifiedRight instanceof Constant && simplifiedRight.evaluate(Addition.NO_ARGS) == 0) {
+        if (simplifiedRight instanceof Constant && simplifiedRight.evaluate(NO_ARGS) == 0) {
             return simplifiedRight;
         }
 
         // If the two arguments are constants, it can be reduced to its final value, since constant values will never
         // change.
         if (simplifiedLeft instanceof Constant && simplifiedRight instanceof Constant) {
-            return new Constant(simplifiedLeft.evaluate(Addition.NO_ARGS) - simplifiedRight.evaluate(Addition.NO_ARGS));
+            return new Constant(simplifiedLeft.evaluate(NO_ARGS) - simplifiedRight.evaluate(NO_ARGS));
         } else if (simplifiedLeft != this.left || simplifiedRight != this.right) {
             return new Subtraction(simplifiedLeft, simplifiedRight);
         } else {

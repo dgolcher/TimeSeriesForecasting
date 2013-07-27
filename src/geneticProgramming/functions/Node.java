@@ -1,4 +1,4 @@
-package geneticProgramming.terminal;
+package geneticProgramming.functions;
 
 import org.uncommons.maths.random.Probability;
 import geneticProgramming.geneticOperators.TreeFactory;
@@ -8,17 +8,20 @@ import java.util.Random;
 /**
  * Created with IntelliJ IDEA.
  * User: Paulo
- * Date: 18/06/13
- * Time: 13:16
+ * Date: 17/06/13
+ * Time: 13:25
  */
-public class LeafNode implements Node
+public interface Node
 {
-    private double fitnessvalue;
 
-    public LeafNode()
-    {
-        this.fitnessvalue = Double.MAX_VALUE;
-    }
+    /**
+     * Constants used to identify which type of node this one represents. It is important to deploy the nodes, since
+     * it will make possible select better which node will be used in which type of operator.
+     */
+    public static final int BOOLEAN_NODE = 1;
+    public static final int ARITHMETIC_NODE = 2;
+    public static final int ALL_TYPES    = 3;
+
 
     /**
      * Recursively evaluates the (sub-)tree represented by this node (including any child nodes) and return the fitness
@@ -27,95 +30,65 @@ public class LeafNode implements Node
      * @param programParameters Program parameters, used by this node or its children.
      * @return Returns a double value representing this node's fitness value.
      */
-    @Override
-    public double evaluate(double[] programParameters) {
-        return 0;
-    }
+    double evaluate(double[] programParameters);
 
     /**
      * Recursively  builds a String representing the tree routed by this node.
      *
      * @return String representing this tree.
      */
-    @Override
-    public String print() {
-        return null;
-    }
+    String print();
 
     /**
      *
      * @return A short String representing the function or value of the tree routed by this node.
      */
-    @Override
-    public String getLabel() {
-        return null;
-    }
+    String getLabel();
 
     /**
      * If it is a function (non-leaves) node, how many arguments does it take? For leaves the answer is zero.
      *
      * @return The number of parameters for this node, if it is a function.
      */
-    @Override
-    public int getArity() {
-        return 0;
-    }
+    int getArity();
 
     /**
      *
      * @return Number of levels of nodes that make up this tree.
      */
-    @Override
-    public int getDepth() {
-        return 1;
-    }
+    int getDepth();
 
     /**
      *
      * @return A number representing the width of a node. Note that, a leaf has the width of 1. A node that has children
      * has the the width equals the sum of width of its children.
      */
-    @Override
-    public int getWidth() {
-        return 1;
-    }
+    int getWidth();
 
     /**
      *
      * @return Returns the count of nodes existing in this sub-tree.
      */
-    @Override
-    public int countNodes() {
-        return 1;
-    }
+    int countNodes();
 
     /**
      * Returns which type this node represents.
      *
      * @return returns the type of this node.
      */
-    @Override
-    public int getType() {
-        return Node.ARITHMETIC_NODE;
-    }
+    int getType();
 
     /**
      * Returns the value of fitness set to this node. It will be used by the root of a tree.
      *
      * @return value of fitness of this tree.
      */
-    @Override
-    public Double getFitnessValue() {
-        return this.fitnessvalue;
-    }
+    Double getFitnessValue();
 
     /**
      * Sets the value of fitness value of this tree.
      */
-    @Override
-    public void setFitnessValue(double fitnessValue) {
-        this.fitnessvalue = fitnessValue;
-    }
+    void setFitnessValue(double fitnessValue);
 
     /**
      * Returns a sub-node for this tree.
@@ -124,18 +97,7 @@ public class LeafNode implements Node
      *              using a depth-first, right-to-left strategy.
      * @return The id of the wanted node.
      */
-    @Override
-    public Node getNode(int index) {
-//        if (index != 0) {
-//            throw new IndexOutOfBoundsException("Invalid node index " + index);
-//        }
-
-        return this;
-    }
-
-    public Node getNode() {
-        return this.getNode(0);
-    }
+    Node getNode(int index);
 
     /**
      * Retrieves a direct sub-node from this tree.
@@ -144,10 +106,7 @@ public class LeafNode implements Node
      *              included.
      * @return The node represented by this id parameter.
      */
-    @Override
-    public Node getChild(int index) {
-        throw new IndexOutOfBoundsException("Leaf nodes have no children.");
-    }
+    Node getChild(int index);
 
     /**
      *
@@ -161,18 +120,7 @@ public class LeafNode implements Node
      * @param newNode The new instance of node that this tree will assume.
      * @return The node (as its sub-nodes) with a node replaced.
      */
-    @Override
-    public Node replaceNode(int index, Node newNode) {
-        if (index != 0) {
-            throw new IndexOutOfBoundsException("Invalid node index: " + index);
-        }
-
-        if (!this.checkConstructionConstraints(newNode)) {
-            return this;
-        }
-
-        return newNode;
-    }
+    Node replaceNode(int index, Node newNode);
 
     /**
      * Helper method for the {@link geneticProgramming.geneticOperators.TreeMutation} evolutionary operator
@@ -182,41 +130,19 @@ public class LeafNode implements Node
      * @param treeFactory A factory for creating a new sub-tree needed for mutation.
      * @return The mutated node (or the same node if nothing occurs).
      */
-    @Override
-    public Node mutate(Random rng, Probability mutationProbability, TreeFactory treeFactory)
-    {
-        if (mutationProbability.nextEvent(rng)) {
-            return treeFactory.generateRandomCandidate(rng, this.getType());
-        } else {
-            // Node is unchanged.
-            return this;
-        }
-    }
+    Node mutate(Random rng, Probability mutationProbability, TreeFactory treeFactory);
 
     /**
      * Reduces this program tree to this simplest equivalent representation form.
      * @return A tree representing this one simplified, or this, if it cannot be done.
      */
-    @Override
-    public Node simplify()
-    {
-        return this;
-    }
+    Node simplify();
 
     /**
      * Verify all conditions that have to be respected to construct a new node of certain type.
      *
      * @return true, if all the conditions are satisfied. False, otherwise.
      */
-    @Override
-    public boolean checkConstructionConstraints(Node node) {
-        return node.getType() == Node.ARITHMETIC_NODE;
-    }
-
-    @Override
-    public String toString()
-    {
-        return this.print();
-    }
+    boolean checkConstructionConstraints(Node node);
 
 }

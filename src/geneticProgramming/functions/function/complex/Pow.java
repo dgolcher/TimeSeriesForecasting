@@ -1,8 +1,8 @@
-package geneticProgramming.function;
+package geneticProgramming.functions.function.complex;
 
-import geneticProgramming.terminal.BinaryNode;
-import geneticProgramming.terminal.Constant;
-import geneticProgramming.terminal.Node;
+import geneticProgramming.functions.function.BinaryNode;
+import geneticProgramming.functions.terminal.Constant;
+import geneticProgramming.functions.Node;
 
 /**
  * Power operator.
