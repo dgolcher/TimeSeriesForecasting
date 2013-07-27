@@ -34,13 +34,18 @@ public class GeneticProgrammingExample
 
     public static void main(String[] args)
     {
-        long startTime = System.currentTimeMillis();
-        Map<double[], Double> data = GeneticProgrammingExample.getData();
-        Node program               = GeneticProgrammingExample.evolveProgram(data);
+        System.out.println(Math.log(0));
+        System.out.println(Math.log10(0));
 
-        System.out.println(program.print());
-        long finishTime = System.currentTimeMillis();
-        System.out.println("Duration: " + (finishTime - startTime) + "ms");
+
+
+//        long startTime = System.currentTimeMillis();
+//        Map<double[], Double> data = GeneticProgrammingExample.getData();
+//        Node program               = GeneticProgrammingExample.evolveProgram(data);
+//
+//        System.out.println(program.print());
+//        long finishTime = System.currentTimeMillis();
+//        System.out.println("Duration: " + (finishTime - startTime) + "ms");
 
 //        for (int i = 0; i < 1000; i++) {
 //            testPopulationGeneration();
