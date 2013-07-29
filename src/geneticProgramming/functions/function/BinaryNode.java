@@ -23,7 +23,7 @@ import java.util.Random;
  * Date: 18/06/13
  * Time: 00:46
  */
-public class BinaryNode implements Node
+abstract public class BinaryNode implements Node
 {
 
     protected static final double[] NO_ARGS = new double[0];

@@ -31,21 +31,15 @@ import java.util.*;
  */
 public class GeneticProgrammingExample
 {
-
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        System.out.println(Math.log(0));
-        System.out.println(Math.log10(0));
+        long startTime             = System.currentTimeMillis();
+        Map<double[], Double> data = GeneticProgrammingExample.getData();
+        Node program               = GeneticProgrammingExample.evolveProgram(data);
 
-
-
-//        long startTime = System.currentTimeMillis();
-//        Map<double[], Double> data = GeneticProgrammingExample.getData();
-//        Node program               = GeneticProgrammingExample.evolveProgram(data);
-//
-//        System.out.println(program.print());
-//        long finishTime = System.currentTimeMillis();
-//        System.out.println("Duration: " + (finishTime - startTime) + "ms");
+        System.out.println(program.print());
+        long finishTime = System.currentTimeMillis();
+        System.out.println("Duration: " + (finishTime - startTime) + "ms");
 
 //        for (int i = 0; i < 1000; i++) {
 //            testPopulationGeneration();
@@ -112,10 +106,20 @@ public class GeneticProgrammingExample
         double[] y = new double[size];
         Random random = new Random();
 
-        System.out.println("Proposed problem: x² -2x + 1");
         for (int i = 0; i < size; i++) {
             x[i]   =  Math.round(13.0f * (random.nextFloat() - 0.3f));
-            y[i]   = (x[i] * x[i]) - (2*x[i]) + 1;
+            //--------------------------------------------------------
+            y[i]     = Math.pow(x[i], 2) - x[i] + 1;
+//            y[i]   = Math.abs(x[i]);
+//            y[i]   = Math.acos(x[i]);
+//            y[i]   = Math.asin(x[i]);
+//            y[i]   = Math.atan(x[i]);
+//            y[i]   = Math.sin(x[i]);
+//            y[i]   = Math.tan(x[i]);
+//            y[i]   = Math.cos(x[i]);
+//            y[i]   = Math.log(x[i]);
+//            y[i]   = Math.log10(x[i]);
+            //--------------------------------------------------------
             data.put(new double[]{x[i]}, y[i]);
             System.out.println("x = " + x[i] + "; y = " + y[i]);
         }
@@ -124,7 +128,7 @@ public class GeneticProgrammingExample
         return data;
     }
 
-    private static Node evolveProgram(Map<double[], Double> data)
+    private static Node evolveProgram(Map<double[], Double> data) throws Exception
     {
         TreeFactory factory = new TreeFactory (
             1,                    // Number of parameters passed into each program.
@@ -132,6 +136,11 @@ public class GeneticProgrammingExample
             Probability.EVENS,    // Probability that a node is a function node.
             new Probability(0.6d) // Probability that other nodes are params rather than constants.
         );
+        factory.enableFunctionSet(TreeFactory.BASIC_OPERATORS);
+        factory.enableFunctionSet(TreeFactory.COMPLEX_OPERATORS);
+        factory.enableFunctionSet(TreeFactory.LOGIC_OPERATORS);
+        factory.enableFunctionSet(TreeFactory.TRIGONOMETRIC_OPERATORS);
+        factory.enableFunctionSet(TreeFactory.TERMINALS);
 
         List<EvolutionaryOperator<Node>> operators = new ArrayList<EvolutionaryOperator<Node>>(4);
         operators.add(new TreeMutation(factory, new Probability(0.5d)));
