@@ -18,9 +18,9 @@ public interface Node
      * Constants used to identify which type of node this one represents. It is important to deploy the nodes, since
      * it will make possible select better which node will be used in which type of operator.
      */
-    public static final int BOOLEAN_NODE = 1;
+    public static final int BOOLEAN_NODE    = 1;
     public static final int ARITHMETIC_NODE = 2;
-    public static final int ALL_TYPES    = 3;
+    public static final int ALL_TYPES       = 3;
 
 
     /**
