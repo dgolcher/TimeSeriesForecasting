@@ -55,7 +55,6 @@ public class Multiplication extends BinaryNode
         Node simplifiedLeft  = this.left.simplify();
         Node simplifiedRight = this.right.simplify();
 
-
         if (simplifiedLeft instanceof Constant && simplifiedLeft.evaluate(NO_ARGS) == 1) {
             return simplifiedRight;
         }

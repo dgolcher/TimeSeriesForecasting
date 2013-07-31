@@ -187,7 +187,7 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
     @Override
     public Node generateRandomCandidate(Random random)
     {
-        return this.makeNode(random, this.maximumDepth, Node.ALL_TYPES).simplify();
+        return this.makeNode(random, this.maximumDepth, Node.ALL_TYPES);
     }
 
     /**
@@ -211,7 +211,7 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
      * will create a Constant or a Parameter node.
      *
      * @param rng random generator.
-     * @param maxDepth Maximum value of depth of a tree.
+     * @param maxDepth Maximum depth value of a tree.
      * @param nodeType type of node that will be made.
      * @return node.
      */

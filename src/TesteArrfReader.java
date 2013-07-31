@@ -11,7 +11,7 @@ import java.util.*;
  * Date: 14/07/13
  * Time: 01:54
  */
-public class Teste
+public class TesteArrfReader
 {
 
     public static void main(String[] args)

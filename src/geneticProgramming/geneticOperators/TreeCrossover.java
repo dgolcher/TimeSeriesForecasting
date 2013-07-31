@@ -16,12 +16,20 @@ import java.util.Random;
 public class TreeCrossover extends AbstractCrossover<Node>
 {
 
+    private int maxDepth;
+
     /**
      * Creates a single-point crossover operator.
      */
     public TreeCrossover()
     {
         super(1);
+    }
+
+    public TreeCrossover(int maxDepth)
+    {
+        super(1);
+        this.maxDepth = maxDepth;
     }
 
     @Override
@@ -32,10 +40,10 @@ public class TreeCrossover extends AbstractCrossover<Node>
         Node offspring2 = node2;
 
         for (int i = 0; i < numberOfCrossoverPoints; i++) {
-            int crossoverPoint1 = 0;
-            Node subtree1       = null;
-            int crossoverPoint2 = 0;
-            Node subtree2       = null;
+            int crossoverPoint1;
+            Node subtree1;
+            int crossoverPoint2;
+            Node subtree2;
 
             // Trying to guarantee that aways a crossover will be made with nodes of same type. It's important
             // to produce consistent programs (avoid something like if (arg0) or TRUE + FALSE).
@@ -49,11 +57,16 @@ public class TreeCrossover extends AbstractCrossover<Node>
 
                 if (subtree1.getType() == subtree2.getType()) {
                     validCrossover = true;
-                }
+                } /*else {
+                    offspring1 = node.replaceNode(crossoverPoint1, subtree2);
+                    offspring2 = node2.replaceNode(crossoverPoint2, subtree1);
+                    if (this.maxDepth > 0 &&
+                        (offspring1.getDepth() > this.maxDepth || offspring2.getDepth() > this.maxDepth)) {
+                        validCrossover = false;
+                    }
+                }*/
             }
 
-            offspring1 = node.replaceNode(crossoverPoint1, subtree2);
-            offspring2 = node2.replaceNode(crossoverPoint2, subtree1);
         }
 
         offspring.add(offspring1);

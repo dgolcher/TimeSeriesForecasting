@@ -84,7 +84,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     {
         double error = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -106,7 +106,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     {
         double error = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -128,7 +128,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     {
         double error = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -156,7 +156,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     {
         double error = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -179,7 +179,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         double error               = 0;
         double sumOfExpectedValues = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -202,7 +202,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     {
         double error = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -224,7 +224,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     {
         double error = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -254,7 +254,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         double forecast = 0;
         double expected = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
@@ -279,7 +279,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     {
         double error = 0;
 
-        for (int i = this.windowSize; i <= this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.length; i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {

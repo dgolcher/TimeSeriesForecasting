@@ -10,17 +10,15 @@ import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.Stagnation;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
  * User: paulo
- * Date: 29/07/13
- * Time: 21:13
+ * Date: 30/07/13
+ * Time: 23:33
  */
-public class TestTimeSeries
+public class GeneralTests
 {
 
     /**
@@ -32,10 +30,9 @@ public class TestTimeSeries
      *   Grupo de condições de parada.
      *
      */
-    private static final int TIME_SERIES_SIZE        = 200;
-    private static final int POPULATION_SIZE         = 100;
+    private static final int POPULATION_SIZE         = 10000;
     private static final int ELITISM_COUNT           = 5;
-    private static final int WINDOW_SIZE             = 2;
+    private static final int WINDOW_SIZE             = 1;
     private static final int MAXIMUM_TREE_DEPTH      = 4;
     private static final double LEAF_NODE_PROBABILITY = 0.6d;
     private static final double MUTATION_PROBABILITY  = 0.5d;
@@ -55,26 +52,95 @@ public class TestTimeSeries
 
     public static void main(String[] args)
     {
-        double[] data = TestTimeSeries.getData();
-        Node program  = TestTimeSeries.evolveProgram(data);
+        Map<double[], Double> data = getData();
+        Node program  = evolveProgram(data);
         System.out.println("Best solution found");
         System.out.println(program.print());
     }
 
-    private static double[] getData()
+    private static Map<double[], Double> getData()
     {
-        double[] series  = new double[TestTimeSeries.TIME_SERIES_SIZE];
-        double initial   = new Random(100).nextDouble();
-        double increase  = new Random(10).nextDouble();
-        series[0]        = initial;
-        for (int i = 1; i < TestTimeSeries.TIME_SERIES_SIZE; i++) {
-            series[i] = series[i-1] + increase;
-        }
+        Map<double[], Double> data = new HashMap<double[], Double>();
+        int size = 20;
 
-        return series;
+        //region Testing Math functions.
+//        double[]  x1 = new double[size];
+//        double[]  x2 = new double[size];
+//        double[]  x3 = new double[size];
+//        double[]  x4 = new double[size];
+//        double[]  x5 = new double[size];
+//        double[]  x6 = new double[size];
+//        double[]  y = new double[size];
+//
+//        Random random = new Random();
+//        for (int i = 0; i < size; i++) {
+//            float f = 13.0f * (random.nextFloat() - 0.3f);
+//            x1[i] = f;
+//            f = 13.0f * (random.nextFloat() - 0.3f);
+//            x2[i] = f;
+//            f = 13.0f * (random.nextFloat() - 0.3f);
+//            x3[i] = f;
+//            f = 13.0f * (random.nextFloat() - 0.3f);
+//            x4[i] = f;
+//            f = 13.0f * (random.nextFloat() - 0.3f);
+//            x5[i] = f;
+//            f = 13.0f * (random.nextFloat() - 0.3f);
+//            x6[i] = f;
+//            y[i] = x1[i] + x2[i] - x3[i] + x4[i] - x5[i] + x6[i];
+//
+//            System.out.println(x1[i] + "+" + x2[i] + "-" + x3[i] + "+" + x4[i] +
+//                               "-" + x5[i] + "+" + x6[i] + " = " + y[i]);
+//            data.put(new double[]{x1[i], x2[i], x3[i], x4[i], x5[i], x6[i]}, y[i]);
+//        }
+        //endregion
+
+
+        //region Testing if.
+//        double[] x       = new double[size];
+//        double[] x1      = new double[size];
+//        double[] y       = new double[size];
+//        Random random    = new Random();
+//
+//        System.out.println("Proposed problem: if (x < x1) then x else x1");
+//        for (int i = 0; i < size; i++) {
+//            x[i]  =  Math.round(13.0f * (random.nextFloat() - 0.3f));
+//            x1[i] =  Math.round(13.0f * (random.nextFloat() - 0.3f));
+//            y[i]  = (x[i] < x1[i]) ? x[i] : x1[i];
+//            data.put(new double[]{x[i], x1[i]}, y[i]);
+//            System.out.println("x = " + x[i] + "; x1 = " + x1[i] + "; y = " + y[i]);
+//        }
+        //endregion
+
+
+        //region Complex Expressions.
+        double[] x = new double[size];
+        double[] y = new double[size];
+        Random random = new Random();
+
+        for (int i = 0; i < size; i++) {
+            x[i]   =  Math.round(13.0f * (random.nextFloat() - 0.3f));
+            x[i]   = Math.abs(x[i]) + 1;
+            //--------------------------------------------------------
+            y[i]     = Math.log(x[i]) + 1;
+//            y[i]   = Math.abs(x[i]);
+//            y[i]   = Math.acos(x[i]);
+//            y[i]   = Math.asin(x[i]);
+//            y[i]   = Math.atan(x[i]);
+//            y[i]   = Math.sin(x[i]);
+//            y[i]   = Math.tan(x[i]);
+//            y[i]   = Math.cos(x[i]);
+//            y[i]   = Math.log(x[i]);
+//            y[i]   = Math.log10(x[i]);
+            //--------------------------------------------------------
+            data.put(new double[]{x[i]}, y[i]);
+            System.out.println("x = " + x[i] + "; y = " + y[i]);
+        }
+        //endregion
+
+        return data;
     }
 
-    private static Node evolveProgram(double[] data)
+    private static Node evolveProgram(Map<double[], Double> data)
     {
         Node node = null;
         TerminationCondition[] terminationConditions = getTerminationConditions();
@@ -95,12 +161,12 @@ public class TestTimeSeries
         return node;
     }
 
-    private static EvolutionEngine<Node> getEvolutionEngine(double[] data)
+    private static EvolutionEngine<Node> getEvolutionEngine(Map<double[], Double> data)
     {
-        TreeFactory                factory               = TestTimeSeries.getTreeFactory();
-        EvolutionaryOperator<Node> evolutionaryOperators = TestTimeSeries.getEvolutionaryOperators(factory);
-        FitnessEvaluator<Node>     fitnessEvaluator      = TestTimeSeries.getFitnessEvaluator(data);
-        SelectionStrategy          selectionStrategy     = TestTimeSeries.getSelectionStrategy();
+        TreeFactory factory               = getTreeFactory();
+        EvolutionaryOperator<Node> evolutionaryOperators = getEvolutionaryOperators(factory);
+        FitnessEvaluator<Node> fitnessEvaluator      = getFitnessEvaluator(data);
+        SelectionStrategy selectionStrategy     = getSelectionStrategy();
         return new GenerationalEvolutionEngine<Node>(
                 factory, evolutionaryOperators, fitnessEvaluator, selectionStrategy, new MersenneTwisterRNG()
         );
@@ -109,10 +175,10 @@ public class TestTimeSeries
     private static TreeFactory getTreeFactory()
     {
         TreeFactory factory = new TreeFactory (
-            TestTimeSeries.WINDOW_SIZE,
-            TestTimeSeries.MAXIMUM_TREE_DEPTH,
-            Probability.EVENS,
-            new Probability(TestTimeSeries.LEAF_NODE_PROBABILITY)
+                WINDOW_SIZE,
+                MAXIMUM_TREE_DEPTH,
+                Probability.EVENS,
+                new Probability(LEAF_NODE_PROBABILITY)
         );
         try {
             factory.enableFunctionSet(TreeFactory.BASIC_OPERATORS);
@@ -130,29 +196,29 @@ public class TestTimeSeries
     private static EvolutionaryOperator<Node> getEvolutionaryOperators(TreeFactory treeFactory)
     {
         List<EvolutionaryOperator<Node>> operators = new ArrayList<EvolutionaryOperator<Node>>();
-        operators.add(new TreeMutation(treeFactory, new Probability(TestTimeSeries.MUTATION_PROBABILITY)));
-        operators.add(new TreeCrossover(TestTimeSeries.MAX_DEPTH));
+        operators.add(new TreeMutation(treeFactory, new Probability(MUTATION_PROBABILITY)));
+        operators.add(new TreeCrossover(MAX_DEPTH));
         operators.add(new Simplification());
         operators.add(new Plague(
-            treeFactory, TestTimeSeries.SURVIVAL_PROBABILITY, TestTimeSeries.AMOUNT_OF_PLAGUE_SPREADS,
-            TestTimeSeries.GENERATIONS_BEFORE_PLAGUE, TestTimeSeries.IS_FITNESS_NATURAL
+                treeFactory, SURVIVAL_PROBABILITY, AMOUNT_OF_PLAGUE_SPREADS,
+                GENERATIONS_BEFORE_PLAGUE, IS_FITNESS_NATURAL
         ));
 
         return new EvolutionPipeline<Node>(operators);
     }
 
-    private static FitnessEvaluator<Node> getFitnessEvaluator(double[] data)
+    private static FitnessEvaluator<Node> getFitnessEvaluator(Map<double[], Double> data)
     {
-        return new TimeSeriesEvaluator(data, TestTimeSeries.WINDOW_SIZE, TestTimeSeries.FITNESS_TYPE);
+        return new TreeEvaluator(data);
     }
 
     private static TerminationCondition[] getTerminationConditions()
     {
         // Preparar uma forma de parametrizacao para a quantidade de condicoes de parada.
         TerminationCondition[] terminationConditions = new TerminationCondition[3];
-        terminationConditions[0] = new TargetFitness(TestTimeSeries.TARGET_FITNESS, TestTimeSeries.IS_FITNESS_NATURAL);
-        terminationConditions[1] = new GenerationCount(TestTimeSeries.MAX_GENERATION_COUNT);
-        terminationConditions[2] = new Stagnation(TestTimeSeries.STAGNATION_LIMIT, TestTimeSeries.IS_FITNESS_NATURAL);
+        terminationConditions[0] = new TargetFitness(TARGET_FITNESS, IS_FITNESS_NATURAL);
+        terminationConditions[1] = new GenerationCount(MAX_GENERATION_COUNT);
+        terminationConditions[2] = new Stagnation(STAGNATION_LIMIT, IS_FITNESS_NATURAL);
 
         return terminationConditions;
     }
@@ -166,8 +232,8 @@ public class TestTimeSeries
         engine.addEvolutionObserver(new EvolutionObserver<Node>() {
             @Override
             public void populationUpdate(PopulationData<? extends Node> populationData) {
-                if (TestTimeSeries.VERBOSE_EVOLVE) {
-                    if (populationData.getGenerationNumber() % TestTimeSeries.PRINT_LOG_INTERVAL == 0) {
+                if (VERBOSE_EVOLVE) {
+                    if (populationData.getGenerationNumber() % PRINT_LOG_INTERVAL == 0) {
                         System.out.println("Generation: " + populationData.getGenerationNumber());
                         System.out.println("\tBest Solution: " + populationData.getBestCandidate());
                         System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
@@ -176,7 +242,7 @@ public class TestTimeSeries
                     }
                 }
 
-                if (populationData.getBestCandidateFitness() == TestTimeSeries.TARGET_FITNESS) {
+                if (populationData.getBestCandidateFitness() == TARGET_FITNESS) {
                     System.out.println("=============================================================");
                     System.out.println("======================== FINAL RESULT =======================");
                     System.out.println("=============================================================");
