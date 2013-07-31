@@ -19,18 +19,23 @@ public class Root extends BinaryNode
     {
         super(rightNode, leftNode, Root.ROOT_SYMBOL);
     }
-
+    
     /**
      * Recursively evaluates the (sub-)tree represented by this node (including any child nodes) and return the fitness
      * value of this.
+     * 
+     * If its evaluated value is NaN or infinite, then this method will return Double.MAX_VALUE (since this node has an
+     * invalid value, the engine will avoid to use this one).
      *
      * @param programParameters Program parameters, used by this node or its children.
      * @return Returns a double value representing this node's fitness value.
      */
     @Override
-    public double evaluate(double[] programParameters)
-    {
-        return Math.pow(this.left.evaluate(programParameters), 1.0 / this.right.evaluate(programParameters));
+    public double evaluate(double[] programParameters) {
+    	double returnValue = Math.pow(
+			this.left.evaluate(programParameters), 1.0 / this.right.evaluate(programParameters)
+		);
+        return Double.isNaN(returnValue) || Double.isInfinite(returnValue) ? Double.MAX_VALUE : returnValue;
     }
 
     /**
