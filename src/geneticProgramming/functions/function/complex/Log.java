@@ -22,13 +22,17 @@ public class Log extends UnaryNode
     /**
      * Recursively evaluates the (sub-)tree represented by this node (including any child nodes) and return the fitness
      * value of this.
+     * 
+     * If its evaluated value is NaN or infinite, then this method will return Double.MAX_VALUE (since this node has an
+     * invalid value, the engine will avoid to use this one).
      *
      * @param programParameters Program parameters, used by this node or its children.
      * @return Returns a double value representing this node's fitness value.
      */
     @Override
     public double evaluate(double[] programParameters) {
-        return Math.log(this.node.evaluate(programParameters));
+    	double returnValue = Math.log(this.node.evaluate(programParameters));
+        return Double.isNaN(returnValue) || Double.isInfinite(returnValue) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

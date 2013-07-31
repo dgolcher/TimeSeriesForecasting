@@ -23,6 +23,9 @@ public class Modulo extends BinaryNode
     /**
      * Recursively evaluates the (sub-)tree represented by this node (including any child nodes) and return the fitness
      * value of this.
+     * 
+     * If the second parameter (rightNode) is zero, then this operation is invalid (division by zero). In this case, 
+     * this method will return a fitness value equals Double.MAX_VALUE. 
      *
      * @param programParameters Program parameters, used by this node or its children.
      * @return Returns a double value representing this node's fitness value.
@@ -30,7 +33,12 @@ public class Modulo extends BinaryNode
     @Override
     public double evaluate(double[] programParameters)
     {
-        return this.left.evaluate(programParameters) % this.right.evaluate(programParameters);
+    	double rightValue = this.right.evaluate(programParameters);
+    	if (rightValue == 0) {
+    		return Double.MAX_VALUE;
+    	}
+    	
+        return this.left.evaluate(programParameters) % rightValue;
     }
 
     /**
