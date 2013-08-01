@@ -34,7 +34,7 @@ public class TestTimeSeries
      */
     private static final int TIME_SERIES_SIZE        = 200;
     private static final int POPULATION_SIZE         = 100;
-    private static final int ELITISM_COUNT           = 5;
+    private static final int ELITISM_COUNT           = 1;
     private static final int WINDOW_SIZE             = 2;
     private static final int MAXIMUM_TREE_DEPTH      = 4;
     private static final double LEAF_NODE_PROBABILITY = 0.6d;
@@ -50,7 +50,7 @@ public class TestTimeSeries
     private static final int STAGNATION_LIMIT       = 5000;
     private static final boolean VERBOSE_EVOLVE     = true;
     private static final int PRINT_LOG_INTERVAL     = 100;
-    private static final int FITNESS_TYPE           = TimeSeriesEvaluator.PLAIN_ERROR;
+    private static final int FITNESS_TYPE           = TimeSeriesEvaluator.SQUARED_ERROR;
 
 
     public static void main(String[] args)
@@ -64,13 +64,16 @@ public class TestTimeSeries
     private static double[] getData()
     {
         double[] series  = new double[TestTimeSeries.TIME_SERIES_SIZE];
-        double initial   = new Random(100).nextDouble();
-        double increase  = new Random(10).nextDouble();
+        int initial      = Math.abs(new Random(13).nextInt(100));
+        int increase     = Math.abs(new Random(13).nextInt(10));
         series[0]        = initial;
         for (int i = 1; i < TestTimeSeries.TIME_SERIES_SIZE; i++) {
-            series[i] = series[i-1] + increase;
+            double whiteNoise = Math.ceil(13.0f * (new Random().nextFloat() - 0.3f));
+            series[i] = series[i-1] + increase + whiteNoise;
+            System.out.print(series[i] + ", ");
         }
 
+        System.out.println();
         return series;
     }
 

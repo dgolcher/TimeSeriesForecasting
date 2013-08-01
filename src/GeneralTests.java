@@ -47,11 +47,30 @@ public class GeneralTests
     private static final int STAGNATION_LIMIT       = 5000;
     private static final boolean VERBOSE_EVOLVE     = true;
     private static final int PRINT_LOG_INTERVAL     = 100;
-    private static final int FITNESS_TYPE           = TimeSeriesEvaluator.PLAIN_ERROR;
 
 
     public static void main(String[] args)
     {
+        testFitnessFunctionFormat();
+        // evolveProgram();
+    }
+
+    private static void testFitnessFunctionFormat()
+    {
+        int[] teste = new int[30];
+        for (int i = 0; i < teste.length; i++)
+            teste[i] = (i+1);
+
+        for (int i = 5; i < teste.length; i++) {
+            String a = "";
+            for (int j = i - 5; j < i; j++) {
+                a += teste[j] + ", ";
+            }
+            System.out.println(a);
+        }
+    }
+
+    private static void evolveProgram() {
         Map<double[], Double> data = getData();
         Node program  = evolveProgram(data);
         System.out.println("Best solution found");
@@ -63,56 +82,6 @@ public class GeneralTests
         Map<double[], Double> data = new HashMap<double[], Double>();
         int size = 20;
 
-        //region Testing Math functions.
-//        double[]  x1 = new double[size];
-//        double[]  x2 = new double[size];
-//        double[]  x3 = new double[size];
-//        double[]  x4 = new double[size];
-//        double[]  x5 = new double[size];
-//        double[]  x6 = new double[size];
-//        double[]  y = new double[size];
-//
-//        Random random = new Random();
-//        for (int i = 0; i < size; i++) {
-//            float f = 13.0f * (random.nextFloat() - 0.3f);
-//            x1[i] = f;
-//            f = 13.0f * (random.nextFloat() - 0.3f);
-//            x2[i] = f;
-//            f = 13.0f * (random.nextFloat() - 0.3f);
-//            x3[i] = f;
-//            f = 13.0f * (random.nextFloat() - 0.3f);
-//            x4[i] = f;
-//            f = 13.0f * (random.nextFloat() - 0.3f);
-//            x5[i] = f;
-//            f = 13.0f * (random.nextFloat() - 0.3f);
-//            x6[i] = f;
-//            y[i] = x1[i] + x2[i] - x3[i] + x4[i] - x5[i] + x6[i];
-//
-//            System.out.println(x1[i] + "+" + x2[i] + "-" + x3[i] + "+" + x4[i] +
-//                               "-" + x5[i] + "+" + x6[i] + " = " + y[i]);
-//            data.put(new double[]{x1[i], x2[i], x3[i], x4[i], x5[i], x6[i]}, y[i]);
-//        }
-        //endregion
-
-
-        //region Testing if.
-//        double[] x       = new double[size];
-//        double[] x1      = new double[size];
-//        double[] y       = new double[size];
-//        Random random    = new Random();
-//
-//        System.out.println("Proposed problem: if (x < x1) then x else x1");
-//        for (int i = 0; i < size; i++) {
-//            x[i]  =  Math.round(13.0f * (random.nextFloat() - 0.3f));
-//            x1[i] =  Math.round(13.0f * (random.nextFloat() - 0.3f));
-//            y[i]  = (x[i] < x1[i]) ? x[i] : x1[i];
-//            data.put(new double[]{x[i], x1[i]}, y[i]);
-//            System.out.println("x = " + x[i] + "; x1 = " + x1[i] + "; y = " + y[i]);
-//        }
-        //endregion
-
-
-        //region Complex Expressions.
         double[] x = new double[size];
         double[] y = new double[size];
         Random random = new Random();
@@ -121,21 +90,11 @@ public class GeneralTests
             x[i]   =  Math.round(13.0f * (random.nextFloat() - 0.3f));
             x[i]   = Math.abs(x[i]) + 1;
             //--------------------------------------------------------
-            y[i]     = Math.log(x[i]) + 1;
-//            y[i]   = Math.abs(x[i]);
-//            y[i]   = Math.acos(x[i]);
-//            y[i]   = Math.asin(x[i]);
-//            y[i]   = Math.atan(x[i]);
-//            y[i]   = Math.sin(x[i]);
-//            y[i]   = Math.tan(x[i]);
-//            y[i]   = Math.cos(x[i]);
-//            y[i]   = Math.log(x[i]);
-//            y[i]   = Math.log10(x[i]);
-            //--------------------------------------------------------
+            y[i]     = x[i] + 1;
+
             data.put(new double[]{x[i]}, y[i]);
             System.out.println("x = " + x[i] + "; y = " + y[i]);
         }
-        //endregion
 
         return data;
     }

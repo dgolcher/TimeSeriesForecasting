@@ -14,7 +14,7 @@ import java.util.List;
 public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
 {
 
-    public static final int PLAIN_ERROR                        = 0;
+    public static final int SQUARED_ERROR                      = 0;
     public static final int MEAN_ABSOLUTE_ERROR                = 1;
     public static final int MEAN_ABSOLUTE_PERCENT_ERROR        = 2;
     public static final int MEAN_ABSOLUTE_DEVIATION            = 3;
@@ -58,8 +58,8 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     private double choseFitnessMethod(Node candidate)
     {
         switch (this.fitnessType) {
-            case TimeSeriesEvaluator.PLAIN_ERROR:
-                return this.getPlainErrorFitness(candidate);
+            case TimeSeriesEvaluator.SQUARED_ERROR:
+                return this.getSquaredErrorFitness(candidate);
             case TimeSeriesEvaluator.MEAN_ABSOLUTE_ERROR:
                 return this.getMeanAbsoluteErrorFitness(candidate);
             case TimeSeriesEvaluator.MEAN_ABSOLUTE_PERCENT_ERROR:
@@ -80,7 +80,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         }
     }
 
-    private double getPlainErrorFitness(Node candidate)
+    private double getSquaredErrorFitness(Node candidate)
     {
         double error = 0;
 
