@@ -224,7 +224,6 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
             // This if avoids the usage of logic operators if this group is not allowed.
             try {
                 if (!this.isFunctionSetEnabled(TreeFactory.LOGIC_OPERATORS) && nodeType == Node.BOOLEAN_NODE) {
-                    System.out.println("not allowed.");
                     nodeType = Node.ARITHMETIC_NODE;
                 }
             } catch (Exception e) {

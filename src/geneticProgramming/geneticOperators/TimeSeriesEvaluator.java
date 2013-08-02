@@ -39,12 +39,14 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     }
 
     @Override
-    public double getFitness(Node node, List<? extends Node> population)
+    public double getFitness(Node candidate, List<? extends Node> population)
     {
-        double error = this.choseFitnessMethod(node);
+        double error = this.choseFitnessMethod(candidate);
         if (error != 0) {
-            error += node.countNodes();
+            error += candidate.countNodes();
         }
+
+        candidate.setFitnessValue(error);
 
         return error;
     }

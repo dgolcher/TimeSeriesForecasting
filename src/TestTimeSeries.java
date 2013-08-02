@@ -32,25 +32,25 @@ public class TestTimeSeries
      *   Grupo de condições de parada.
      *
      */
-    private static final int TIME_SERIES_SIZE        = 200;
-    private static final int POPULATION_SIZE         = 100;
-    private static final int ELITISM_COUNT           = 1;
-    private static final int WINDOW_SIZE             = 2;
-    private static final int MAXIMUM_TREE_DEPTH      = 4;
+    private static final int TIME_SERIES_SIZE         = 200;
+    private static final int POPULATION_SIZE          = 100;
+    private static final int ELITISM_COUNT            = 1;
+    private static final int WINDOW_SIZE              = 2;
+    private static final int MAXIMUM_TREE_DEPTH       = 4;
     private static final double LEAF_NODE_PROBABILITY = 0.6d;
     private static final double MUTATION_PROBABILITY  = 0.5d;
     private static final int MAX_DEPTH                = 10;
 
-    private static double SURVIVAL_PROBABILITY       = 0.01d;
-    private static int AMOUNT_OF_PLAGUE_SPREADS      = 3;
-    private static int GENERATIONS_BEFORE_PLAGUE     = 1000;
-    private static final boolean IS_FITNESS_NATURAL = false;
-    private static final int TARGET_FITNESS         = 0;
-    private static final int MAX_GENERATION_COUNT   = 10000;
-    private static final int STAGNATION_LIMIT       = 5000;
-    private static final boolean VERBOSE_EVOLVE     = true;
-    private static final int PRINT_LOG_INTERVAL     = 100;
-    private static final int FITNESS_TYPE           = TimeSeriesEvaluator.MEAN_SQUARED_ERROR;
+    private static double SURVIVAL_PROBABILITY        = 0.01d;
+    private static int AMOUNT_OF_PLAGUE_SPREADS       = 3;
+    private static int GENERATIONS_BEFORE_PLAGUE      = 1000;
+    private static final boolean IS_FITNESS_NATURAL   = false;
+    private static final int TARGET_FITNESS           = 0;
+    private static final int MAX_GENERATION_COUNT     = 10000;
+    private static final int STAGNATION_LIMIT         = 5000;
+    private static final boolean VERBOSE_EVOLVE       = true;
+    private static final int PRINT_LOG_INTERVAL       = 100;
+    private static final int FITNESS_TYPE             = TimeSeriesEvaluator.MEAN_SQUARED_ERROR;
 
 
     public static void main(String[] args)
@@ -67,10 +67,9 @@ public class TestTimeSeries
         int initial      = Math.abs(new Random(13).nextInt(100));
         int increase     = Math.abs(new Random(13).nextInt(10));
         series[0]        = initial;
-        System.out.println("x² + 2x + " + increase);
         for (int i = 1; i < TestTimeSeries.TIME_SERIES_SIZE; i++) {
-//            series[i] = series[i-1] + increase;
-            series[i] = (i * i) + 2 * i + increase;
+            series[i] = series[i-1] + increase;
+            // series[i] = (i * i) + 2 * i + increase;
             System.out.print(series[i] + ", ");
         }
 
@@ -105,7 +104,7 @@ public class TestTimeSeries
         EvolutionaryOperator<Node> evolutionaryOperators = TestTimeSeries.getEvolutionaryOperators(factory);
         FitnessEvaluator<Node>     fitnessEvaluator      = TestTimeSeries.getFitnessEvaluator(data);
         SelectionStrategy          selectionStrategy     = TestTimeSeries.getSelectionStrategy();
-        return new GenerationalEvolutionEngine<Node>(
+        return new GenerationalEvolutionEngine<Node> (
                 factory, evolutionaryOperators, fitnessEvaluator, selectionStrategy, new MersenneTwisterRNG()
         );
     }
