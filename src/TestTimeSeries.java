@@ -50,7 +50,7 @@ public class TestTimeSeries
     private static final int STAGNATION_LIMIT       = 5000;
     private static final boolean VERBOSE_EVOLVE     = true;
     private static final int PRINT_LOG_INTERVAL     = 100;
-    private static final int FITNESS_TYPE           = TimeSeriesEvaluator.SQUARED_ERROR;
+    private static final int FITNESS_TYPE           = TimeSeriesEvaluator.MEAN_SQUARED_ERROR;
 
 
     public static void main(String[] args)
@@ -67,9 +67,10 @@ public class TestTimeSeries
         int initial      = Math.abs(new Random(13).nextInt(100));
         int increase     = Math.abs(new Random(13).nextInt(10));
         series[0]        = initial;
+        System.out.println("x² + 2x + " + increase);
         for (int i = 1; i < TestTimeSeries.TIME_SERIES_SIZE; i++) {
-            double whiteNoise = Math.ceil(13.0f * (new Random().nextFloat() - 0.3f));
-            series[i] = series[i-1] + increase + whiteNoise;
+//            series[i] = series[i-1] + increase;
+            series[i] = (i * i) + 2 * i + increase;
             System.out.print(series[i] + ", ");
         }
 
@@ -120,7 +121,7 @@ public class TestTimeSeries
         try {
             factory.enableFunctionSet(TreeFactory.BASIC_OPERATORS);
             factory.enableFunctionSet(TreeFactory.COMPLEX_OPERATORS);
-            factory.enableFunctionSet(TreeFactory.LOGIC_OPERATORS);
+//            factory.enableFunctionSet(TreeFactory.LOGIC_OPERATORS);
             factory.enableFunctionSet(TreeFactory.TRIGONOMETRIC_OPERATORS);
             factory.enableFunctionSet(TreeFactory.TERMINALS);
         } catch (Exception e) {

@@ -221,6 +221,16 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
             // Max depth for sub-trees is one less than max depth for this node.
             int depth = maxDepth - 1;
 
+            // This if avoids the usage of logic operators if this group is not allowed.
+            try {
+                if (!this.isFunctionSetEnabled(TreeFactory.LOGIC_OPERATORS) && nodeType == Node.BOOLEAN_NODE) {
+                    System.out.println("not allowed.");
+                    nodeType = Node.ARITHMETIC_NODE;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             // If the type is equals Node.ARITHMETIC_NODE, then only double nodes can be used.
             // If the type is equals Node.BOOLEAN_NODE, then only boolean nodes can be used.
             // If the type is Node.ALL_TYPES, then the type of node to be produced will be selected randomly.
