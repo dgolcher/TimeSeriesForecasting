@@ -19,7 +19,7 @@ public class TesteArrfReader
         String filePath                     = "data/dados bolsas/MERVAL/arff/MERVAL DIARIO.arff";
         FileReader reader                   = new ArffFileReader(filePath);
         ArffTimeSeriesBuilder builder       = new ArffTimeSeriesBuilder(reader);
-        ArrayList<TimeNode> timeSeries = builder.getTimeSeries();
+        ArrayList<TimeNode> timeSeries      = builder.getTimeSeries();
 
         for (TimeNode node : timeSeries) {
             System.out.println("Date  : " + node.getDate());

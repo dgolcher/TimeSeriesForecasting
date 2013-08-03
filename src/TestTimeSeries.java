@@ -1,6 +1,7 @@
 import geneticProgramming.functions.Node;
 import geneticProgramming.functions.function.Simplification;
 import geneticProgramming.geneticOperators.*;
+import model.TimeNode;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.*;
@@ -55,29 +56,35 @@ public class TestTimeSeries
 
     public static void main(String[] args)
     {
-        double[] data = TestTimeSeries.getData();
+        ArrayList<TimeNode> data = TestTimeSeries.getData();
         Node program  = TestTimeSeries.evolveProgram(data);
         System.out.println("Best solution found");
         System.out.println(program.print());
     }
 
-    private static double[] getData()
+    private static ArrayList<TimeNode> getData()
     {
-        double[] series  = new double[TestTimeSeries.TIME_SERIES_SIZE];
+        ArrayList<TimeNode> series = new ArrayList<TimeNode>();
         int initial      = Math.abs(new Random(13).nextInt(100));
         int increase     = Math.abs(new Random(13).nextInt(10));
-        series[0]        = initial;
+        TimeNode initialnode = new TimeNode();
+        initialnode.setDate(null);
+        initialnode.setValue(initial);
+        series.add(initialnode);
+
         for (int i = 1; i < TestTimeSeries.TIME_SERIES_SIZE; i++) {
-            series[i] = series[i-1] + increase;
-            // series[i] = (i * i) + 2 * i + increase;
-            System.out.print(series[i] + ", ");
+            TimeNode node = new TimeNode();
+            node.setDate(null);
+            node.setValue(series.get(i-1).getValue() + increase);
+            series.add(node);
+            System.out.println(series.get(i).getValue() + ", ");
         }
 
         System.out.println();
         return series;
     }
 
-    private static Node evolveProgram(double[] data)
+    private static Node evolveProgram(ArrayList<TimeNode> data)
     {
         Node node = null;
         TerminationCondition[] terminationConditions = getTerminationConditions();
@@ -98,7 +105,7 @@ public class TestTimeSeries
         return node;
     }
 
-    private static EvolutionEngine<Node> getEvolutionEngine(double[] data)
+    private static EvolutionEngine<Node> getEvolutionEngine(ArrayList<TimeNode> data)
     {
         TreeFactory                factory               = TestTimeSeries.getTreeFactory();
         EvolutionaryOperator<Node> evolutionaryOperators = TestTimeSeries.getEvolutionaryOperators(factory);
@@ -144,7 +151,7 @@ public class TestTimeSeries
         return new EvolutionPipeline<Node>(operators);
     }
 
-    private static FitnessEvaluator<Node> getFitnessEvaluator(double[] data)
+    private static FitnessEvaluator<Node> getFitnessEvaluator(ArrayList<TimeNode> data)
     {
         return new TimeSeriesEvaluator(data, TestTimeSeries.WINDOW_SIZE, TestTimeSeries.FITNESS_TYPE);
     }

@@ -1,8 +1,10 @@
 package geneticProgramming.geneticOperators;
 
 import geneticProgramming.functions.Node;
+import model.TimeNode;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,19 +27,37 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     public static final int AVERAGE_OF_ERROR                   = 8;
 
     private int fitnessType;
-    private double[] data;
+    private ArrayList<TimeNode> data;
     private int windowSize;
     private int numberOfTestCases;
 
-    public TimeSeriesEvaluator(double[] data, int windowSize, int fitnessType)
+    /**
+     * Class constructor.
+     *
+     * This constructor sets the list of data (a time series), the window size and the fitness type.
+     *
+     * @param data        Set of data.
+     * @param windowSize  The size used in which case of learning.
+     * @param fitnessType It's used to identify which type of fitness this object uses. It can be natural (the higher is
+     *                    the fitness value higher is the quality of the individual) or not natural (the lower is
+     *                    the fitness value higher is the quality of the individual).
+     */
+    public TimeSeriesEvaluator(ArrayList<TimeNode> data, int windowSize, int fitnessType)
     {
         this.fitnessType       = fitnessType;
         this.windowSize        = windowSize;
         this.data              = data;
         // @todo verificar se este valor está correto (este corresponde ao "N", utilizado, por exmplo, na formula do mean absolute error).
-        this.numberOfTestCases = this.data.length - this.windowSize;
+        this.numberOfTestCases = this.data.size() - this.windowSize;
     }
 
+    /**
+     * public interface of this class. This method is used to return the individual 's fitness value.
+     *
+     * @param candidate  An individual in this population.
+     * @param population A group of individuals.
+     * @return The candidate's fitness value.
+     */
     @Override
     public double getFitness(Node candidate, List<? extends Node> population)
     {
@@ -51,12 +71,24 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         return error;
     }
 
+    /**
+     * Verify if the fitness measuring is made as natural fitness value (the higher is the fitness value, the best is
+     * the candidate), or it is not natural (the lower is the fitness value, the best is the candidate).
+     *
+     * @return TRUE, if its fitness is natural, FALSE, otherwise.
+     */
     @Override
     public boolean isNatural()
     {
         return false;
     }
 
+    /**
+     * This method is used to choice the option that will be used as the fitness function method.
+     *
+     * @param candidate Candidate.
+     * @return the value of fitness of this candidate.
+     */
     private double choseFitnessMethod(Node candidate)
     {
         switch (this.fitnessType) {
@@ -82,19 +114,24 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         }
     }
 
+    /**
+     *
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
+     */
     private double getSquaredErrorFitness(Node candidate)
     {
         double error = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = actualValue - forecast;
 
@@ -104,19 +141,24 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         return error;
     }
 
+    /**
+     *
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
+     */
     private double getMeanAbsoluteErrorFitness(Node candidate)
     {
         double error = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = actualValue - forecast;
 
@@ -126,19 +168,24 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         return error/this.numberOfTestCases;
     }
 
+    /**
+     *
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
+     */
     private double getMeanAbsolutePercentErrorFitness(Node candidate)
     {
         double error = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = (actualValue - forecast) / actualValue;
 
@@ -151,22 +198,22 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     /**
      * @todo Verificar se esta formaula está correta. Atualmente, esta e a "Mean Absolute Error" são idênticas.
      *
-     * @param candidate
-     * @return
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
      */
     private double getMeanAbsoluteDeviationFitness(Node candidate)
     {
         double error = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = actualValue - forecast;
 
@@ -176,43 +223,53 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         return error/this.numberOfTestCases;
     }
 
+    /**
+     *
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
+     */
     private double getPercentMeanAbsoluteDeviation(Node candidate)
     {
         double error               = 0;
         double sumOfExpectedValues = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = actualValue - forecast;
 
             error += Math.abs(diff);
-            sumOfExpectedValues += Math.abs(this.data[i]);
+            sumOfExpectedValues += Math.abs(this.data.get(i).getValue());
         }
 
         return error/sumOfExpectedValues;
     }
 
+    /**
+     *
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
+     */
     private double getMeanSquaredErrorFitness(Node candidate)
     {
         double error = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = actualValue - forecast;
 
@@ -222,19 +279,24 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
         return error/this.numberOfTestCases;
     }
 
+    /**
+     *
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
+     */
     private double getRootMeanSquaredErrorFitness(Node candidate)
     {
         double error = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = actualValue - forecast;
 
@@ -247,25 +309,24 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     /**
      * @todo verificar se esta formula esta correta.
      *
-     * @param candidate
-     * @return
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
      */
     private double getForecastSkillFitness(Node candidate)
     {
-        double error    = 0;
         double forecast = 0;
         double expected = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
             forecast += Math.pow(candidate.evaluate(params), 2);
-            expected += Math.pow(this.data[i], 2);
+            expected += Math.pow(this.data.get(i).getValue(), 2);
         }
 
         return 1 - (forecast/expected);
@@ -274,22 +335,22 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     /**
      * @todo Verificar se a formula está correta. Esta está identica à formula de "Mean Squared Error."
      *
-     * @param candidate
-     * @return
+     * @param candidate An individual of the population.
+     * @return return its fitness value.
      */
     private double getAverageOfErrorFitness(Node candidate)
     {
         double error = 0;
 
-        for (int i = this.windowSize; i < this.data.length; i++) {
+        for (int i = this.windowSize; i < this.data.size(); i++) {
             double[] params = new double[this.windowSize];
             int x = 0;
             for (int j = i - windowSize; j < i; j++) {
-                params[x] = this.data[j];
+                params[x] = this.data.get(j).getValue();
                 x++;
             }
 
-            double actualValue = this.data[i];
+            double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
             double diff      = actualValue - forecast;
 
