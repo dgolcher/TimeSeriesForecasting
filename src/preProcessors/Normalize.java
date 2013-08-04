@@ -1,5 +1,9 @@
 package preProcessors;
 
+import model.TimeNode;
+
+import java.util.ArrayList;
+
 /**
  * Normalizes a time series
  *
@@ -28,6 +32,8 @@ package preProcessors;
 public class Normalize
 {
 
-
+    private ArrayList<TimeNode> timeSeries;
+    private int maxValue;
+    private int minValue;
 
 }
