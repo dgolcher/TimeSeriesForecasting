@@ -10,6 +10,7 @@ import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.Stagnation;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
+import preProcessors.Normalize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,11 @@ public class TestTimeSeries
 
     public static void main(String[] args)
     {
-        ArrayList<TimeNode> data = TestTimeSeries.getData();
+        ArrayList<TimeNode> data           = TestTimeSeries.getData();
+        Normalize normalizer               = new Normalize(data);
+        ArrayList<TimeNode> normalizedData = normalizer.getNormalizedData();
+
+//        Node program  = TestTimeSeries.evolveProgram(normalizedData);
         Node program  = TestTimeSeries.evolveProgram(data);
         System.out.println("Best solution found");
         System.out.println(program.print());
@@ -77,7 +82,6 @@ public class TestTimeSeries
             node.setDate(null);
             node.setValue(series.get(i-1).getValue() + increase);
             series.add(node);
-            System.out.println(series.get(i).getValue() + ", ");
         }
 
         System.out.println();
