@@ -10,7 +10,7 @@ import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.Stagnation;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
-import preProcessors.Normalize;
+import postProcessors.Forecast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +43,9 @@ public class TestTimeSeries
     private static final double MUTATION_PROBABILITY  = 0.5d;
     private static final int MAX_DEPTH                = 10;
 
-    private static double SURVIVAL_PROBABILITY        = 0.01d;
-    private static int AMOUNT_OF_PLAGUE_SPREADS       = 3;
-    private static int GENERATIONS_BEFORE_PLAGUE      = 1000;
+    protected static double SURVIVAL_PROBABILITY      = 0.01d;
+    protected static int AMOUNT_OF_PLAGUE_SPREADS     = 3;
+    protected static int GENERATIONS_BEFORE_PLAGUE    = 1000;
     private static final boolean IS_FITNESS_NATURAL   = false;
     private static final int TARGET_FITNESS           = 0;
     private static final int MAX_GENERATION_COUNT     = 10000;
@@ -53,35 +53,43 @@ public class TestTimeSeries
     private static final boolean VERBOSE_EVOLVE       = true;
     private static final int PRINT_LOG_INTERVAL       = 100;
     private static final int FITNESS_TYPE             = TimeSeriesEvaluator.MEAN_SQUARED_ERROR;
+    private static final int HORIZON                  = 5;
 
 
     public static void main(String[] args)
     {
         ArrayList<TimeNode> data           = TestTimeSeries.getData();
-        Normalize normalizer               = new Normalize(data);
-        ArrayList<TimeNode> normalizedData = normalizer.getNormalizedData();
+//        Normalize normalizer               = new Normalize(data);
+//        ArrayList<TimeNode> normalizedData = normalizer.getNormalizedData();
 
 //        Node program  = TestTimeSeries.evolveProgram(normalizedData);
         Node program  = TestTimeSeries.evolveProgram(data);
         System.out.println("Best solution found");
         System.out.println(program.print());
+
+        Forecast forecast = new Forecast(data, program, TestTimeSeries.HORIZON, TestTimeSeries.WINDOW_SIZE);
+        ArrayList<TimeNode> timeSeriesForecasted = forecast.forecastForNPeriods();
+        for (TimeNode aTimeSeriesForecasted : timeSeriesForecasted) {
+            System.out.print(aTimeSeriesForecasted.getValue() + ", ");
+        }
     }
 
     private static ArrayList<TimeNode> getData()
     {
         ArrayList<TimeNode> series = new ArrayList<TimeNode>();
-        int initial      = Math.abs(new Random(13).nextInt(100));
-        int increase     = Math.abs(new Random(13).nextInt(10));
-        TimeNode initialnode = new TimeNode();
-        initialnode.setDate(null);
-        initialnode.setValue(initial);
-        series.add(initialnode);
+        int initial          = Math.abs(new Random(13).nextInt(100));
+        int increase         = Math.abs(new Random(13).nextInt(100));
+        TimeNode initialNode = new TimeNode();
+        initialNode.setDate(null);
+        initialNode.setValue(initial);
+        series.add(initialNode);
 
         for (int i = 1; i < TestTimeSeries.TIME_SERIES_SIZE; i++) {
             TimeNode node = new TimeNode();
             node.setDate(null);
             node.setValue(series.get(i-1).getValue() + increase);
             series.add(node);
+            System.out.print(node.getValue() + ", ");
         }
 
         System.out.println();
@@ -114,7 +122,7 @@ public class TestTimeSeries
         TreeFactory                factory               = TestTimeSeries.getTreeFactory();
         EvolutionaryOperator<Node> evolutionaryOperators = TestTimeSeries.getEvolutionaryOperators(factory);
         FitnessEvaluator<Node>     fitnessEvaluator      = TestTimeSeries.getFitnessEvaluator(data);
-        SelectionStrategy          selectionStrategy     = TestTimeSeries.getSelectionStrategy();
+        SelectionStrategy<Object>  selectionStrategy     = TestTimeSeries.getSelectionStrategy();
         return new GenerationalEvolutionEngine<Node> (
                 factory, evolutionaryOperators, fitnessEvaluator, selectionStrategy, new MersenneTwisterRNG()
         );
@@ -171,7 +179,7 @@ public class TestTimeSeries
         return terminationConditions;
     }
 
-    private static SelectionStrategy getSelectionStrategy()
+    private static SelectionStrategy<Object> getSelectionStrategy()
     {
         return new RouletteWheelSelection();
     }
