@@ -1,0 +1,29 @@
+% Arquivo contendo as configurações utilizadas para a execução da aplicação em Genetic Programming.
+@relation GPConfiguration
+
+@attribute TIME_SERIES_SIZE numeric
+@attribute TRAINING_DATA_INIT numeric
+@attribute TRAINING_DATA_END numeric
+@attribute TESTING_DATA_INIT numeric
+@attribute TESTING_DATA_END numeric
+@attribute POPULATION_SIZE numeric
+@attribute ELITISM_COUNT numeric
+@attribute WINDOW_SIZE numeric
+@attribute MAXIMUM_TREE_DEPTH numeric
+@attribute LEAF_NODE_PROBABILITY numeric
+@attribute MUTATION_PROBABILITY numeric
+@attribute MAX_DEPTH numeric
+@attribute SURVIVAL_PROBABILITY numeric
+@attribute AMOUNT_OF_PLAGUE_SPREADS numeric
+@attribute GENERATIONS_BEFORE_PLAGUE numeric
+@attribute IS_FITNESS_NATURAL boolean
+@attribute TARGET_FITNESS numeric
+@attribute MAX_GENERATION_COUNT numeric
+@attribute STAGNATION_LIMIT numeric
+@attribute VERBOSE_EVOLVE boolean
+@attribute PRINT_LOG_INTERVAL numeric
+@attribute FITNESS_TYPE numeric
+@attribute FORECAST_HORIZON numeric
+
+@data
+200, 0, 0, 0, 0, 100, 1, 2, 4, 0.6d, 0.5d, 10, 0.01d, 3, 1000, false, 0, 10000, 5000, true, 100, 5, 5

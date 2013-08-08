@@ -1,3 +1,4 @@
+import geneticProgramming.GPConfiguration;
 import geneticProgramming.functions.Node;
 import geneticProgramming.functions.function.Simplification;
 import geneticProgramming.geneticOperators.*;
@@ -25,56 +26,31 @@ import java.util.Random;
 public class TestTimeSeries
 {
 
-    /**
-     * Constantes que sao candidatos a parametros.
-     *
-     * Incluir como candidatos a parametros:
-     *   Grupo de operadores a ser incluidos para a classe TreeFactory.
-     *   Grupo de operadores geneticos que serão incluidos na lista de operadores geneticos.
-     *   Grupo de condições de parada.
-     *
-     */
-    private static final int TIME_SERIES_SIZE         = 200;
-    private static final int POPULATION_SIZE          = 100;
-    private static final int ELITISM_COUNT            = 1;
-    private static final int WINDOW_SIZE              = 2;
-    private static final int MAXIMUM_TREE_DEPTH       = 4;
-    private static final double LEAF_NODE_PROBABILITY = 0.6d;
-    private static final double MUTATION_PROBABILITY  = 0.5d;
-    private static final int MAX_DEPTH                = 10;
-
-    protected static double SURVIVAL_PROBABILITY      = 0.01d;
-    protected static int AMOUNT_OF_PLAGUE_SPREADS     = 3;
-    protected static int GENERATIONS_BEFORE_PLAGUE    = 1000;
-    private static final boolean IS_FITNESS_NATURAL   = false;
-    private static final int TARGET_FITNESS           = 0;
-    private static final int MAX_GENERATION_COUNT     = 10000;
-    private static final int STAGNATION_LIMIT         = 5000;
-    private static final boolean VERBOSE_EVOLVE       = true;
-    private static final int PRINT_LOG_INTERVAL       = 100;
-    private static final int FITNESS_TYPE             = TimeSeriesEvaluator.MEAN_SQUARED_ERROR;
-    private static final int HORIZON                  = 5;
-
 
     public static void main(String[] args)
     {
-        ArrayList<TimeNode> data           = TestTimeSeries.getData();
-//        Normalize normalizer               = new Normalize(data);
-//        ArrayList<TimeNode> normalizedData = normalizer.getNormalizedData();
+        GPConfiguration configuration      = getConfigurations();
 
-//        Node program  = TestTimeSeries.evolveProgram(normalizedData);
-        Node program  = TestTimeSeries.evolveProgram(data);
+        ArrayList<TimeNode> data           = TestTimeSeries.getData(configuration);
+        Node program  = TestTimeSeries.evolveProgram(data, configuration);
         System.out.println("Best solution found");
         System.out.println(program.print());
 
-        Forecast forecast = new Forecast(data, program, TestTimeSeries.HORIZON, TestTimeSeries.WINDOW_SIZE);
+        Forecast forecast = new Forecast (
+            data, program, configuration.getForecastHorizon(), configuration.getWindowSize()
+        );
         ArrayList<TimeNode> timeSeriesForecasted = forecast.forecastForNPeriods();
         for (TimeNode aTimeSeriesForecasted : timeSeriesForecasted) {
             System.out.print(aTimeSeriesForecasted.getValue() + ", ");
         }
     }
 
-    private static ArrayList<TimeNode> getData()
+    private static GPConfiguration getConfigurations()
+    {
+        return new GPConfiguration();
+    }
+
+    private static ArrayList<TimeNode> getData(GPConfiguration configuration)
     {
         ArrayList<TimeNode> series = new ArrayList<TimeNode>();
         int initial          = Math.abs(new Random(13).nextInt(100));
@@ -84,7 +60,7 @@ public class TestTimeSeries
         initialNode.setValue(initial);
         series.add(initialNode);
 
-        for (int i = 1; i < TestTimeSeries.TIME_SERIES_SIZE; i++) {
+        for (int i = 1; i < configuration.getTimeSeriesSize(); i++) {
             TimeNode node = new TimeNode();
             node.setDate(null);
             node.setValue(series.get(i-1).getValue() + increase);
@@ -96,14 +72,16 @@ public class TestTimeSeries
         return series;
     }
 
-    private static Node evolveProgram(ArrayList<TimeNode> data)
+    private static Node evolveProgram(ArrayList<TimeNode> data, GPConfiguration configuration)
     {
         Node node = null;
-        TerminationCondition[] terminationConditions = getTerminationConditions();
-        EvolutionEngine<Node> engine                 = getEvolutionEngine(data);
+        TerminationCondition[] terminationConditions = getTerminationConditions(configuration);
+        EvolutionEngine<Node> engine                 = getEvolutionEngine(data, configuration);
         try {
-            addEvolutionObservers(engine);
-            node = engine.evolve(POPULATION_SIZE, ELITISM_COUNT, terminationConditions);
+            addEvolutionObservers(engine, configuration);
+            node = engine.evolve(
+                configuration.getPopulationSize(), configuration.getElitismCount(), terminationConditions
+            );
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -117,24 +95,24 @@ public class TestTimeSeries
         return node;
     }
 
-    private static EvolutionEngine<Node> getEvolutionEngine(ArrayList<TimeNode> data)
+    private static EvolutionEngine<Node> getEvolutionEngine(ArrayList<TimeNode> data, GPConfiguration configuration)
     {
-        TreeFactory                factory               = TestTimeSeries.getTreeFactory();
-        EvolutionaryOperator<Node> evolutionaryOperators = TestTimeSeries.getEvolutionaryOperators(factory);
-        FitnessEvaluator<Node>     fitnessEvaluator      = TestTimeSeries.getFitnessEvaluator(data);
+        TreeFactory                factory               = TestTimeSeries.getTreeFactory(configuration);
+        EvolutionaryOperator<Node> evolutionaryOperators = TestTimeSeries.getEvolutionaryOperators(factory, configuration);
+        FitnessEvaluator<Node>     fitnessEvaluator      = TestTimeSeries.getFitnessEvaluator(data, configuration);
         SelectionStrategy<Object>  selectionStrategy     = TestTimeSeries.getSelectionStrategy();
         return new GenerationalEvolutionEngine<Node> (
                 factory, evolutionaryOperators, fitnessEvaluator, selectionStrategy, new MersenneTwisterRNG()
         );
     }
 
-    private static TreeFactory getTreeFactory()
+    private static TreeFactory getTreeFactory(GPConfiguration configuration)
     {
         TreeFactory factory = new TreeFactory (
-            TestTimeSeries.WINDOW_SIZE,
-            TestTimeSeries.MAXIMUM_TREE_DEPTH,
+            configuration.getWindowSize(),
+            configuration.getMaximumTreeDepth(),
             Probability.EVENS,
-            new Probability(TestTimeSeries.LEAF_NODE_PROBABILITY)
+            new Probability(configuration.getLeafNodeProbability())
         );
         try {
             factory.enableFunctionSet(TreeFactory.BASIC_OPERATORS);
@@ -149,32 +127,32 @@ public class TestTimeSeries
         return factory;
     }
 
-    private static EvolutionaryOperator<Node> getEvolutionaryOperators(TreeFactory treeFactory)
+    private static EvolutionaryOperator<Node> getEvolutionaryOperators(TreeFactory treeFactory, GPConfiguration configuration)
     {
         List<EvolutionaryOperator<Node>> operators = new ArrayList<EvolutionaryOperator<Node>>();
-        operators.add(new TreeMutation(treeFactory, new Probability(TestTimeSeries.MUTATION_PROBABILITY)));
-        operators.add(new TreeCrossover(TestTimeSeries.MAX_DEPTH));
+        operators.add(new TreeMutation(treeFactory, new Probability(configuration.getMutationProbability())));
+        operators.add(new TreeCrossover(configuration.getMaximumDepth()));
         operators.add(new Simplification());
         operators.add(new Plague(
-            treeFactory, TestTimeSeries.SURVIVAL_PROBABILITY, TestTimeSeries.AMOUNT_OF_PLAGUE_SPREADS,
-            TestTimeSeries.GENERATIONS_BEFORE_PLAGUE, TestTimeSeries.IS_FITNESS_NATURAL
+            treeFactory, configuration.getSurvivalProbability(), configuration.getAmountOfPlagueSpreads(),
+            configuration.getGenerationsBeforePlague(), configuration.isNaturalFitness()
         ));
 
         return new EvolutionPipeline<Node>(operators);
     }
 
-    private static FitnessEvaluator<Node> getFitnessEvaluator(ArrayList<TimeNode> data)
+    private static FitnessEvaluator<Node> getFitnessEvaluator(ArrayList<TimeNode> data, GPConfiguration configuration)
     {
-        return new TimeSeriesEvaluator(data, TestTimeSeries.WINDOW_SIZE, TestTimeSeries.FITNESS_TYPE);
+        return new TimeSeriesEvaluator(data, configuration.getWindowSize(), configuration.getFitnessType());
     }
 
-    private static TerminationCondition[] getTerminationConditions()
+    private static TerminationCondition[] getTerminationConditions(GPConfiguration configuration)
     {
-        // Preparar uma forma de parametrizacao para a quantidade de condicoes de parada.
+        // @todo Parametrizar a possibilidade de configuracao de diversas condicoes de parada.
         TerminationCondition[] terminationConditions = new TerminationCondition[3];
-        terminationConditions[0] = new TargetFitness(TestTimeSeries.TARGET_FITNESS, TestTimeSeries.IS_FITNESS_NATURAL);
-        terminationConditions[1] = new GenerationCount(TestTimeSeries.MAX_GENERATION_COUNT);
-        terminationConditions[2] = new Stagnation(TestTimeSeries.STAGNATION_LIMIT, TestTimeSeries.IS_FITNESS_NATURAL);
+        terminationConditions[0] = new TargetFitness(configuration.getTargetFitness(), configuration.isNaturalFitness());
+        terminationConditions[1] = new GenerationCount(configuration.getMaximumGenerationCount());
+        terminationConditions[2] = new Stagnation(configuration.getStagnationLimit(), configuration.isNaturalFitness());
 
         return terminationConditions;
     }
@@ -184,12 +162,12 @@ public class TestTimeSeries
         return new RouletteWheelSelection();
     }
 
-    private static void addEvolutionObservers(EvolutionEngine<Node> engine) {
+    private static void addEvolutionObservers(EvolutionEngine<Node> engine, final GPConfiguration configuration) {
         engine.addEvolutionObserver(new EvolutionObserver<Node>() {
             @Override
             public void populationUpdate(PopulationData<? extends Node> populationData) {
-                if (TestTimeSeries.VERBOSE_EVOLVE) {
-                    if (populationData.getGenerationNumber() % TestTimeSeries.PRINT_LOG_INTERVAL == 0) {
+                if (configuration.isVerboseEvolve()) {
+                    if (populationData.getGenerationNumber() % configuration.getPrintLogInterval() == 0) {
                         System.out.println("Generation: " + populationData.getGenerationNumber());
                         System.out.println("\tBest Solution: " + populationData.getBestCandidate());
                         System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
@@ -198,7 +176,7 @@ public class TestTimeSeries
                     }
                 }
 
-                if (populationData.getBestCandidateFitness() == TestTimeSeries.TARGET_FITNESS) {
+                if (populationData.getBestCandidateFitness() == configuration.getTargetFitness()) {
                     System.out.println("=============================================================");
                     System.out.println("======================== FINAL RESULT =======================");
                     System.out.println("=============================================================");
