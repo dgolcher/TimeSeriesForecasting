@@ -12,7 +12,11 @@ import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.Stagnation;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
 import postProcessors.Forecast;
+import weka.core.Instances;
+import weka.core.converters.ArffLoader;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,7 +51,21 @@ public class TestTimeSeries
 
     private static GPConfiguration getConfigurations()
     {
-        return new GPConfiguration();
+        try {
+            String filePath                  = "data/config/gp_configuration.arff";
+
+            BufferedReader reader            = new BufferedReader(new java.io.FileReader(filePath));
+            ArffLoader.ArffReader arffReader = new ArffLoader.ArffReader(reader);
+            Instances instances              = arffReader.getData();
+            instances.setClassIndex(instances.numAttributes() - 1);
+
+            return new GPConfiguration(instances.get(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
     }
 
     private static ArrayList<TimeNode> getData(GPConfiguration configuration)

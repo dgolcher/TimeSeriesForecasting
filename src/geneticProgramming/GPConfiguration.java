@@ -1,5 +1,7 @@
 package geneticProgramming;
 
+import weka.core.Instance;
+
 /**
  * Created with IntelliJ IDEA.
  * User: paulo
@@ -33,6 +35,40 @@ public class GPConfiguration
     private int printLogInterval;
     private int fitnessType;
     private int forecastHorizon;
+
+    /**
+     * Constructor method.
+     *
+     * This method provides all data for a configuration set using an Instance object.
+     *
+     * @param instance object used to provide all data used in this configuration.
+     */
+    public GPConfiguration(Instance instance)
+    {
+        this.setTimeSeriesSize((int) instance.value(0));
+        this.setTrainingDataInit((int) instance.value(1));
+        this.setTrainingDataEnd((int) instance.value(2));
+        this.setTestingDataInit((int) instance.value(3));
+        this.setTestingDataEnd((int) instance.value(4));
+        this.setPopulationSize((int) instance.value(5));
+        this.setElitismCount((int) instance.value(6));
+        this.setWindowSize((int) instance.value(7));
+        this.setMaximumTreeDepth((int) instance.value(8));
+        this.setLeafNodeProbability(instance.value(9));
+        this.setMutationProbability(instance.value(10));
+        this.setMaximumDepth((int) instance.value(11));
+        this.setSurvivalProbability(instance.value(12));
+        this.setAmountOfPlagueSpreads((int) instance.value(13));
+        this.setGenerationsBeforePlague((int) instance.value(14));
+        this.setNaturalFitness(instance.value(15) == 1);
+        this.setTargetFitness(instance.value(16));
+        this.setMaximumGenerationCount((int) instance.value(17));
+        this.setStagnationLimit((int) instance.value(18));
+        this.setVerboseEvolve(instance.value(19) == 1);
+        this.setPrintLogInterval((int) instance.value(20));
+        this.setFitnessType((int) instance.value(21));
+        this.setForecastHorizon((int) instance.value(22));
+    }
 
     public int getTimeSeriesSize()
     {
