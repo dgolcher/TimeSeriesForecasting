@@ -1,0 +1,25 @@
+% This archive is a sample of how is expected the file for global configurations of the Genetic Programming machine.
+% Notes:
+% * The attributes INIT_OF_TRAINING_DATA, END_OF_TRAINING_DATA, INIT_OF_TESTING_DATA, END_OF_TESTING_DATA represent,
+%   respectively the interval of data used to train the Genetic Programming machine and to test the model found by it.
+% * The attribute VERBOSE_MODE_ACTIVATED is used to set if the program must log or not its evolution. Since this kind
+%   of file doesn't accept boolean type, the numeric value 1 is used to express the boolean value TRUE, and the value
+%   0 is used to express the value FALSE.
+% * The attribute PRINT_LOG_INTERVAL represents the interval between generations that the system will print its log
+%   data, if it is expected. This interval data must be an integer value, greater than zero.
+
+@relation GPConfiguration
+
+@attribute TIME_SERIES_DATA_FILE_PATH string
+@attribute TIME_SERIES_SIZE           numeric
+@attribute INIT_OF_TRAINING_DATA      numeric
+@attribute END_OF_TRAINING_DATA       numeric
+@attribute INIT_OF_TESTING_DATA       numeric
+@attribute END_OF_TESTING_DATA        numeric
+@attribute VERBOSE_MODE_ACTIVATED     numeric
+@attribute PRINT_LOG_INTERVAL         numeric
+% verificar se este operador é necessario, desde que ja existe um intervalo de dados da serie para teste.
+@attribute HORIZON_FORECAST           numeric
+
+@data
+time/series/path, 200, 10, 30, 31, 50, 1, 50, 20
