@@ -12,62 +12,35 @@ import weka.core.Instance;
 public class GPConfiguration
 {
 
+    private String timeSeriesFilePath;
     private int timeSeriesSize;
-    private int trainingDataInit;
-    private int trainingDataEnd;
-    private int testingDataInit;
-    private int testingDataEnd;
-    private int populationSize;
-    private int elitismCount;
-    private int windowSize;
-    private int maximumTreeDepth;
-    private double leafNodeProbability;
-    private double mutationProbability;
-    private int maximumDepth;
-    private double survivalProbability;
-    private int amountOfPlagueSpreads;
-    private int generationsBeforePlague;
-    private boolean isNaturalFitness;
-    private double targetFitness;
-    private int maximumGenerationCount;
-    private int stagnationLimit;
-    private boolean verboseEvolve;
-    private int printLogInterval;
-    private int fitnessType;
-    private int forecastHorizon;
+    private int initOfTrainingData;
+    private int endOfTrainingData;
+    private int initOfTestingData;
+    private int endOfTestingData;
+    private boolean verboseModeActivated;
+    private int logInterval;
 
-    /**
-     * Constructor method.
-     *
-     * This method provides all data for a configuration set using an Instance object.
-     *
-     * @param instance object used to provide all data used in this configuration.
-     */
     public GPConfiguration(Instance instance)
     {
-        this.setTimeSeriesSize((int) instance.value(0));
-        this.setTrainingDataInit((int) instance.value(1));
-        this.setTrainingDataEnd((int) instance.value(2));
-        this.setTestingDataInit((int) instance.value(3));
-        this.setTestingDataEnd((int) instance.value(4));
-        this.setPopulationSize((int) instance.value(5));
-        this.setElitismCount((int) instance.value(6));
-        this.setWindowSize((int) instance.value(7));
-        this.setMaximumTreeDepth((int) instance.value(8));
-        this.setLeafNodeProbability(instance.value(9));
-        this.setMutationProbability(instance.value(10));
-        this.setMaximumDepth((int) instance.value(11));
-        this.setSurvivalProbability(instance.value(12));
-        this.setAmountOfPlagueSpreads((int) instance.value(13));
-        this.setGenerationsBeforePlague((int) instance.value(14));
-        this.setNaturalFitness(instance.value(15) == 1);
-        this.setTargetFitness(instance.value(16));
-        this.setMaximumGenerationCount((int) instance.value(17));
-        this.setStagnationLimit((int) instance.value(18));
-        this.setVerboseEvolve(instance.value(19) == 1);
-        this.setPrintLogInterval((int) instance.value(20));
-        this.setFitnessType((int) instance.value(21));
-        this.setForecastHorizon((int) instance.value(22));
+        this.setTimeSeriesFilePath(String.valueOf(instance.value(0)));
+        this.setTimeSeriesSize((int) instance.value(1));
+        this.setInitOfTrainingData((int) instance.value(2));
+        this.setEndOfTrainingData((int) instance.value(3));
+        this.setInitOfTestingData((int) instance.value(4));
+        this.setEndOfTestingData((int) instance.value(5));
+        this.setVerboseModeActivated(instance.value(6) == 1);
+        this.setLogInterval((int) instance.value(7));
+    }
+
+    public String getTimeSeriesFilePath()
+    {
+        return timeSeriesFilePath;
+    }
+
+    public void setTimeSeriesFilePath(String timeSeriesFilePath)
+    {
+        this.timeSeriesFilePath = timeSeriesFilePath;
     }
 
     public int getTimeSeriesSize()
@@ -80,223 +53,63 @@ public class GPConfiguration
         this.timeSeriesSize = timeSeriesSize;
     }
 
-    public int getTrainingDataInit()
+    public int getInitOfTrainingData()
     {
-        return trainingDataInit;
+        return initOfTrainingData;
     }
 
-    public void setTrainingDataInit(int trainingDataInit)
+    public void setInitOfTrainingData(int initOfTrainingData)
     {
-        this.trainingDataInit = trainingDataInit;
+        this.initOfTrainingData = initOfTrainingData;
     }
 
-    public int getTrainingDataEnd()
+    public int getEndOfTrainingData()
     {
-        return trainingDataEnd;
+        return endOfTrainingData;
     }
 
-    public void setTrainingDataEnd(int trainingDataEnd)
+    public void setEndOfTrainingData(int endOfTrainingData)
     {
-        this.trainingDataEnd = trainingDataEnd;
+        this.endOfTrainingData = endOfTrainingData;
     }
 
-    public int getTestingDataInit()
+    public int getInitOfTestingData()
     {
-        return testingDataInit;
+        return initOfTestingData;
     }
 
-    public void setTestingDataInit(int testingDataInit)
+    public void setInitOfTestingData(int initOfTestingData)
     {
-        this.testingDataInit = testingDataInit;
+        this.initOfTestingData = initOfTestingData;
     }
 
-    public int getTestingDataEnd()
+    public int getEndOfTestingData()
     {
-        return testingDataEnd;
+        return endOfTestingData;
     }
 
-    public void setTestingDataEnd(int testingDataEnd)
+    public void setEndOfTestingData(int endOfTestingData)
     {
-        this.testingDataEnd = testingDataEnd;
+        this.endOfTestingData = endOfTestingData;
     }
 
-    public int getPopulationSize()
+    public boolean isVerboseModeActivated()
     {
-        return populationSize;
+        return verboseModeActivated;
     }
 
-    public void setPopulationSize(int populationSize)
+    public void setVerboseModeActivated(boolean verboseModeActivated)
     {
-        this.populationSize = populationSize;
+        this.verboseModeActivated = verboseModeActivated;
     }
 
-    public int getElitismCount()
+    public int getLogInterval()
     {
-        return elitismCount;
+        return logInterval;
     }
 
-    public void setElitismCount(int elitismCount)
+    public void setLogInterval(int logInterval)
     {
-        this.elitismCount = elitismCount;
-    }
-
-    public int getWindowSize()
-    {
-        return windowSize;
-    }
-
-    public void setWindowSize(int windowSize)
-    {
-        this.windowSize = windowSize;
-    }
-
-    public int getMaximumTreeDepth()
-    {
-        return maximumTreeDepth;
-    }
-
-    public void setMaximumTreeDepth(int maximumTreeDepth)
-    {
-        this.maximumTreeDepth = maximumTreeDepth;
-    }
-
-    public double getLeafNodeProbability()
-    {
-        return leafNodeProbability;
-    }
-
-    public void setLeafNodeProbability(double leafNodeProbability)
-    {
-        this.leafNodeProbability = leafNodeProbability;
-    }
-
-    public double getMutationProbability()
-    {
-        return mutationProbability;
-    }
-
-    public void setMutationProbability(double mutationProbability)
-    {
-        this.mutationProbability = mutationProbability;
-    }
-
-    public int getMaximumDepth()
-    {
-        return maximumDepth;
-    }
-
-    public void setMaximumDepth(int maximumDepth)
-    {
-        this.maximumDepth = maximumDepth;
-    }
-
-    public double getSurvivalProbability()
-    {
-        return survivalProbability;
-    }
-
-    public void setSurvivalProbability(double survivalProbability)
-    {
-        this.survivalProbability = survivalProbability;
-    }
-
-    public int getAmountOfPlagueSpreads()
-    {
-        return amountOfPlagueSpreads;
-    }
-
-    public void setAmountOfPlagueSpreads(int amountOfPlagueSpreads)
-    {
-        this.amountOfPlagueSpreads = amountOfPlagueSpreads;
-    }
-
-    public int getGenerationsBeforePlague()
-    {
-        return generationsBeforePlague;
-    }
-
-    public void setGenerationsBeforePlague(int generationsBeforePlague)
-    {
-        this.generationsBeforePlague = generationsBeforePlague;
-    }
-
-    public boolean isNaturalFitness()
-    {
-        return isNaturalFitness;
-    }
-
-    public void setNaturalFitness(boolean naturalFitness)
-    {
-        isNaturalFitness = naturalFitness;
-    }
-
-    public double getTargetFitness()
-    {
-        return targetFitness;
-    }
-
-    public void setTargetFitness(double targetFitness)
-    {
-        this.targetFitness = targetFitness;
-    }
-
-    public int getMaximumGenerationCount()
-    {
-        return maximumGenerationCount;
-    }
-
-    public void setMaximumGenerationCount(int maximumGenerationCount)
-    {
-        this.maximumGenerationCount = maximumGenerationCount;
-    }
-
-    public int getStagnationLimit()
-    {
-        return stagnationLimit;
-    }
-
-    public void setStagnationLimit(int stagnationLimit)
-    {
-        this.stagnationLimit = stagnationLimit;
-    }
-
-    public boolean isVerboseEvolve()
-    {
-        return verboseEvolve;
-    }
-
-    public void setVerboseEvolve(boolean verboseEvolve)
-    {
-        this.verboseEvolve = verboseEvolve;
-    }
-
-    public int getPrintLogInterval()
-    {
-        return printLogInterval;
-    }
-
-    public void setPrintLogInterval(int printLogInterval)
-    {
-        this.printLogInterval = printLogInterval;
-    }
-
-    public int getFitnessType()
-    {
-        return fitnessType;
-    }
-
-    public void setFitnessType(int fitnessType)
-    {
-        this.fitnessType = fitnessType;
-    }
-
-    public int getForecastHorizon()
-    {
-        return forecastHorizon;
-    }
-
-    public void setForecastHorizon(int forecastHorizon)
-    {
-        this.forecastHorizon = forecastHorizon;
+        this.logInterval = logInterval;
     }
 }
