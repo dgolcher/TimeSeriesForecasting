@@ -2,6 +2,7 @@ package processor;
 
 import geneticProgramming.configuration.GPConfiguration;
 import geneticProgramming.configuration.IslandConfiguration;
+import model.TimeNode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,9 +10,9 @@ import java.util.ArrayList;
 /**
  * Macro algoritmo para o processamento de series temporais:
  * 1.  Leitura dos arquivos de configuracao de GP e das ilhas;
+ * 4.  Carregamento das séries de aprendizado (treinamento) e avaliação do modelo obtido para a série;
  * 2.  Carregamento das diversas configurações;
  * 3.  Criação do arquivo de log do processamento da série (Como definir o nome do arquivo, de forma que este caracterize a execução da série?);
- * 4.  Carregamento das séries de aprendizado (treinamento) e avaliação do modelo obtido para a série;
  * 5.  Inicialização dos componentes do GP, criação e configuração das ilhas;
  * 6.  Pré-Processamento da busca;
  * 7.  Processamento da busca;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
  * Date: 10/08/13
  * Time: 20:28
  */
-// @todo at the end of the implemention of this class, remove this line and the other below.
+// @todo at the end of the implementation of this class, remove this line and the other below.
 @SuppressWarnings("UnusedDeclaration")
 public class TimeSeriesProcessor
 {
@@ -50,6 +51,12 @@ public class TimeSeriesProcessor
         ConfigurationLoader.loadConfigurations (
             this.islandConfigurationFilePath, this.islandConfiguration, IslandConfiguration.class
         );
+    }
+
+    public void getIslands() throws Exception
+    {
+        ArrayList<TimeNode> data = new ArrayList<TimeNode>();
+        IslandBuilder.build(this.islandConfiguration, data);
     }
 
 }

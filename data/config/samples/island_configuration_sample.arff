@@ -8,7 +8,28 @@
 %   represents FALSE.
 % * Since some of the attributes is dependent of boolean operators (like ELITE_POPULATION_SIZE depends on
 %   ENABLE_POPULATION to be TRUE), if a boolean operator is FALSE, then its dependent attributes will be disregarded.
+% * This system is prepared to work with some different kinds of selection strategy. Above, the list of options and
+%   which value must be used to make the choose.
+%   - ROULETTE_WHEEL_SELECTION      = 1;
+%   - TOURNAMENT_SELECTION          = 2;
+%   - STOCHASTIC_UNIVERSAL_SAMPLING = 3;
+%   - RANK_SELECTION                = 4;
+%   - SIGMA_SCALING                 = 5;
+%   - TRUNCATION_SELECTION          = 6;
+% * This system is also prepared to work with some different kinds of fitness evaluator options. These options are
+%   listed below:
+%   - SQUARED_ERROR                      = 0;
+%   - MEAN_ABSOLUTE_ERROR                = 1;
+%   - MEAN_ABSOLUTE_PERCENT_ERROR        = 2;
+%   - MEAN_ABSOLUTE_DEVIATION            = 3;
+%   - PERCENT_MEAN_ABSOLUTE_DEVIATION    = 4;
+%   - MEAN_SQUARED_ERROR                 = 5;
+%   - ROOT_MEAN_SQUARED_ERROR            = 6;
+%   - FORECAST_SKILL                     = 7;
+%   - AVERAGE_OF_ERROR                   = 8;
 % * For each island that will be used in this Genetic Programming system, a new line must be created in this file data.
+% * The attributes SELECTION_PROBABILITY and SELECTION_RATIO will be used in just some cases. The former will just be
+%   used when the strategy of "tournament selection" is chosen. The latter, when "truncation selection" is chosen.
 @relation Islands_configurations
 
 % Global configurations
@@ -17,6 +38,9 @@
 @attribute MAX_INIT_TREE_DEPTH                numeric
 @attribute MAX_TREE_DEPTH                     numeric
 @attribute LEAF_PROBABILITY                   numeric
+@attribute SELECTION_STRATEGY                 numeric
+@attribute SELECTION_PROBABILITY              numeric
+@attribute SELECTION_RATIO                    numeric
 %
 % Operators
 @attribute ENABLE_ELITISM                     numeric
@@ -47,8 +71,8 @@
 @attribute ENABLE_TRIGONOMETRIC_OPERATORS     numeric
 
 @data
-100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
-100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
-100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
-100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
-100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 1, 1, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 1, 1, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 1, 1, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 1, 1, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 1, 1, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
