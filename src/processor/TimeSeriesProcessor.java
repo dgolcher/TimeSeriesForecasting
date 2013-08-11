@@ -38,6 +38,7 @@ public class TimeSeriesProcessor
     private ArrayList<IslandConfiguration> islandConfiguration;
     private String                         gpConfigurationFilePath;
     private String                         islandConfigurationFilePath;
+
     private ArrayList<TimeNode>            originalTimeSeries;
     private ArrayList<TimeNode>            trainingData;
     private ArrayList<TimeNode>            testingData;
@@ -72,6 +73,35 @@ public class TimeSeriesProcessor
         IslandBuilder.build(this.islandConfiguration, this.gpConfiguration, this.trainingData);
     }
 
+    /**
+     * @todo this method was not implemented yet.
+     *
+     * This method processes all the modifications required to produce a better forecasting. All modifications made
+     * over the data must be reverted after by the method postProcessingData.
+     */
+    public void preProcessingData()
+    {
+        // This method must execute the pre-processing methods.
+    }
+
+    /**
+     * @todo this method was not implemented yet.
+     *
+     * This method reverts all modifications made over the data in preProcessingData method. This method have also to
+     * make the same modifications over the forecasted data (all values produced).
+     */
+    public void postProcessingData()
+    {
+        // This method must undo all modifications in data made by the preProcessingData method.
+    }
+
+    /**
+     * This method executes the forecasting of values. It will use the best candidate found in the execution of GP
+     * Program and then, return that data.
+     *
+     * @return Return the time series forecasted (this time series is composed by a portion of original data, generally
+     * the data used to train the GP Machine + the data forecasted).
+     */
     public ArrayList<TimeNode> getForecastedTimeSeries()
     {
         Forecast forecast = new Forecast(this.originalTimeSeries, this.gpConfiguration, this.bestCandidate);
