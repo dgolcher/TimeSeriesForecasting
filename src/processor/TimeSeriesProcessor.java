@@ -36,6 +36,8 @@ public class TimeSeriesProcessor
     private ArrayList<IslandConfiguration> islandConfiguration;
     private String                         gpConfigurationFilePath;
     private String                         islandConfigurationFilePath;
+    private ArrayList<TimeNode>            trainingData;
+    private ArrayList<TimeNode>            testingData;
 
     public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath)
     {
@@ -53,10 +55,16 @@ public class TimeSeriesProcessor
         );
     }
 
+    public void getData() throws Exception
+    {
+        DataProvider dataProvider = new DataProvider(gpConfiguration);
+        this.trainingData         = dataProvider.getTrainingData();
+        this.testingData          = dataProvider.getTestingData();
+    }
+
     public void getIslands() throws Exception
     {
-        ArrayList<TimeNode> data = new ArrayList<TimeNode>();
-        IslandBuilder.build(this.islandConfiguration, data);
+        IslandBuilder.build(this.islandConfiguration, this.trainingData);
     }
 
 }
