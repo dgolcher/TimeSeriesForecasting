@@ -1,5 +1,6 @@
 package postProcessors;
 
+import geneticProgramming.configuration.GPConfiguration;
 import geneticProgramming.functions.Node;
 import model.TimeNode;
 
@@ -10,41 +11,70 @@ import java.util.ArrayList;
  * User: paulo
  * Date: 05/08/13
  * Time: 23:57
+ *
+ * @todo Verify if its necessary to get the entire time series (from the init of it until the point where is the test
+ * of the model will be done) to the forecasted array.
  */
 public class Forecast
 {
 
-    private Node                programExample;
-    private ArrayList<TimeNode> timeSeries;
-    private int                 horizon;
-    private int                 numberOfParams;
+    private ArrayList<TimeNode> originalTimeSeries;
+    private ArrayList<TimeNode> forecastedTimeSeries;
+    private GPConfiguration configuration;
+    private Node                model;
 
-    public Forecast(ArrayList<TimeNode> originalTimeSeries, Node program, int horizon, int numberOfParams)
+    /**
+     * Constructor.
+     * This method initializes all instances used in this class.
+     *
+     * @param originalTimeSeries Full time series used to train and test the model.
+     * @param configuration      GPConfiguration instance, used get some information about the forecasting.
+     * @param bestCandidate      Individual provided by the GP Machine, consider the best candidate found.
+     */
+    public Forecast(ArrayList<TimeNode> originalTimeSeries, GPConfiguration configuration, Node bestCandidate)
     {
-        this.programExample     = program;
-        this.timeSeries         = originalTimeSeries;
-        this.horizon            = horizon;
-        this.numberOfParams     = numberOfParams;
+        this.originalTimeSeries = originalTimeSeries;
+        this.configuration      = configuration;
+        this.model              = bestCandidate;
+        this.initializeForecastingData(configuration);
     }
 
-    public ArrayList<TimeNode> forecastForNPeriods()
+    /**
+     * This method executes the forecasting using the model provided to this class.
+     *
+     * @return Returns the forecasted data.
+     */
+    public ArrayList<TimeNode> processForecasting()
     {
-        for (int i = 0; i < this.horizon; i++) {
-            double[] params = new double[this.numberOfParams];
-            for (int j = 0; j < this.numberOfParams; j++) {
-                int index = (this.timeSeries.size() + j) - this.numberOfParams;
-                params[j] = this.timeSeries.get(index).getValue();
+        int forecastHorizon = this.configuration.getEndOfTrainingData() - this.configuration.getInitOfTrainingData();
+        for (int i = 0; i < forecastHorizon; i++) {
+            double[] params = new double[forecastHorizon];
+            for (int j = 0; j < this.configuration.getWindowSize(); j++) {
+                int index = (this.forecastedTimeSeries.size() + j) - forecastHorizon;
+                params[j] = this.forecastedTimeSeries.get(index).getValue();
             }
 
-            double forecastedValue = this.programExample.evaluate(params);
-            // @todo Verificar como definir as datas dos periodos previstos.
+            double forecastedValue = this.model.evaluate(params);
+            // @todo Verify how to get the date values.
             TimeNode node = new TimeNode();
             node.setDate(null);
             node.setValue(forecastedValue);
-            this.timeSeries.add(node);
+            this.forecastedTimeSeries.add(node);
         }
 
-        return this.timeSeries;
+        return this.forecastedTimeSeries;
+    }
+
+    /**
+     * This is an auxiliary method used to initialize the forecasting data.
+     *
+     * @param configuration Configuration used in the GP Machine.
+     */
+    private void initializeForecastingData(GPConfiguration configuration) {
+        this.forecastedTimeSeries = new ArrayList<TimeNode>();
+        for (int i = 0; i < configuration.getInitOfTestingData(); i++) {
+            this.forecastedTimeSeries.add(this.originalTimeSeries.get(i));
+        }
     }
 
 }

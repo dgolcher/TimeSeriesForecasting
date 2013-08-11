@@ -41,6 +41,16 @@ public class DataProvider
     }
 
     /**
+     * Return the entire time series data.
+     *
+     * @return Return the entire time series data
+     */
+    public ArrayList<TimeNode> getFullTimeSeriesData()
+    {
+        return this.fullTimeSeriesData;
+    }
+
+    /**
      * Returns the part of the time series chosen (in the config object) to be used as Training data by the GP Machine.
      *
      * @return A portion of the original time series, used to train the GP Machine.

@@ -20,7 +20,7 @@ public class GPConfiguration implements Configurable
     private int endOfTestingData;
     private boolean verboseModeActivated;
     private int logInterval;
-    private int horizonForecast;
+    private int windowSize;
 
     public String getTimeSeriesFilePath()
     {
@@ -102,14 +102,14 @@ public class GPConfiguration implements Configurable
         this.logInterval = logInterval;
     }
 
-    public int getHorizonForecast()
+    public int getWindowSize()
     {
-        return horizonForecast;
+        return windowSize;
     }
 
-    public void setHorizonForecast(int horizonForecast)
+    public void setWindowSize(int windowSize)
     {
-        this.horizonForecast = horizonForecast;
+        this.windowSize = windowSize;
     }
 
     /**
@@ -128,6 +128,6 @@ public class GPConfiguration implements Configurable
         this.setEndOfTestingData((int) instance.value(5));
         this.setVerboseModeActivated(instance.value(6) == 1);
         this.setLogInterval((int) instance.value(7));
-        this.setHorizonForecast((int) instance.value(8));
+        this.setWindowSize((int) instance.value(8));
     }
 }

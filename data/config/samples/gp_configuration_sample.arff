@@ -19,8 +19,7 @@
 @attribute END_OF_TESTING_DATA        numeric
 @attribute VERBOSE_MODE_ACTIVATED     numeric
 @attribute PRINT_LOG_INTERVAL         numeric
-% verificar se este operador é necessario, desde que ja existe um intervalo de dados da serie para teste.
-@attribute HORIZON_FORECAST           numeric
+@attribute WINDOW_SIZE                numeric
 
 @data
 time/series/path, 200, 10, 30, 31, 50, 1, 50, 20

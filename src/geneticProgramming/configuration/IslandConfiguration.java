@@ -12,7 +12,6 @@ import weka.core.Instance;
 public class IslandConfiguration implements Configurable
 {
     private int populationSize;
-    private int windowSize;
     private int maxInitTreeDepth;
     private int maxTreeDepth;
     private double leafProbability;
@@ -50,16 +49,6 @@ public class IslandConfiguration implements Configurable
     public void setPopulationSize(int populationSize)
     {
         this.populationSize = populationSize;
-    }
-
-    public int getWindowSize()
-    {
-        return windowSize;
-    }
-
-    public void setWindowSize(int windowSize)
-    {
-        this.windowSize = windowSize;
     }
 
     public int getMaxInitTreeDepth()
@@ -350,34 +339,33 @@ public class IslandConfiguration implements Configurable
     public void loadConfigurationFromWekaInstance(Instance instance)
     {
         this.setPopulationSize((int) instance.value(0));
-        this.setWindowSize((int) instance.value(1));
-        this.setMaxInitTreeDepth((int) instance.value(2));
-        this.setMaxTreeDepth((int) instance.value(3));
-        this.setLeafProbability(instance.value(4));
-        this.setSelectionStrategy((int) instance.value(5));
-        this.setSelectionProbability(instance.value(6));
-        this.setSelectionRatio(instance.value(7));
-        this.setEnableElitism(instance.value(8) == 1);
-        this.setElitePopulationSize((int) instance.value(9));
-        this.setEnableCrossover(instance.value(10) == 1);
-        this.setEnableMutation(instance.value(11) == 1);
-        this.setMutationProbability(instance.value(12));
-        this.setEnablePlague(instance.value(13) == 1);
-        this.setSurvivorPlagueProbability(instance.value(14));
-        this.setTotalOfPlagueSpreads((int) instance.value(15));
-        this.setGenerationsCountBeforePlague((int) instance.value(16));
-        this.setFitnessStrategy((int) instance.value(17));
-        this.setFitnessValue((int) instance.value(18));
-        this.setFitnessNatural(instance.value(19) == 1);
-        this.setEnableGenerationCount(instance.value(20) == 1);
-        this.setGenerationCount((int) instance.value(21));
-        this.setEnableStagnationGenerationCount(instance.value(22) == 1);
-        this.setStagnatedGenerationsLimit((int) instance.value(23));
-        this.setEnableTerminationByFitness(instance.value(24) == 1);
-        this.setEnableBasicOperators(instance.value(25) == 1);
-        this.setEnableComplexOperators(instance.value(26) == 1);
-        this.setEnableLogicOperators(instance.value(27) == 1);
-        this.setEnableStatisticsOperators(instance.value(28) == 1);
-        this.setEnableTrigonometricOperators(instance.value(29) == 1);
+        this.setMaxInitTreeDepth((int) instance.value(1));
+        this.setMaxTreeDepth((int) instance.value(2));
+        this.setLeafProbability(instance.value(3));
+        this.setSelectionStrategy((int) instance.value(4));
+        this.setSelectionProbability(instance.value(5));
+        this.setSelectionRatio(instance.value(6));
+        this.setEnableElitism(instance.value(7) == 1);
+        this.setElitePopulationSize((int) instance.value(8));
+        this.setEnableCrossover(instance.value(9) == 1);
+        this.setEnableMutation(instance.value(10) == 1);
+        this.setMutationProbability(instance.value(11));
+        this.setEnablePlague(instance.value(12) == 1);
+        this.setSurvivorPlagueProbability(instance.value(13));
+        this.setTotalOfPlagueSpreads((int) instance.value(14));
+        this.setGenerationsCountBeforePlague((int) instance.value(15));
+        this.setFitnessStrategy((int) instance.value(16));
+        this.setFitnessValue((int) instance.value(17));
+        this.setFitnessNatural(instance.value(18) == 1);
+        this.setEnableGenerationCount(instance.value(19) == 1);
+        this.setGenerationCount((int) instance.value(20));
+        this.setEnableStagnationGenerationCount(instance.value(21) == 1);
+        this.setStagnatedGenerationsLimit((int) instance.value(22));
+        this.setEnableTerminationByFitness(instance.value(23) == 1);
+        this.setEnableBasicOperators(instance.value(24) == 1);
+        this.setEnableComplexOperators(instance.value(25) == 1);
+        this.setEnableLogicOperators(instance.value(26) == 1);
+        this.setEnableStatisticsOperators(instance.value(27) == 1);
+        this.setEnableTrigonometricOperators(instance.value(28) == 1);
     }
 }

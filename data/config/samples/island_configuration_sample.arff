@@ -34,7 +34,6 @@
 
 % Global configurations
 @attribute POPULATION_SIZE                    numeric
-@attribute WINDOW_SIZE                        numeric
 @attribute MAX_INIT_TREE_DEPTH                numeric
 @attribute MAX_TREE_DEPTH                     numeric
 @attribute LEAF_PROBABILITY                   numeric

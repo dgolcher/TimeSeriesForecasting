@@ -1,5 +1,6 @@
 package processor;
 
+import geneticProgramming.configuration.GPConfiguration;
 import geneticProgramming.configuration.IslandConfiguration;
 import geneticProgramming.functions.Node;
 import geneticProgramming.functions.function.Simplification;
@@ -41,11 +42,12 @@ public class IslandBuilder
      * @throws Exception
      */
     public static List<EvolutionEngine<Node>> build(ArrayList<IslandConfiguration> configurations,
+                                                    GPConfiguration gpConfiguration,
                                                     ArrayList<TimeNode> data) throws Exception
     {
         List<EvolutionEngine<Node>> islands = new ArrayList<EvolutionEngine<Node>>();
         for (IslandConfiguration configuration : configurations) {
-            islands.add(createSingleIsland(configuration, data));
+            islands.add(createSingleIsland(configuration, gpConfiguration, data));
         }
 
         return islands;
@@ -61,11 +63,12 @@ public class IslandBuilder
      * @throws Exception
      */
     private static EvolutionEngine<Node> createSingleIsland(IslandConfiguration configuration,
+                                                            GPConfiguration gpConfiguration,
                                                             ArrayList<TimeNode> data) throws Exception
     {
-        TreeFactory factory                        = getCandidateFactory(configuration);
+        TreeFactory factory                        = getCandidateFactory(configuration, gpConfiguration);
         EvolutionPipeline<Node> operators          = getEvolutionaryOperators(configuration, factory);
-        FitnessEvaluator<Node> fitnessEvaluator    = getFitnessEvaluator(configuration, data);
+        FitnessEvaluator<Node> fitnessEvaluator    = getFitnessEvaluator(configuration, gpConfiguration, data);
         RouletteWheelSelection selectionStrategy   = new RouletteWheelSelection();
 
         return new GenerationalEvolutionEngine<Node>(
@@ -81,9 +84,11 @@ public class IslandBuilder
      *
      * @return Returns an instance of TimeSeriesEvaluator.
      */
-    private static TimeSeriesEvaluator getFitnessEvaluator(IslandConfiguration configuration, ArrayList<TimeNode> data)
+    private static TimeSeriesEvaluator getFitnessEvaluator(IslandConfiguration configuration,
+                                                           GPConfiguration gpConfiguration,
+                                                           ArrayList<TimeNode> data)
     {
-        return new TimeSeriesEvaluator(data, configuration.getWindowSize(), configuration.getFitnessStrategy());
+        return new TimeSeriesEvaluator(data, gpConfiguration.getWindowSize(), configuration.getFitnessStrategy());
     }
 
     /**
@@ -132,10 +137,11 @@ public class IslandBuilder
      * @return A candidate factory instance.
      * @throws Exception
      */
-    private static TreeFactory getCandidateFactory(IslandConfiguration configuration) throws Exception
+    private static TreeFactory getCandidateFactory(IslandConfiguration configuration, GPConfiguration gpConfiguration)
+                               throws Exception
     {
         TreeFactory factory = new TreeFactory(
-            configuration.getWindowSize(),
+            gpConfiguration.getWindowSize(),
             configuration.getMaxInitTreeDepth(),
             Probability.EVENS,
             new Probability(configuration.getLeafProbability())
