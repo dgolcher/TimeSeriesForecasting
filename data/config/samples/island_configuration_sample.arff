@@ -1,5 +1,15 @@
 % This archive is a sample of how is expected the file for islands configurations. All islands used in this program must
 % be configured here. In other words, for each island used in this model, a new line of data must be set in this file.
+% Notes:
+% * The attributes ENABLE_ELITISM, ELITE_POPULATION_SIZE, ENABLE_MUTATION, ENABLE_PLAGUE, ENABLE_GENERATION_COUNT,
+%   ENABLE_STAGNATION_GENERATION_COUNT, ENABLE_TERMINATION_BY_FITNESS, ENABLE_BASIC_OPERATORS, ENABLE_COMPLEX_OPERATORS,
+%   ENABLE_LOGIC_OPERATORS, ENABLE_STATISTIC_OPERATORS, ENABLE_TRIGONOMETRIC_OPERATORS are boolean. Since this file
+%   doesn't support boolean type, this attributes will be represented as numeric values, where 1 represents TRUE and 0
+%   represents FALSE.
+% * Since some of the attributes is dependent of boolean operators (like ELITE_POPULATION_SIZE depends on
+%   ENABLE_POPULATION to be TRUE), if a boolean operator is FALSE, then its dependent attributes will be disregarded.
+% * For each island that will be used in this Genetic Programming system, a new line must be created in this file data.
+@relation Islands_configurations
 
 % Global configurations
 @attribute POPULATION_SIZE                    numeric
@@ -37,3 +47,8 @@
 @attribute ENABLE_TRIGONOMETRIC_OPERATORS     numeric
 
 @data
+100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1
+100, 5, 4, 10, 0.6d, 1, 5, 1, 1, 0.5d, 1, 0.01d, 3, 1000, 1, 0, 0, 1, 5000, 1, 2000, 1, 1, 1, 1, 1, 1

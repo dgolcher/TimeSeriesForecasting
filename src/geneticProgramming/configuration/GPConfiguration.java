@@ -1,4 +1,4 @@
-package geneticProgramming;
+package geneticProgramming.configuration;
 
 import weka.core.Instance;
 
@@ -9,7 +9,7 @@ import weka.core.Instance;
  * Time: 00:33
  */
 @SuppressWarnings("UnusedDeclaration")
-public class GPConfiguration
+public class GPConfiguration implements Configurable
 {
 
     private String timeSeriesFilePath;
@@ -20,18 +20,7 @@ public class GPConfiguration
     private int endOfTestingData;
     private boolean verboseModeActivated;
     private int logInterval;
-
-    public GPConfiguration(Instance instance)
-    {
-        this.setTimeSeriesFilePath(String.valueOf(instance.value(0)));
-        this.setTimeSeriesSize((int) instance.value(1));
-        this.setInitOfTrainingData((int) instance.value(2));
-        this.setEndOfTrainingData((int) instance.value(3));
-        this.setInitOfTestingData((int) instance.value(4));
-        this.setEndOfTestingData((int) instance.value(5));
-        this.setVerboseModeActivated(instance.value(6) == 1);
-        this.setLogInterval((int) instance.value(7));
-    }
+    private int horizonForecast;
 
     public String getTimeSeriesFilePath()
     {
@@ -111,5 +100,34 @@ public class GPConfiguration
     public void setLogInterval(int logInterval)
     {
         this.logInterval = logInterval;
+    }
+
+    public int getHorizonForecast()
+    {
+        return horizonForecast;
+    }
+
+    public void setHorizonForecast(int horizonForecast)
+    {
+        this.horizonForecast = horizonForecast;
+    }
+
+    /**
+     * Loads all configuration data using an instance of weka.core.Instance. This kind of object is result of reading
+     * the ARFF files.
+     *
+     * @param instance Object containing all configurations that will be used in an instance of Configurable object.
+     */
+    @Override
+    public void loadConfigurationFromWekaInstance(Instance instance) {
+        this.setTimeSeriesFilePath(String.valueOf(instance.value(0)));
+        this.setTimeSeriesSize((int) instance.value(1));
+        this.setInitOfTrainingData((int) instance.value(2));
+        this.setEndOfTrainingData((int) instance.value(3));
+        this.setInitOfTestingData((int) instance.value(4));
+        this.setEndOfTestingData((int) instance.value(5));
+        this.setVerboseModeActivated(instance.value(6) == 1);
+        this.setLogInterval((int) instance.value(7));
+        this.setHorizonForecast((int) instance.value(8));
     }
 }

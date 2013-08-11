@@ -11,6 +11,7 @@
 @relation GPConfiguration
 
 @attribute TIME_SERIES_DATA_FILE_PATH string
+% Verificar se este item é necessário, visto que os tamanhos das series de aprendizado e avaliação são relevantes.
 @attribute TIME_SERIES_SIZE           numeric
 @attribute INIT_OF_TRAINING_DATA      numeric
 @attribute END_OF_TRAINING_DATA       numeric

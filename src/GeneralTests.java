@@ -1,6 +1,9 @@
+import geneticProgramming.configuration.Configurable;
+import geneticProgramming.configuration.IslandConfiguration;
 import geneticProgramming.functions.Node;
 import geneticProgramming.functions.function.Simplification;
 import geneticProgramming.geneticOperators.*;
+import model.TimeNode;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.*;
@@ -9,7 +12,11 @@ import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.Stagnation;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
+import processor.TimeSeriesProcessor;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -49,10 +56,19 @@ public class GeneralTests
     private static final int PRINT_LOG_INTERVAL     = 100;
 
 
-    public static void main(String[] args)
-    {
-        testFitnessFunctionFormat();
+    public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
+
+        configurationLoadersInTimeSeriesProcessor();
+        // testFitnessFunctionFormat();
         // evolveProgram();
+    }
+
+    private static void configurationLoadersInTimeSeriesProcessor() throws IllegalAccessException, IOException, InstantiationException
+    {
+        String gpConfigurationFilePath = "data/config/samples/gp_configuration_sample.arff";
+        String islandConfigFilePath    = "data/config/samples/island_configuration_sample.arff";
+        TimeSeriesProcessor processor = new TimeSeriesProcessor(gpConfigurationFilePath, islandConfigFilePath);
+        processor.loadConfigurations();
     }
 
     private static void testFitnessFunctionFormat()
