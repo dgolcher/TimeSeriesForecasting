@@ -4,25 +4,18 @@ import geneticProgramming.configuration.GPConfiguration;
 import geneticProgramming.configuration.IslandConfiguration;
 import geneticProgramming.functions.Node;
 import model.TimeNode;
+import org.uncommons.maths.random.MersenneTwisterRNG;
+import org.uncommons.watchmaker.framework.EvolutionEngine;
+import org.uncommons.watchmaker.framework.islands.IslandEvolution;
+import org.uncommons.watchmaker.framework.islands.RingMigration;
+import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import postProcessors.Forecast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Macro algoritmo para o processamento de series temporais:
- * 1.  Leitura dos arquivos de configuracao de GP e das ilhas; ok
- * 4.  Carregamento das séries de aprendizado (treinamento) e avaliação do modelo obtido para a série;
- * 2.  Carregamento das diversas configurações;
- * 3.  Criação do arquivo de log do processamento da série (Como definir o nome do arquivo, de forma que este caracterize a execução da série?);
- * 5.  Inicialização dos componentes do GP, criação e configuração das ilhas;
- * 6.  Pré-Processamento da busca;
- * 7.  Processamento da busca;
- * 8.  Pós-Processamento do busca;
- * 9.  Processamento da previsão dos n períodos de horizonte de busca;
- * 10. Apresentação dos resultados;
- * 11. Comparação da série obtida com a série de avaliação.
- *
  *
  * Created with IntelliJ IDEA.
  * User: paulo
@@ -52,7 +45,29 @@ public class TimeSeriesProcessor
         this.islandConfiguration         = new ArrayList<IslandConfiguration>();
     }
 
-    public void loadConfigurations() throws IOException, InstantiationException, IllegalAccessException
+    public void run() throws Exception
+    {
+        // Reading configuration files of GP and islands.
+        // Loading all configurations.
+        this.loadConfigurations();
+        // Creating log files and object.
+        // Loading training and testing time series.
+        this.getData();
+        // Initializing components and islands.
+        List<EvolutionEngine<Node>> islands = this.getIslands();
+        // Pre-processing data.
+        this.preProcessData();
+        // Process data.
+        this.bestCandidate = this.processData(islands);
+        // Process the forecasting for the next n periods.
+        ArrayList<TimeNode> forecastedTimeSeries = this.getForecastedTimeSeries();
+        // Post-processing data.
+        this.postProcessingData(forecastedTimeSeries);
+        // Presenting results.
+        // Comparing forecasted data with the real testing data.
+    }
+
+    private void loadConfigurations() throws IOException, InstantiationException, IllegalAccessException
     {
         ConfigurationLoader.loadConfigurations(this.gpConfigurationFilePath, this.gpConfiguration);
         ConfigurationLoader.loadConfigurations (
@@ -60,7 +75,7 @@ public class TimeSeriesProcessor
         );
     }
 
-    public void getData() throws Exception
+    private void getData() throws Exception
     {
         DataProvider dataProvider = new DataProvider(gpConfiguration);
         this.originalTimeSeries   = dataProvider.getFullTimeSeriesData();
@@ -68,9 +83,9 @@ public class TimeSeriesProcessor
         this.testingData          = dataProvider.getTestingData();
     }
 
-    public void getIslands() throws Exception
+    private List<EvolutionEngine<Node>> getIslands() throws Exception
     {
-        IslandBuilder.build(this.islandConfiguration, this.gpConfiguration, this.trainingData);
+        return IslandBuilder.build(this.islandConfiguration, this.gpConfiguration, this.trainingData);
     }
 
     /**
@@ -79,20 +94,49 @@ public class TimeSeriesProcessor
      * This method processes all the modifications required to produce a better forecasting. All modifications made
      * over the data must be reverted after by the method postProcessingData.
      */
-    public void preProcessingData()
+    private void preProcessData()
     {
         // This method must execute the pre-processing methods.
     }
 
     /**
+     * @todo Verify if it's interesting to create a new migration strategy.
+     * @todo Implement the way to set the evolution verbose.
+     * @todo Verify if it's necessary to transport the configuration "populationSize" from islandConfigurations to GPConfigurations.
+     * @todo Transport the configurations of termination conditions from islandsConfigurations to GPConfigurations.
+     * @todo Create configuration for epoch length.
+     * @todo Create configuration for migration count.
+     *
+     * @param islands Islands.
+     *
+     * @return Return the best candidate.
+     */
+    private Node processData(List<EvolutionEngine<Node>> islands)
+    {
+        IslandEvolution<Node> engine = new IslandEvolution<Node> (
+            islands,
+            new RingMigration(),
+            this.islandConfiguration.get(0).isFitnessNatural(),
+            new MersenneTwisterRNG()
+        );
+        return engine.evolve(
+            this.islandConfiguration.get(0).getPopulationSize(),
+            this.islandConfiguration.get(0).getElitePopulationSize(),
+            10, // this.islandConfiguration.get(0).epochLength()
+            10, // this.islandConfiguration.get(0).migrationCount()
+            new GenerationCount(100000)
+        );
+    }
+
+    /**
      * @todo this method was not implemented yet.
      *
-     * This method reverts all modifications made over the data in preProcessingData method. This method have also to
+     * This method reverts all modifications made over the data in preProcessData method. This method have also to
      * make the same modifications over the forecasted data (all values produced).
      */
-    public void postProcessingData()
+    private void postProcessingData(ArrayList<TimeNode> forecastedTimeSeries)
     {
-        // This method must undo all modifications in data made by the preProcessingData method.
+        // This method must undo all modifications in data made by the preProcessData method.
     }
 
     /**
@@ -102,7 +146,7 @@ public class TimeSeriesProcessor
      * @return Return the time series forecasted (this time series is composed by a portion of original data, generally
      * the data used to train the GP Machine + the data forecasted).
      */
-    public ArrayList<TimeNode> getForecastedTimeSeries()
+    private ArrayList<TimeNode> getForecastedTimeSeries()
     {
         Forecast forecast = new Forecast(this.originalTimeSeries, this.gpConfiguration, this.bestCandidate);
         return forecast.processForecasting();
