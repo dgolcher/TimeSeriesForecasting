@@ -11,7 +11,6 @@ import weka.core.Instance;
 @SuppressWarnings("UnusedDeclaration")
 public class IslandConfiguration implements Configurable
 {
-    private int populationSize;
     private int maxInitTreeDepth;
     private int maxTreeDepth;
     private double leafProbability;
@@ -19,7 +18,6 @@ public class IslandConfiguration implements Configurable
     private double selectionProbability;
     private double selectionRatio;
     private boolean enableElitism;
-    private int elitePopulationSize;
     private boolean enableCrossover;
     private boolean enableMutation;
     private double mutationProbability;
@@ -28,28 +26,11 @@ public class IslandConfiguration implements Configurable
     private int totalOfPlagueSpreads;
     private int generationsCountBeforePlague;
     private int fitnessStrategy;
-    private int fitnessValue;
-    private boolean isFitnessNatural;
-    private boolean enableGenerationCount;
-    private int generationCount;
-    private boolean enableStagnationGenerationCount;
-    private int stagnatedGenerationsLimit;
-    private boolean enableTerminationByFitness;
     private boolean enableBasicOperators;
     private boolean enableComplexOperators;
     private boolean enableLogicOperators;
     private boolean enableStatisticsOperators;
     private boolean enableTrigonometricOperators;
-
-    public int getPopulationSize()
-    {
-        return populationSize;
-    }
-
-    public void setPopulationSize(int populationSize)
-    {
-        this.populationSize = populationSize;
-    }
 
     public int getMaxInitTreeDepth()
     {
@@ -119,16 +100,6 @@ public class IslandConfiguration implements Configurable
     public void setEnableElitism(boolean enableElitism)
     {
         this.enableElitism = enableElitism;
-    }
-
-    public int getElitePopulationSize()
-    {
-        return elitePopulationSize;
-    }
-
-    public void setElitePopulationSize(int elitePopulationSize)
-    {
-        this.elitePopulationSize = elitePopulationSize;
     }
 
     public boolean isEnableCrossover()
@@ -211,74 +182,6 @@ public class IslandConfiguration implements Configurable
         this.fitnessStrategy = fitnessStrategy;
     }
 
-    public int getFitnessValue()
-    {
-        return fitnessValue;
-    }
-
-    public void setFitnessValue(int fitnessValue)
-    {
-        this.fitnessValue = fitnessValue;
-    }
-
-    public boolean isEnableGenerationCount()
-    {
-        return enableGenerationCount;
-    }
-
-    public void setEnableGenerationCount(boolean enableGenerationCount)
-    {
-        this.enableGenerationCount = enableGenerationCount;
-    }
-
-    public boolean isFitnessNatural() {
-        return isFitnessNatural;
-    }
-
-    public void setFitnessNatural(boolean fitnessNatural) {
-        isFitnessNatural = fitnessNatural;
-    }
-
-    public int getGenerationCount()
-    {
-        return generationCount;
-    }
-
-    public void setGenerationCount(int generationCount)
-    {
-        this.generationCount = generationCount;
-    }
-
-    public boolean isEnableStagnationGenerationCount()
-    {
-        return enableStagnationGenerationCount;
-    }
-
-    public void setEnableStagnationGenerationCount(boolean enableStagnationGenerationCount)
-    {
-        this.enableStagnationGenerationCount = enableStagnationGenerationCount;
-    }
-
-    public int getStagnatedGenerationsLimit()
-    {
-        return stagnatedGenerationsLimit;
-    }
-
-    public void setStagnatedGenerationsLimit(int stagnatedGenerationsLimit)
-    {
-        this.stagnatedGenerationsLimit = stagnatedGenerationsLimit;
-    }
-
-    public boolean isEnableTerminationByFitness()
-    {
-        return enableTerminationByFitness;
-    }
-
-    public void setEnableTerminationByFitness(boolean enableTerminationByFitness)
-    {
-        this.enableTerminationByFitness = enableTerminationByFitness;
-    }
-
     public boolean isEnableBasicOperators()
     {
         return enableBasicOperators;
@@ -338,34 +241,25 @@ public class IslandConfiguration implements Configurable
     @Override
     public void loadConfigurationFromWekaInstance(Instance instance)
     {
-        this.setPopulationSize((int) instance.value(0));
-        this.setMaxInitTreeDepth((int) instance.value(1));
-        this.setMaxTreeDepth((int) instance.value(2));
-        this.setLeafProbability(instance.value(3));
-        this.setSelectionStrategy((int) instance.value(4));
-        this.setSelectionProbability(instance.value(5));
-        this.setSelectionRatio(instance.value(6));
-        this.setEnableElitism(instance.value(7) == 1);
-        this.setElitePopulationSize((int) instance.value(8));
-        this.setEnableCrossover(instance.value(9) == 1);
-        this.setEnableMutation(instance.value(10) == 1);
-        this.setMutationProbability(instance.value(11));
-        this.setEnablePlague(instance.value(12) == 1);
-        this.setSurvivorPlagueProbability(instance.value(13));
-        this.setTotalOfPlagueSpreads((int) instance.value(14));
-        this.setGenerationsCountBeforePlague((int) instance.value(15));
-        this.setFitnessStrategy((int) instance.value(16));
-        this.setFitnessValue((int) instance.value(17));
-        this.setFitnessNatural(instance.value(18) == 1);
-        this.setEnableGenerationCount(instance.value(19) == 1);
-        this.setGenerationCount((int) instance.value(20));
-        this.setEnableStagnationGenerationCount(instance.value(21) == 1);
-        this.setStagnatedGenerationsLimit((int) instance.value(22));
-        this.setEnableTerminationByFitness(instance.value(23) == 1);
-        this.setEnableBasicOperators(instance.value(24) == 1);
-        this.setEnableComplexOperators(instance.value(25) == 1);
-        this.setEnableLogicOperators(instance.value(26) == 1);
-        this.setEnableStatisticsOperators(instance.value(27) == 1);
-        this.setEnableTrigonometricOperators(instance.value(28) == 1);
+        this.setMaxInitTreeDepth((int) instance.value(0));
+        this.setMaxTreeDepth((int) instance.value(1));
+        this.setLeafProbability(instance.value(2));
+        this.setSelectionStrategy((int) instance.value(3));
+        this.setSelectionProbability(instance.value(4));
+        this.setSelectionRatio(instance.value(5));
+        this.setEnableElitism(instance.value(6) == 1);
+        this.setEnableCrossover(instance.value(7) == 1);
+        this.setEnableMutation(instance.value(8) == 1);
+        this.setMutationProbability(instance.value(9));
+        this.setEnablePlague(instance.value(10) == 1);
+        this.setSurvivorPlagueProbability(instance.value(11));
+        this.setTotalOfPlagueSpreads((int) instance.value(12));
+        this.setGenerationsCountBeforePlague((int) instance.value(13));
+        this.setFitnessStrategy((int) instance.value(14));
+        this.setEnableBasicOperators(instance.value(15) == 1);
+        this.setEnableComplexOperators(instance.value(16) == 1);
+        this.setEnableLogicOperators(instance.value(17) == 1);
+        this.setEnableStatisticsOperators(instance.value(18) == 1);
+        this.setEnableTrigonometricOperators(instance.value(19) == 1);
     }
 }

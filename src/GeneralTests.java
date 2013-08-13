@@ -68,7 +68,7 @@ public class GeneralTests
         String gpConfigurationFilePath = "data/config/samples/gp_configuration_sample.arff";
         String islandConfigFilePath    = "data/config/samples/island_configuration_sample.arff";
         TimeSeriesProcessor processor = new TimeSeriesProcessor(gpConfigurationFilePath, islandConfigFilePath);
-        processor.loadConfigurations();
+//        processor.loadConfigurations();
     }
 
     private static void testFitnessFunctionFormat()

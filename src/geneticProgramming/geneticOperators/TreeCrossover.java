@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * @todo implement max depth.
+ *
  * Created with IntelliJ IDEA.
  * User: Paulo
  * Date: 18/06/13
@@ -16,20 +18,9 @@ import java.util.Random;
 public class TreeCrossover extends AbstractCrossover<Node>
 {
 
-    private int maxDepth;
-
-    /**
-     * Creates a single-point crossover operator.
-     */
-    public TreeCrossover()
-    {
-        super(1);
-    }
-
     public TreeCrossover(int maxDepth)
     {
         super(1);
-        this.maxDepth = maxDepth;
     }
 
     @Override

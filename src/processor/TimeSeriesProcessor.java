@@ -6,9 +6,14 @@ import geneticProgramming.functions.Node;
 import model.TimeNode;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.watchmaker.framework.EvolutionEngine;
+import org.uncommons.watchmaker.framework.PopulationData;
+import org.uncommons.watchmaker.framework.TerminationCondition;
 import org.uncommons.watchmaker.framework.islands.IslandEvolution;
+import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
+import org.uncommons.watchmaker.framework.termination.Stagnation;
+import org.uncommons.watchmaker.framework.termination.TargetFitness;
 import postProcessors.Forecast;
 
 import java.io.IOException;
@@ -62,7 +67,8 @@ public class TimeSeriesProcessor
         // Process the forecasting for the next n periods.
         ArrayList<TimeNode> forecastedTimeSeries = this.getForecastedTimeSeries();
         // Post-processing data.
-        this.postProcessingData(forecastedTimeSeries);
+        forecastedTimeSeries = this.postProcessingData(forecastedTimeSeries);
+        System.out.println(forecastedTimeSeries);
         // Presenting results.
         // Comparing forecasted data with the real testing data.
     }
@@ -101,11 +107,6 @@ public class TimeSeriesProcessor
 
     /**
      * @todo Verify if it's interesting to create a new migration strategy.
-     * @todo Implement the way to set the evolution verbose.
-     * @todo Verify if it's necessary to transport the configuration "populationSize" from islandConfigurations to GPConfigurations.
-     * @todo Transport the configurations of termination conditions from islandsConfigurations to GPConfigurations.
-     * @todo Create configuration for epoch length.
-     * @todo Create configuration for migration count.
      *
      * @param islands Islands.
      *
@@ -113,18 +114,14 @@ public class TimeSeriesProcessor
      */
     private Node processData(List<EvolutionEngine<Node>> islands)
     {
-        IslandEvolution<Node> engine = new IslandEvolution<Node> (
-            islands,
-            new RingMigration(),
-            this.islandConfiguration.get(0).isFitnessNatural(),
-            new MersenneTwisterRNG()
-        );
+        IslandEvolution<Node> engine = this.getEvolutionEngine(islands);
+        TerminationCondition[] terminationConditions = this.getTerminationConditions();
         return engine.evolve(
-            this.islandConfiguration.get(0).getPopulationSize(),
-            this.islandConfiguration.get(0).getElitePopulationSize(),
-            10, // this.islandConfiguration.get(0).epochLength()
-            10, // this.islandConfiguration.get(0).migrationCount()
-            new GenerationCount(100000)
+            this.gpConfiguration.getPopulationSize(),
+            this.gpConfiguration.getElitePopulationSize(),
+            this.gpConfiguration.getEpochLength(),
+            this.gpConfiguration.getMigrationCount(),
+            terminationConditions
         );
     }
 
@@ -134,9 +131,10 @@ public class TimeSeriesProcessor
      * This method reverts all modifications made over the data in preProcessData method. This method have also to
      * make the same modifications over the forecasted data (all values produced).
      */
-    private void postProcessingData(ArrayList<TimeNode> forecastedTimeSeries)
+    private ArrayList<TimeNode> postProcessingData(ArrayList<TimeNode> forecastedTimeSeries)
     {
         // This method must undo all modifications in data made by the preProcessData method.
+        return forecastedTimeSeries;
     }
 
     /**
@@ -150,6 +148,103 @@ public class TimeSeriesProcessor
     {
         Forecast forecast = new Forecast(this.originalTimeSeries, this.gpConfiguration, this.bestCandidate);
         return forecast.processForecasting();
+    }
+
+    /**
+     * Return termination conditions enabled by the gpConfiguration object.
+     *
+     * @return Return the set of termination conditions enabled to this execution.
+     */
+    private TerminationCondition[] getTerminationConditions()
+    {
+        ArrayList<TerminationCondition> terminationConditions = new ArrayList<TerminationCondition>();
+
+        if (this.gpConfiguration.isEnableTerminationByFitness()) {
+            terminationConditions.add(new TargetFitness(
+                this.gpConfiguration.getFitnessValue(), this.gpConfiguration.isFitnessNatural())
+            );
+        }
+
+        if (this.gpConfiguration.isEnableGenerationCount()) {
+            terminationConditions.add(new GenerationCount(this.gpConfiguration.getGenerationCount()));
+        }
+
+        if (this.gpConfiguration.isEnableStagnationGenerationCount()) {
+            terminationConditions.add(
+                new Stagnation(this.gpConfiguration.getStagnatedGenerationsLimit(),
+                this.gpConfiguration.isFitnessNatural())
+            );
+        }
+
+        // @todo try to make this block better.
+        TerminationCondition[] conditions = new TerminationCondition[terminationConditions.size()];
+        for (int i = 0; i < conditions.length; i++) {
+            conditions[i] = terminationConditions.get(i);
+        }
+
+        return conditions;
+    }
+
+    private IslandEvolution<Node> getEvolutionEngine(List<EvolutionEngine<Node>> islands) {
+        IslandEvolution<Node> evolutionEngine = new IslandEvolution<Node> (
+                islands,
+                new RingMigration(),
+                this.gpConfiguration.isFitnessNatural(),
+                new MersenneTwisterRNG()
+        );
+        this.addEvolutionObservers(evolutionEngine, this.gpConfiguration);
+
+        return evolutionEngine;
+    }
+
+    /**
+     * @todo Verify if it's possible to use this method (or something like this) to get updated about issues over islands, like migration, etc.
+     *
+     * @param engine        PG engine, where the observer methods will be created.
+     * @param configuration GP configuration.
+     */
+    private void addEvolutionObservers(IslandEvolution<Node> engine, final GPConfiguration configuration)
+    {
+        engine.addEvolutionObserver(new IslandEvolutionObserver<Node>() {
+            @Override
+            public void islandPopulationUpdate(int i, PopulationData<? extends Node> populationData) {
+                printEvolutionLog(populationData, configuration);
+            }
+
+            @Override
+            public void populationUpdate(PopulationData<? extends Node> populationData) {
+                printEvolutionLog(populationData, configuration);
+            }
+        });
+    }
+
+    /**
+     * This method prints all data about the evolution (if it is parametrized for it).
+     *
+     * @param populationData Data about the evolution process.
+     * @param configuration  GPConfiguration object.
+     */
+    private void printEvolutionLog(PopulationData<? extends Node> populationData, GPConfiguration configuration) {
+        if (configuration.isVerboseModeActivated()) {
+            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
+                System.out.println("Generation: " + populationData.getGenerationNumber());
+                System.out.println("\tBest Solution: " + populationData.getBestCandidate());
+                System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
+                System.out.println("\tPopulation size: " + populationData.getPopulationSize());
+                System.out.println("-----------------------------------------------------------");
+            }
+
+            if (populationData.getBestCandidateFitness() == configuration.getFitnessValue()) {
+                System.out.println("=============================================================");
+                System.out.println("======================== FINAL RESULT =======================");
+                System.out.println("=============================================================");
+                System.out.println("Generation: " + populationData.getGenerationNumber());
+                System.out.println("\tBest Solution: " + populationData.getBestCandidate());
+                System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
+                System.out.println("\tPopulation size: " + populationData.getPopulationSize());
+                System.out.println("-----------------------------------------------------------");
+            }
+        }
     }
 
 }

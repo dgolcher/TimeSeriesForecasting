@@ -56,20 +56,20 @@ public class IslandBuilder
     /**
      * Creates a single instance of an Island. This method is an auxiliary for the main method.
      *
-     * @param configuration  Object that shows how an island must looks like.
+     * @param islandConfiguration  Object that shows how an island must looks like.
      * @param data           Training data. This object is used by the fitness evaluator class.
      *
      * @return Return an island that will be used in the GP Machine.
      * @throws Exception
      */
-    private static EvolutionEngine<Node> createSingleIsland(IslandConfiguration configuration,
+    private static EvolutionEngine<Node> createSingleIsland(IslandConfiguration islandConfiguration,
                                                             GPConfiguration gpConfiguration,
                                                             ArrayList<TimeNode> data) throws Exception
     {
-        TreeFactory factory                        = getCandidateFactory(configuration, gpConfiguration);
-        EvolutionPipeline<Node> operators          = getEvolutionaryOperators(configuration, factory);
-        FitnessEvaluator<Node> fitnessEvaluator    = getFitnessEvaluator(configuration, gpConfiguration, data);
-        RouletteWheelSelection selectionStrategy   = new RouletteWheelSelection();
+        TreeFactory factory                        = getCandidateFactory(islandConfiguration, gpConfiguration);
+        EvolutionPipeline<Node> operators          = getEvolutionaryOperators(islandConfiguration, gpConfiguration, factory);
+        FitnessEvaluator<Node> fitnessEvaluator    = getFitnessEvaluator(islandConfiguration, gpConfiguration, data);
+        SelectionStrategy selectionStrategy        = SelectionStrategyFactory.factory(islandConfiguration);
 
         return new GenerationalEvolutionEngine<Node>(
             factory, operators, fitnessEvaluator, selectionStrategy, new MersenneTwisterRNG()
@@ -101,6 +101,7 @@ public class IslandBuilder
      * @return Return a set of operators.
      */
     private static EvolutionPipeline<Node> getEvolutionaryOperators(IslandConfiguration configuration,
+                                                                    GPConfiguration gpConfiguration,
                                                                     TreeFactory factory)
     {
         List<EvolutionaryOperator<Node>> operators = new ArrayList<EvolutionaryOperator<Node>>();
@@ -119,7 +120,7 @@ public class IslandBuilder
                     factory, configuration.getSurvivorPlagueProbability(),
                     configuration.getTotalOfPlagueSpreads(),
                     configuration.getGenerationsCountBeforePlague(),
-                    configuration.isFitnessNatural()
+                    gpConfiguration.isFitnessNatural()
                 )
             );
         }

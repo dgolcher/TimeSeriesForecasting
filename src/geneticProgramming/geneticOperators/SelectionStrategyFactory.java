@@ -21,7 +21,7 @@ public class SelectionStrategyFactory
     public static final int SIGMA_SCALING                 = 5;
     public static final int TRUNCATION_SELECTION          = 6;
 
-    public static SelectionStrategy functionFactory(IslandConfiguration configuration)
+    public static SelectionStrategy factory(IslandConfiguration configuration)
     {
         switch (configuration.getSelectionStrategy()) {
             case ROULETTE_WHEEL_SELECTION:
