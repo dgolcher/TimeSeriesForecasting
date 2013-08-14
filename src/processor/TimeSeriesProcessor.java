@@ -52,24 +52,18 @@ public class TimeSeriesProcessor
 
     public void run() throws Exception
     {
-        // Reading configuration files of GP and islands.
-        // Loading all configurations.
         this.loadConfigurations();
         // Creating log files and object.
-        // Loading training and testing time series.
         this.getData();
-        // Initializing components and islands.
         List<EvolutionEngine<Node>> islands = this.getIslands();
-        // Pre-processing data.
         this.preProcessData();
-        // Process data.
         this.bestCandidate = this.processData(islands);
-        // Process the forecasting for the next n periods.
         ArrayList<TimeNode> forecastedTimeSeries = this.getForecastedTimeSeries();
-        // Post-processing data.
         forecastedTimeSeries = this.postProcessingData(forecastedTimeSeries);
-        System.out.println(forecastedTimeSeries);
         // Presenting results.
+        for (TimeNode node : forecastedTimeSeries) {
+            System.out.print(node.getValue() + ", ");
+        }
         // Comparing forecasted data with the real testing data.
     }
 
