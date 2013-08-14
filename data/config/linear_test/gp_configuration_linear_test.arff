@@ -1,5 +1,6 @@
 @relation GPConfiguration
 
+@attribute EVOLUTION_IDENTIFIER               string
 @attribute TIME_SERIES_FILE_PATH              string
 @attribute POPULATION_SIZE                    numeric
 @attribute ELITE_POPULATION_SIZE              numeric
@@ -22,4 +23,4 @@
 @attribute MIGRATION_COUNT                    numeric
 
 @data
-"data/dados bolsas/TEST_DATA/TESTE MENSAL.arff", 100, 5, 200, 1, 100, 101, 199, 1, 25, 5, 0, 0, 1, 5000, 1, 1000, 1, 50, 20
+"LinearProcessing", "data/dados bolsas/TEST_DATA/TESTE MENSAL.arff", 100, 5, 200, 1, 100, 101, 199, 0, 25, 5, 0, 0, 1, 5000, 1, 1000, 1, 50, 20

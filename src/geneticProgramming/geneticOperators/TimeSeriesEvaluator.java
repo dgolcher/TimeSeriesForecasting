@@ -1,6 +1,7 @@
 package geneticProgramming.geneticOperators;
 
 import geneticProgramming.functions.Node;
+import geneticProgramming.functions.terminal.Parameter;
 import model.TimeNode;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
 

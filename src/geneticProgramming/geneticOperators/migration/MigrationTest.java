@@ -15,7 +15,8 @@ import java.util.Random;
 public class MigrationTest implements Migration
 {
     @Override
-    public <T> void migrate(List<List<EvaluatedCandidate<T>>> lists, int i, Random random) {
-        
+    public <T> void migrate(List<List<EvaluatedCandidate<T>>> lists, int i, Random random)
+    {
+
     }
 }

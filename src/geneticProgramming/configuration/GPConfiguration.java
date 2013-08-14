@@ -12,6 +12,7 @@ import weka.core.Instance;
 public class GPConfiguration implements Configurable
 {
 
+    private String  evolutionIdentifier;
     private String timeSeriesFilePath;
     private int populationSize;
     private int elitePopulationSize;
@@ -32,6 +33,14 @@ public class GPConfiguration implements Configurable
     private boolean enableTerminationByFitness;
     private int epochLength;
     private int migrationCount;
+
+    public String getEvolutionIdentifier() {
+        return evolutionIdentifier;
+    }
+
+    public void setEvolutionIdentifier(String evolutionIdentifier) {
+        this.evolutionIdentifier = evolutionIdentifier;
+    }
 
     public int getPopulationSize()
     {
@@ -242,25 +251,26 @@ public class GPConfiguration implements Configurable
      */
     @Override
     public void loadConfigurationFromWekaInstance(Instance instance) {
-        this.setTimeSeriesFilePath(instance.stringValue(0));
-        this.setPopulationSize((int) instance.value(1));
-        this.setElitePopulationSize((int) instance.value(2));
-        this.setTimeSeriesSize((int) instance.value(3));
-        this.setInitOfTrainingData((int) instance.value(4));
-        this.setEndOfTrainingData((int) instance.value(5));
-        this.setInitOfTestingData((int) instance.value(6));
-        this.setEndOfTestingData((int) instance.value(7));
-        this.setVerboseModeActivated(instance.value(8) == 1);
-        this.setLogInterval((int) instance.value(9));
-        this.setWindowSize((int) instance.value(10));
-        this.setFitnessValue((int) instance.value(11));
-        this.setFitnessNatural(instance.value(12) == 1);
-        this.setEnableGenerationCount(instance.value(13) == 1);
-        this.setGenerationCount((int) instance.value(14));
-        this.setEnableStagnationGenerationCount(instance.value(15) == 1);
-        this.setStagnatedGenerationsLimit((int) instance.value(16));
-        this.setEnableTerminationByFitness(instance.value(17) == 1);
-        this.setEpochLength((int) instance.value(18));
-        this.setMigrationCount((int) instance.value(19));
+        this.setEvolutionIdentifier(instance.stringValue(0));
+        this.setTimeSeriesFilePath(instance.stringValue(1));
+        this.setPopulationSize((int) instance.value(2));
+        this.setElitePopulationSize((int) instance.value(3));
+        this.setTimeSeriesSize((int) instance.value(4));
+        this.setInitOfTrainingData((int) instance.value(5));
+        this.setEndOfTrainingData((int) instance.value(6));
+        this.setInitOfTestingData((int) instance.value(7));
+        this.setEndOfTestingData((int) instance.value(8));
+        this.setVerboseModeActivated(instance.value(9) == 1);
+        this.setLogInterval((int) instance.value(10));
+        this.setWindowSize((int) instance.value(11));
+        this.setFitnessValue((int) instance.value(12));
+        this.setFitnessNatural(instance.value(13) == 1);
+        this.setEnableGenerationCount(instance.value(14) == 1);
+        this.setGenerationCount((int) instance.value(15));
+        this.setEnableStagnationGenerationCount(instance.value(16) == 1);
+        this.setStagnatedGenerationsLimit((int) instance.value(17));
+        this.setEnableTerminationByFitness(instance.value(18) == 1);
+        this.setEpochLength((int) instance.value(19));
+        this.setMigrationCount((int) instance.value(20));
     }
 }

@@ -1,5 +1,6 @@
 @relation GPConfiguration
 
+@attribute evolutionIdentifier string
 @attribute timeSeriesFilePath string
 @attribute populationSize numeric
 @attribute elitePopulationSize numeric
