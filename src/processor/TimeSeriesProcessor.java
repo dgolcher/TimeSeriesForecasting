@@ -43,13 +43,13 @@ public class TimeSeriesProcessor
 
     private Logger                         logger;
 
-    public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath)
+    public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath, int i)
     {
         this.gpConfigurationFilePath     = gpConfigurationFilePath;
         this.islandConfigurationFilePath = islandConfigurationFilePath;
         this.gpConfiguration             = new GPConfiguration();
         this.islandConfiguration         = new ArrayList<IslandConfiguration>();
-        this.logger                      = new Logger("LINEAR TEST");
+        this.logger                      = new Logger("LINEAR TEST"+i);
     }
 
     public void run() throws Exception
@@ -86,6 +86,8 @@ public class TimeSeriesProcessor
         this.originalTimeSeries   = dataProvider.getFullTimeSeriesData();
         this.trainingData         = dataProvider.getTrainingData();
         this.testingData          = dataProvider.getTestingData();
+
+        this.logger.logDataSets(this.originalTimeSeries, this.trainingData, this.testingData);
     }
 
     private List<EvolutionEngine<Node>> getIslands() throws Exception
@@ -207,7 +209,7 @@ public class TimeSeriesProcessor
         engine.addEvolutionObserver(new IslandEvolutionObserver<Node>() {
             @Override
             public void islandPopulationUpdate(int i, PopulationData<? extends Node> populationData) {
-                printEvolutionLog(populationData, configuration);
+                printEvolutionLog(i, populationData, configuration);
             }
 
             @Override
@@ -220,29 +222,73 @@ public class TimeSeriesProcessor
     /**
      * This method prints all data about the evolution (if it is parametrized for it).
      *
+     * @param islandIndex    Island index.
      * @param populationData Data about the evolution process.
      * @param configuration  GPConfiguration object.
      */
-    private void printEvolutionLog(PopulationData<? extends Node> populationData, GPConfiguration configuration) {
+    private void printEvolutionLog(int islandIndex, PopulationData<? extends Node> populationData,
+                                   GPConfiguration configuration) {
         if (configuration.isVerboseModeActivated()) {
+            String evolutionLog = "";
+
             if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
-                System.out.println("Generation: " + populationData.getGenerationNumber());
-                System.out.println("\tBest Solution: " + populationData.getBestCandidate());
-                System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
-                System.out.println("\tPopulation size: " + populationData.getPopulationSize());
-                System.out.println("-----------------------------------------------------------");
+                evolutionLog += "\nIsland #" + islandIndex;
+                evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
+                evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
+                evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
+                evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
+                evolutionLog += "\n-----------------------------------------------------------";
             }
 
             if (populationData.getBestCandidateFitness() == configuration.getFitnessValue()) {
-                System.out.println("=============================================================");
-                System.out.println("======================== FINAL RESULT =======================");
-                System.out.println("=============================================================");
-                System.out.println("Generation: " + populationData.getGenerationNumber());
-                System.out.println("\tBest Solution: " + populationData.getBestCandidate());
-                System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
-                System.out.println("\tPopulation size: " + populationData.getPopulationSize());
-                System.out.println("-----------------------------------------------------------");
+                evolutionLog += "\n=============================================================";
+                evolutionLog += "\n======================== FINAL RESULT =======================";
+                evolutionLog += "\n=============================================================";
+                evolutionLog += "\nIsland #" + islandIndex;
+                evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
+                evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
+                evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
+                evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
+                evolutionLog += "\n-----------------------------------------------------------";
             }
+
+            logger.logEvolution(evolutionLog);
+            System.out.println(evolutionLog);
+        }
+    }
+
+    /**
+     * This method prints all data about the evolution (if it is parametrized for it).
+     *
+     * @param populationData Data about the evolution process.
+     * @param configuration  GPConfiguration object.
+     */
+    private void printEvolutionLog(PopulationData<? extends Node> populationData,
+                                   GPConfiguration configuration) {
+        if (configuration.isVerboseModeActivated()) {
+            String evolutionLog = "";
+
+            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
+                evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
+                evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
+                evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
+                evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
+                evolutionLog += "\n-----------------------------------------------------------";
+            }
+
+            if (populationData.getBestCandidateFitness() == configuration.getFitnessValue()) {
+                evolutionLog += "\n=============================================================";
+                evolutionLog += "\n======================== FINAL RESULT =======================";
+                evolutionLog += "\n=============================================================";
+                evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
+                evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
+                evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
+                evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
+                evolutionLog += "\n-----------------------------------------------------------";
+            }
+
+            logger.logEvolution(evolutionLog);
+            System.out.println(evolutionLog);
         }
     }
 

@@ -4,6 +4,7 @@ import geneticProgramming.configuration.GPConfiguration;
 import geneticProgramming.configuration.IslandConfiguration;
 import geneticProgramming.geneticOperators.SelectionStrategyFactory;
 import geneticProgramming.geneticOperators.TimeSeriesEvaluator;
+import model.TimeNode;
 import util.IO.Writer;
 
 import java.io.IOException;
@@ -38,7 +39,43 @@ public class Logger
         String configurations = this.getGlobalConfigurationsLogText(gpConfiguration, islandConfigurations);
         configurations       += this.getIslandLogText(islandConfigurations);
 
-        this.content = configurations;
+        this.content += configurations;
+    }
+
+    public void logDataSets(ArrayList<TimeNode> originalTimeSeries, ArrayList<TimeNode> trainingData,
+                            ArrayList<TimeNode> testingData)
+    {
+        String configurations = "\n=================================================================================\n";
+        configurations += "\n\nDATA SETs\n";
+        configurations += "TIME SERIES DATA: \n\t";
+        for (TimeNode node : originalTimeSeries) {
+            configurations += node.getValue() + ", ";
+        }
+
+        configurations = configurations.substring(0, configurations.length()-2) + "\n";
+
+        configurations += "\nTRAINING DATA: \n\t";
+        for (TimeNode node : trainingData) {
+            configurations += node.getValue() + ", ";
+        }
+
+        configurations = configurations.substring(0, configurations.length()-2) + "\n";
+
+        configurations += "\nTESTING DATA: \n\t";
+        for (TimeNode node : testingData) {
+            configurations += node.getValue() + ", ";
+        }
+
+        this.content += configurations.substring(0, configurations.length()-2) + "\n";
+
+        // @todo try to find a better place to place this text.
+        this.content += "\n=================================================================================\n";
+        this.content += "\nEVOLUTION LOG\n";
+    }
+
+    public void logEvolution(String evolutionLog)
+    {
+        this.content += evolutionLog;
     }
 
     public void commitLogFile() throws IOException
@@ -89,13 +126,14 @@ public class Logger
             configurations += "\n\t\tENABLE mutation:          " + (islandConfigurations.get(i).isEnableMutation() ? "YES" : "NO");
             if (islandConfigurations.get(i).isEnablePlague()) {
                 configurations += "\n\t\tPLAGUE WAS ENABLED. CONFIGURATIONS:";
-                configurations += "\n\t\tSURVIVOR PROBABILITY:    " + islandConfigurations.get(i).getSurvivorPlagueProbability();
-                configurations += "\n\t\tTOTAL OF PLAGUE SPREADS: " + islandConfigurations.get(i).getTotalOfPlagueSpreads();
-                configurations += "\n\t\tGENERATIONS BEFORE PLAGUE: " + islandConfigurations.get(i).getGenerationsCountBeforePlague();
-                configurations += "\n\t\tFITNESS STRATEGY;          " + this.getFitnessStrategy(islandConfigurations.get(i));
-                configurations += "\n\t\tOPERATOR TYPES ENABLED:    ";
-                configurations += this.getEnabledOperators(islandConfigurations, i);
+                configurations += "\n\t\t\tSURVIVOR PROBABILITY:    " + islandConfigurations.get(i).getSurvivorPlagueProbability();
+                configurations += "\n\t\t\tTOTAL OF PLAGUE SPREADS: " + islandConfigurations.get(i).getTotalOfPlagueSpreads();
+                configurations += "\n\t\t\tGENERATIONS BEFORE PLAGUE: " + islandConfigurations.get(i).getGenerationsCountBeforePlague();
+                configurations += "\n\t\t\tFITNESS STRATEGY;          " + this.getFitnessStrategy(islandConfigurations.get(i));
             }
+
+            configurations += "\n\t\tOPERATOR TYPES ENABLED:    ";
+            configurations += this.getEnabledOperators(islandConfigurations, i);
         }
         return configurations;
     }

@@ -11,12 +11,12 @@ public class TimeSeriesTest
 
     public static void main(String[] args) throws Exception
     {
-        for (int i = 0; i < 100; i++) {
-            String gpConfigurationPath     = "data/config/linear_test/gp_configuration_linear_test.arff";
-            String islandConfigurationPath = "data/config/linear_test/island_configuration_linear_test.arff";
-            TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor(gpConfigurationPath, islandConfigurationPath);
-            timeSeriesProcessor.run();
-        }
+        String gpConfigurationPath     = "data/config/linear_test/gp_configuration_linear_test.arff";
+        String islandConfigurationPath = "data/config/linear_test/island_configuration_linear_test.arff";
+        TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
+            gpConfigurationPath, islandConfigurationPath, 1
+        );
+        timeSeriesProcessor.run();
     }
 
 }
