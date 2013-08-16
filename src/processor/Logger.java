@@ -43,7 +43,7 @@ public class Logger
     }
 
     public void logDataSets(ArrayList<TimeNode> originalTimeSeries, ArrayList<TimeNode> trainingData,
-                            ArrayList<TimeNode> testingData)
+                            ArrayList<TimeNode> testingData, GPConfiguration gpConfiguration)
     {
         String configurations = "\n=================================================================================\n";
         configurations += "\n\nDATA SETs\n";
@@ -54,7 +54,9 @@ public class Logger
 
         configurations = configurations.substring(0, configurations.length()-2) + "\n";
 
-        configurations += "\nTRAINING DATA: \n\t";
+        configurations += "\nTRAINING DATA: \n";
+        configurations += "TRAINING DATA BETWEEN " + gpConfiguration.getInitOfTrainingData() + " AND " +
+                          gpConfiguration.getEndOfTrainingData() + " \n\t";
         for (TimeNode node : trainingData) {
             configurations += node.getValue() + ", ";
         }
@@ -62,6 +64,8 @@ public class Logger
         configurations = configurations.substring(0, configurations.length()-2) + "\n";
 
         configurations += "\nTESTING DATA: \n\t";
+        configurations += "TESTING DATA BETWEEN " + gpConfiguration.getInitOfTestingData() + " AND " +
+                gpConfiguration.getEndOfTestingData()  + " \n\t";;
         for (TimeNode node : testingData) {
             configurations += node.getValue() + ", ";
         }

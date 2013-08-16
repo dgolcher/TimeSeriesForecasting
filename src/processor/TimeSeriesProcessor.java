@@ -87,7 +87,7 @@ public class TimeSeriesProcessor
         this.trainingData         = dataProvider.getTrainingData();
         this.testingData          = dataProvider.getTestingData();
 
-        this.logger.logDataSets(this.originalTimeSeries, this.trainingData, this.testingData);
+        this.logger.logDataSets(this.originalTimeSeries, this.trainingData, this.testingData, this.gpConfiguration);
     }
 
     private List<EvolutionEngine<Node>> getIslands() throws Exception
