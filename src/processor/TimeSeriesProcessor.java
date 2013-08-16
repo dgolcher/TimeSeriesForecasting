@@ -31,7 +31,6 @@ import java.util.List;
 @SuppressWarnings("UnusedDeclaration")
 public class TimeSeriesProcessor
 {
-
     private GPConfiguration                gpConfiguration;
     private ArrayList<IslandConfiguration> islandConfiguration;
     private String                         gpConfigurationFilePath;
@@ -42,12 +41,15 @@ public class TimeSeriesProcessor
     private ArrayList<TimeNode>            testingData;
     private Node                           bestCandidate;
 
+    private Logger                         logger;
+
     public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath)
     {
         this.gpConfigurationFilePath     = gpConfigurationFilePath;
         this.islandConfigurationFilePath = islandConfigurationFilePath;
         this.gpConfiguration             = new GPConfiguration();
         this.islandConfiguration         = new ArrayList<IslandConfiguration>();
+        this.logger                      = new Logger("LINEAR TEST");
     }
 
     public void run() throws Exception
@@ -65,6 +67,8 @@ public class TimeSeriesProcessor
             System.out.print(node.getValue() + ", ");
         }
         // Comparing forecasted data with the real testing data.
+        // Save log file.
+        this.logger.commitLogFile();
     }
 
     private void loadConfigurations() throws IOException, InstantiationException, IllegalAccessException
@@ -73,6 +77,7 @@ public class TimeSeriesProcessor
         ConfigurationLoader.loadConfigurations (
             this.islandConfigurationFilePath, this.islandConfiguration, IslandConfiguration.class
         );
+        this.logger.logConfigurations(this.gpConfiguration, this.islandConfiguration);
     }
 
     private void getData() throws Exception

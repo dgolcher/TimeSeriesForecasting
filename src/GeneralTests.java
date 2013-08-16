@@ -65,9 +65,7 @@ public class GeneralTests
 
     private static void configurationLoadersInTimeSeriesProcessor() throws IllegalAccessException, IOException, InstantiationException
     {
-        String gpConfigurationFilePath = "data/config/samples/gp_configuration_sample.arff";
-        String islandConfigFilePath    = "data/config/samples/island_configuration_sample.arff";
-        TimeSeriesProcessor processor = new TimeSeriesProcessor(gpConfigurationFilePath, islandConfigFilePath);
+//        TimeSeriesProcessor processor = new TimeSeriesProcessor(gpConfigurationFilePath, islandConfigFilePath);
 //        processor.loadConfigurations();
     }
 
