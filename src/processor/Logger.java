@@ -30,9 +30,9 @@ public class Logger
     long initTime;
     long finalTime;
 
-    public Logger(String fileName)
+    public Logger()
     {
-        this.fileName = fileName;
+        this.fileName = "";
         this.content  = "";
 
         this.initTime = System.nanoTime();
@@ -86,8 +86,14 @@ public class Logger
         this.content += evolutionLog;
     }
 
-    public void commitLogFile() throws IOException
+    public void logTerminationConditions(String terminationConditions)
     {
+        this.content += terminationConditions;
+    }
+
+    public void commitLogFile(String fileName) throws IOException
+    {
+        this.fileName  = fileName;
         this.finalTime = System.nanoTime();
         this.content += "\n\nELAPSED TIME: " + (this.finalTime - this.initTime);
 

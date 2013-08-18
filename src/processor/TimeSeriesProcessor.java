@@ -3,6 +3,8 @@ package processor;
 import geneticProgramming.configuration.GPConfiguration;
 import geneticProgramming.configuration.IslandConfiguration;
 import geneticProgramming.functions.Node;
+import geneticProgramming.geneticOperators.GenerationCountOverEpochs;
+import geneticProgramming.geneticOperators.StagnationOverEpochs;
 import model.TimeNode;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.watchmaker.framework.EvolutionEngine;
@@ -11,8 +13,6 @@ import org.uncommons.watchmaker.framework.TerminationCondition;
 import org.uncommons.watchmaker.framework.islands.IslandEvolution;
 import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
-import org.uncommons.watchmaker.framework.termination.GenerationCount;
-import org.uncommons.watchmaker.framework.termination.Stagnation;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
 import postProcessors.Forecast;
 
@@ -43,16 +43,16 @@ public class TimeSeriesProcessor
 
     private Logger                         logger;
 
-    public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath, int i)
+    public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath)
     {
         this.gpConfigurationFilePath     = gpConfigurationFilePath;
         this.islandConfigurationFilePath = islandConfigurationFilePath;
         this.gpConfiguration             = new GPConfiguration();
         this.islandConfiguration         = new ArrayList<IslandConfiguration>();
-        this.logger                      = new Logger("LINEAR TEST"+i);
+        this.logger                      = new Logger();
     }
 
-    public void run() throws Exception
+    public void run(int i) throws Exception
     {
         this.loadConfigurations();
         // Creating log files and object.
@@ -68,7 +68,7 @@ public class TimeSeriesProcessor
         }
         // Comparing forecasted data with the real testing data.
         // Save log file.
-        this.logger.commitLogFile();
+        this.logger.commitLogFile(this.gpConfiguration.getEvolutionIdentifier() + i);
     }
 
     private void loadConfigurations() throws IOException, InstantiationException, IllegalAccessException
@@ -117,13 +117,22 @@ public class TimeSeriesProcessor
     {
         IslandEvolution<Node> engine = this.getEvolutionEngine(islands);
         TerminationCondition[] terminationConditions = this.getTerminationConditions();
-        return engine.evolve(
-            this.gpConfiguration.getPopulationSize(),
-            this.gpConfiguration.getElitePopulationSize(),
-            this.gpConfiguration.getEpochLength(),
-            this.gpConfiguration.getMigrationCount(),
-            terminationConditions
-        );
+        try {
+            return engine.evolve(
+                this.gpConfiguration.getPopulationSize(),
+                this.gpConfiguration.getElitePopulationSize(),
+                this.gpConfiguration.getEpochLength(),
+                this.gpConfiguration.getMigrationCount(),
+                terminationConditions
+            );
+        } finally {
+            String log = "\nCondition satisfied.";
+            for (TerminationCondition condition :  engine.getSatisfiedTerminationConditions()) {
+                log += ("\n\t" + condition.toString());
+            }
+
+            this.logger.logTerminationConditions(log);
+        }
     }
 
     /**
@@ -167,13 +176,19 @@ public class TimeSeriesProcessor
         }
 
         if (this.gpConfiguration.isEnableGenerationCount()) {
-            terminationConditions.add(new GenerationCount(this.gpConfiguration.getGenerationCount()));
+            terminationConditions.add(new GenerationCountOverEpochs (
+                this.gpConfiguration.getGenerationCount(),
+                this.gpConfiguration.getEpochLength()
+            ));
         }
 
         if (this.gpConfiguration.isEnableStagnationGenerationCount()) {
             terminationConditions.add(
-                new Stagnation(this.gpConfiguration.getStagnatedGenerationsLimit(),
-                this.gpConfiguration.isFitnessNatural())
+                new StagnationOverEpochs(
+                    this.gpConfiguration.getStagnatedGenerationsLimit(),
+                    this.gpConfiguration.isFitnessNatural(),
+                    this.gpConfiguration.getEpochLength()
+                )
             );
         }
 
@@ -214,7 +229,7 @@ public class TimeSeriesProcessor
 
             @Override
             public void populationUpdate(PopulationData<? extends Node> populationData) {
-//                printEvolutionLog(populationData, configuration);
+                printEvolutionLog(populationData, configuration);
             }
         });
     }
@@ -241,19 +256,6 @@ public class TimeSeriesProcessor
                 System.out.println(evolutionLog);
 //            }
 
-            if (populationData.getBestCandidateFitness() == configuration.getFitnessValue()) {
-                evolutionLog += "\n=============================================================";
-                evolutionLog += "\n======================== FINAL RESULT =======================";
-                evolutionLog += "\n=============================================================";
-                evolutionLog += "\nIsland #" + islandIndex;
-                evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
-                evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
-                evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
-                evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
-                evolutionLog += "\n-----------------------------------------------------------";
-                System.out.println(evolutionLog);
-            }
-
             logger.logEvolution(evolutionLog);
         }
     }
@@ -270,6 +272,7 @@ public class TimeSeriesProcessor
             String evolutionLog = "";
 
             if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
+                evolutionLog += "\nGLOBAL EVOLUTION: ";
                 evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
                 evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
                 evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
