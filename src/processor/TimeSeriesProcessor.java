@@ -188,10 +188,10 @@ public class TimeSeriesProcessor
 
     private IslandEvolution<Node> getEvolutionEngine(List<EvolutionEngine<Node>> islands) {
         IslandEvolution<Node> evolutionEngine = new IslandEvolution<Node> (
-                islands,
-                new RingMigration(),
-                this.gpConfiguration.isFitnessNatural(),
-                new MersenneTwisterRNG()
+            islands,
+            new RingMigration(),
+            this.gpConfiguration.isFitnessNatural(),
+            new MersenneTwisterRNG()
         );
         this.addEvolutionObservers(evolutionEngine, this.gpConfiguration);
 
@@ -214,7 +214,7 @@ public class TimeSeriesProcessor
 
             @Override
             public void populationUpdate(PopulationData<? extends Node> populationData) {
-                printEvolutionLog(populationData, configuration);
+//                printEvolutionLog(populationData, configuration);
             }
         });
     }
@@ -231,14 +231,15 @@ public class TimeSeriesProcessor
         if (configuration.isVerboseModeActivated()) {
             String evolutionLog = "";
 
-            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
+//            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
                 evolutionLog += "\nIsland #" + islandIndex;
                 evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
                 evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
                 evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
                 evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
                 evolutionLog += "\n-----------------------------------------------------------";
-            }
+                System.out.println(evolutionLog);
+//            }
 
             if (populationData.getBestCandidateFitness() == configuration.getFitnessValue()) {
                 evolutionLog += "\n=============================================================";
@@ -250,10 +251,10 @@ public class TimeSeriesProcessor
                 evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
                 evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
                 evolutionLog += "\n-----------------------------------------------------------";
+                System.out.println(evolutionLog);
             }
 
             logger.logEvolution(evolutionLog);
-            System.out.println(evolutionLog);
         }
     }
 
@@ -274,6 +275,7 @@ public class TimeSeriesProcessor
                 evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
                 evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
                 evolutionLog += "\n-----------------------------------------------------------";
+                System.out.println(evolutionLog);
             }
 
             if (populationData.getBestCandidateFitness() == configuration.getFitnessValue()) {
@@ -285,10 +287,10 @@ public class TimeSeriesProcessor
                 evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
                 evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
                 evolutionLog += "\n-----------------------------------------------------------";
+                System.out.println(evolutionLog);
             }
 
             logger.logEvolution(evolutionLog);
-            System.out.println(evolutionLog);
         }
     }
 

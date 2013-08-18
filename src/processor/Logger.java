@@ -27,11 +27,15 @@ public class Logger
     private String fileName;
     private String content;
     private Writer writer;
+    long initTime;
+    long finalTime;
 
     public Logger(String fileName)
     {
         this.fileName = fileName;
         this.content  = "";
+
+        this.initTime = System.nanoTime();
     }
 
     public void logConfigurations(GPConfiguration gpConfiguration, ArrayList<IslandConfiguration> islandConfigurations)
@@ -84,6 +88,9 @@ public class Logger
 
     public void commitLogFile() throws IOException
     {
+        this.finalTime = System.nanoTime();
+        this.content += "\n\nELAPSED TIME: " + (this.finalTime - this.initTime);
+
         this.writer = new Writer(Logger.DEFAULT_LOG_PATH + "/" + this.fileName + "." + LOG_FILE_EXTENSION);
         this.writer.setContent(this.content);
         this.writer.write();

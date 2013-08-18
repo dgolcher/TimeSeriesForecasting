@@ -23,4 +23,4 @@
 @attribute MIGRATION_COUNT                    numeric
 
 @data
-"MAJOR POPULATION", "data/dados bolsas/IBOVESPA/arff/IBOVESPA MENSAL.arff", 3000, 5, 500, 0, 300, 310, 499, 1, 25, 5, 0, 0, 1, 10000, 1, 2000, 1, 100, 100
+"MAJOR POPULATION", "data/dados bolsas/IBOVESPA/arff/IBOVESPA DIARIO.arff", 3000, 5, 500, 0, 300, 310, 499, 1, 25, 5, 0, 0, 1, 10000, 1, 2000, 1, 100, 100

@@ -205,26 +205,27 @@ public class GeneralTests
         engine.addEvolutionObserver(new EvolutionObserver<Node>() {
             @Override
             public void populationUpdate(PopulationData<? extends Node> populationData) {
-                if (VERBOSE_EVOLVE) {
-                    if (populationData.getGenerationNumber() % PRINT_LOG_INTERVAL == 0) {
-                        System.out.println("Generation: " + populationData.getGenerationNumber());
-                        System.out.println("\tBest Solution: " + populationData.getBestCandidate());
-                        System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
-                        System.out.println("\tPopulation size: " + populationData.getPopulationSize());
-                        System.out.println("-----------------------------------------------------------");
-                    }
-                }
-
-                if (populationData.getBestCandidateFitness() == TARGET_FITNESS) {
-                    System.out.println("=============================================================");
-                    System.out.println("======================== FINAL RESULT =======================");
-                    System.out.println("=============================================================");
-                    System.out.println("Generation: " + populationData.getGenerationNumber());
-                    System.out.println("\tBest Solution: " + populationData.getBestCandidate());
-                    System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
-                    System.out.println("\tPopulation size: " + populationData.getPopulationSize());
-                    System.out.println("-----------------------------------------------------------");
-                }
+                System.out.println("asdlkmdfskl");
+//                if (VERBOSE_EVOLVE) {
+//                    if (populationData.getGenerationNumber() % PRINT_LOG_INTERVAL == 0) {
+//                        System.out.println("Generation: " + populationData.getGenerationNumber());
+//                        System.out.println("\tBest Solution: " + populationData.getBestCandidate());
+//                        System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
+//                        System.out.println("\tPopulation size: " + populationData.getPopulationSize());
+//                        System.out.println("-----------------------------------------------------------");
+//                    }
+//                }
+//
+//                if (populationData.getBestCandidateFitness() == TARGET_FITNESS) {
+//                    System.out.println("=============================================================");
+//                    System.out.println("======================== FINAL RESULT =======================");
+//                    System.out.println("=============================================================");
+//                    System.out.println("Generation: " + populationData.getGenerationNumber());
+//                    System.out.println("\tBest Solution: " + populationData.getBestCandidate());
+//                    System.out.println("\tIts Fitness is: " + populationData.getBestCandidateFitness());
+//                    System.out.println("\tPopulation size: " + populationData.getPopulationSize());
+//                    System.out.println("-----------------------------------------------------------");
+//                }
             }
         });
     }
