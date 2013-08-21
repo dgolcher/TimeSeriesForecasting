@@ -125,7 +125,10 @@ public class TimeSeriesProcessor
                 this.gpConfiguration.getMigrationCount(),
                 terminationConditions
             );
-        } finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
             String log = "\nCondition satisfied.";
             for (TerminationCondition condition :  engine.getSatisfiedTerminationConditions()) {
                 log += ("\n\t" + condition.toString());
@@ -133,6 +136,8 @@ public class TimeSeriesProcessor
 
             this.logger.logTerminationConditions(log);
         }
+
+        return null;
     }
 
     /**
@@ -246,7 +251,7 @@ public class TimeSeriesProcessor
         if (configuration.isVerboseModeActivated()) {
             String evolutionLog = "";
 
-//            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
+            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
                 evolutionLog += "\nIsland #" + islandIndex;
                 evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
                 evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
@@ -254,7 +259,7 @@ public class TimeSeriesProcessor
                 evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
                 evolutionLog += "\n-----------------------------------------------------------";
                 System.out.println(evolutionLog);
-//            }
+            }
 
             logger.logEvolution(evolutionLog);
         }

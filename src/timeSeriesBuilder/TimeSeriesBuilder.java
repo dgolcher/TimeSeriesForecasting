@@ -48,8 +48,10 @@ abstract public class TimeSeriesBuilder
         ArrayList<TimeNode> timeSeries = new ArrayList<TimeNode>();
         List instances = this.reader.readFile();
 
-        for (Object instance : instances) {
-            this.addTimeSeriesNode(timeSeries, instance);
+        // This method must run over the list of instances from the final to to init of it because all documents
+        // with Time series data starts from the most recent data and goes to the older one.
+        for (int i = instances.size()-1; i >= 0; i--) {
+            this.addTimeSeriesNode(timeSeries, instances.get(i));
         }
 
         return timeSeries;

@@ -11,14 +11,21 @@ public class TimeSeriesTest
 
     public static void main(String[] args) throws Exception
     {
-        for (int i = 0; i < 10; i++) {
-            TimeSeriesTest.linear(i);
-            TimeSeriesTest.fewIslands(i);
-            TimeSeriesTest.extremeGenerations(i);
-            TimeSeriesTest.majorPopulations(i);
-            TimeSeriesTest.manyIslands(i);
-            TimeSeriesTest.moreGenerations(i);
-        }
+//        TimeSeriesTest.linear(1);
+//        TimeSeriesTest.fewIslands(1);
+//        TimeSeriesTest.majorPopulations(1);
+        TimeSeriesTest.manyIslands(1);
+//        TimeSeriesTest.moreGenerations(1);
+//        TimeSeriesTest.extremeGenerations(1);
+
+//        for (int i = 0; i < 10; i++) {
+//            TimeSeriesTest.linear(i);
+//            TimeSeriesTest.fewIslands(i);
+//            TimeSeriesTest.majorPopulations(i);
+//            TimeSeriesTest.manyIslands(i);
+//            TimeSeriesTest.moreGenerations(i);
+//            TimeSeriesTest.extremeGenerations(i);
+//        }
     }
 
     private static void linear(int i) throws Exception

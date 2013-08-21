@@ -62,9 +62,9 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     public double getFitness(Node candidate, List<? extends Node> population)
     {
         double error = this.choseFitnessMethod(candidate);
-        if (error != 0) {
-            error += candidate.countNodes();
-        }
+//        if (error != 0) {
+//            error += candidate.countNodes();
+//        }
 
         candidate.setFitnessValue(error);
 
