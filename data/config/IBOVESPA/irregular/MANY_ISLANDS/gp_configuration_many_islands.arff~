@@ -1,0 +1,26 @@
+@relation GPConfiguration
+
+@attribute EVOLUTION_IDENTIFIER               string
+@attribute TIME_SERIES_FILE_PATH              string
+@attribute POPULATION_SIZE                    numeric
+@attribute ELITE_POPULATION_SIZE              numeric
+@attribute TIME_SERIES_SIZE                   numeric
+@attribute INIT_OF_TRAINING_DATA              numeric
+@attribute END_OF_TRAINING_DATA               numeric
+@attribute INIT_OF_TESTING_DATA               numeric
+@attribute END_OF_TESTING_DATA                numeric
+@attribute VERBOSE_MODE_ACTIVATED             numeric
+@attribute LOG_INTERVAL                       numeric
+@attribute WINDOW_SIZE                        numeric
+@attribute FITNESS_VALUE                      numeric
+@attribute IS_FITNESS_NATURAL                 numeric
+@attribute ENABLE_GENERATION_COUNT            numeric
+@attribute GENERATION_COUNT                   numeric
+@attribute ENABLE_STAGNATION_GENERATION_COUNT numeric
+@attribute STAGNATED_GENERATIONS_LIMIT        numeric
+@attribute ENABLE_TERMINATION_BY_FITNESS      numeric
+@attribute EPOCH_LENGTH                       numeric
+@attribute MIGRATION_COUNT                    numeric
+
+@data
+"MANY ISLANDS", "data/dados bolsas/IBOVESPA/arff/IBOVESPA DIARIO.arff", 500, 5, 200, 3541, 4847, 4848, 4867, 1, 25, 5, 0, 0, 1, 5000, 1, 1000, 1, 50, 200
