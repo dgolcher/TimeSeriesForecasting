@@ -42,7 +42,9 @@ public class GreaterThan extends BinaryNode
     @Override
     public double evaluate(double[] programParameters)
     {
-        return this.left.evaluate(programParameters) > this.right.evaluate(programParameters) ? 1 : 0;
+        final double returnValue = this.left.evaluate(programParameters) > this.right.evaluate(programParameters) 
+                                    ? 1 : 0;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

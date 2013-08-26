@@ -55,7 +55,6 @@ public class GeneralTests
     private static final boolean VERBOSE_EVOLVE     = true;
     private static final int PRINT_LOG_INTERVAL     = 100;
 
-
     public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
 
         configurationLoadersInTimeSeriesProcessor();

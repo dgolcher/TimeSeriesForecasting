@@ -27,7 +27,8 @@ public class Cosine extends UnaryNode
      */
     @Override
     public double evaluate(double[] programParameters) {
-        return Math.cos(this.node.evaluate(programParameters));
+        final double returnValue = Math.cos(this.node.evaluate(programParameters));
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

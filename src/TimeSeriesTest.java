@@ -11,16 +11,16 @@ public class TimeSeriesTest
 
     public static void main(String[] args) throws Exception
     {
-        decreasingExtremeGenerations(1);
-        decreasingFewIslands(1);
-        decreasingMajorPopulations(1);
-        decreasingManyIslands(1);
-        decreasingMoreGenerations(1);
         increasingExtremeGenerations(1);
         increasingFewIslands(1);
         increasingMajorPopulations(1);
         increasingManyIslands(1);
         increasingMoreGenerations(1);
+        decreasingExtremeGenerations(1);
+        decreasingFewIslands(1);
+        decreasingMajorPopulations(1);
+        decreasingManyIslands(1);
+        decreasingMoreGenerations(1);
         irregularExtremeGenerations(1);
         irregularFewIslands(1);
         irregularMajorPopulations(1);

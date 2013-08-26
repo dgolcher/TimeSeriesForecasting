@@ -44,7 +44,7 @@ public class Pow extends BinaryNode
     @Override
     public double evaluate(double[] programParameters) {
     	double returnValue = Math.pow(this.left.evaluate(programParameters), this.right.evaluate(programParameters));
-        return Double.isNaN(returnValue) || Double.isInfinite(returnValue) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

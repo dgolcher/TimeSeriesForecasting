@@ -34,7 +34,8 @@ public class Parameter extends LeafNode
             throw new IllegalArgumentException("Invalid parameter index: " + parameterIndex);
         }
 
-        return programParameter[parameterIndex];
+        final double returnValue = programParameter[parameterIndex];
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

@@ -37,8 +37,9 @@ public class Modulo extends BinaryNode
     	if (rightValue == 0) {
     		return Double.MAX_VALUE;
     	}
-    	
-        return this.left.evaluate(programParameters) % rightValue;
+
+        final double returnValue = this.left.evaluate(programParameters) % rightValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

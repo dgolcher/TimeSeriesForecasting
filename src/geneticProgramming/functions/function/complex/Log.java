@@ -32,7 +32,7 @@ public class Log extends UnaryNode
     @Override
     public double evaluate(double[] programParameters) {
     	double returnValue = Math.log(this.node.evaluate(programParameters));
-        return Double.isNaN(returnValue) || Double.isInfinite(returnValue) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

@@ -35,7 +35,7 @@ public class Root extends BinaryNode
     	double returnValue = Math.pow(
 			this.left.evaluate(programParameters), 1.0 / this.right.evaluate(programParameters)
 		);
-        return Double.isNaN(returnValue) || Double.isInfinite(returnValue) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

@@ -42,7 +42,8 @@ public class Multiplication extends BinaryNode
     @Override
     public double evaluate(double[] programParameters)
     {
-        return this.left.evaluate(programParameters) * this.right.evaluate(programParameters);
+        final double returnValue = this.left.evaluate(programParameters) * this.right.evaluate(programParameters);
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

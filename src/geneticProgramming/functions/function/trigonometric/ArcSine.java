@@ -27,7 +27,8 @@ public class ArcSine extends UnaryNode
      */
     @Override
     public double evaluate(double[] programParameters) {
-        return Math.asin(this.node.evaluate(programParameters));
+        final double returnValue = Math.asin(this.node.evaluate(programParameters));
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

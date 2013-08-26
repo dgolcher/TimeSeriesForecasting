@@ -39,8 +39,9 @@ public class And extends BinaryNode
      */
     @Override
     public double evaluate(double[] programParameters) {
-        return this.left.evaluate(programParameters) == new True().evaluate(programParameters) &&
+        final double returnValue = this.left.evaluate(programParameters) == new True().evaluate(programParameters) &&
                this.right.evaluate(programParameters) == new True().evaluate(programParameters) ? 1 : 0;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
     }
 
     /**

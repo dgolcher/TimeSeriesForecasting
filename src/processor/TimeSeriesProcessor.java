@@ -115,10 +115,11 @@ public class TimeSeriesProcessor
      */
     private Node processData(List<EvolutionEngine<Node>> islands)
     {
+        Node individual = null;
         IslandEvolution<Node> engine = this.getEvolutionEngine(islands);
         TerminationCondition[] terminationConditions = this.getTerminationConditions();
         try {
-            return engine.evolve(
+            individual = engine.evolve(
                 this.gpConfiguration.getPopulationSize(),
                 this.gpConfiguration.getElitePopulationSize(),
                 this.gpConfiguration.getEpochLength(),
@@ -129,15 +130,17 @@ public class TimeSeriesProcessor
             e.printStackTrace();
         }
         finally {
-            String log = "\nCondition satisfied.";
+            String log = "\nCondition(s) satisfied.";
             for (TerminationCondition condition :  engine.getSatisfiedTerminationConditions()) {
                 log += ("\n\t" + condition.toString());
             }
 
+            log += "\nBest Individual found: " + individual.toString();
+
             this.logger.logTerminationConditions(log);
         }
 
-        return null;
+        return individual;
     }
 
     /**
