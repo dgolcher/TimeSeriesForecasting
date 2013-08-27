@@ -88,7 +88,10 @@ public class IslandBuilder
                                                            GPConfiguration gpConfiguration,
                                                            ArrayList<TimeNode> data)
     {
-        return new TimeSeriesEvaluator(data, gpConfiguration.getWindowSize(), configuration.getFitnessStrategy());
+        return new TimeSeriesEvaluator(
+            data, gpConfiguration.getWindowSize(), configuration.getFitnessStrategy(),
+            gpConfiguration.isFitnessNatural()
+        );
     }
 
     /**

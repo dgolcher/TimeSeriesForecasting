@@ -30,6 +30,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     private ArrayList<TimeNode> data;
     private int windowSize;
     private int numberOfTestCases;
+    private boolean natural;
 
     /**
      * Class constructor.
@@ -42,11 +43,12 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
      *                    the fitness value higher is the quality of the individual) or not natural (the lower is
      *                    the fitness value higher is the quality of the individual).
      */
-    public TimeSeriesEvaluator(ArrayList<TimeNode> data, int windowSize, int fitnessType)
+    public TimeSeriesEvaluator(ArrayList<TimeNode> data, int windowSize, int fitnessType, boolean natural)
     {
         this.fitnessType       = fitnessType;
         this.windowSize        = windowSize;
         this.data              = data;
+        this.natural           = natural;
         // @todo verificar se este valor está correto (este corresponde ao "N", utilizado, por exmplo, na formula do mean absolute error).
         this.numberOfTestCases = this.data.size() - this.windowSize;
     }
@@ -62,9 +64,9 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     public double getFitness(Node candidate, List<? extends Node> population)
     {
         double error = this.choseFitnessMethod(candidate);
-//        if (error != 0) {
-//            error += candidate.countNodes();
-//        }
+        if (error != 0) {
+            error += candidate.countNodes();
+        }
 
         candidate.setFitnessValue(error);
 
@@ -81,7 +83,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
     @Override
     public boolean isNatural()
     {
-        return false;
+        return this.natural;
     }
 
     /**

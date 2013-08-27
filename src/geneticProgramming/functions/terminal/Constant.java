@@ -45,7 +45,7 @@ public class Constant extends LeafNode
     @Override
     public double evaluate(double[] programParameters)
     {
-        return constant;
+        return (Double.isNaN(constant) || Double.isInfinite(constant)) ? Double.MAX_VALUE : constant;
     }
 
     /**
