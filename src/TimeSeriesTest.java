@@ -11,32 +11,32 @@ public class TimeSeriesTest
 
     public static void main(String[] args) throws Exception
     {
-        increasingExtremeGenerations(1);
-        increasingFewIslands(1);
-        increasingMajorPopulations(1);
+//        increasingExtremeGenerations(1);
+//        increasingFewIslands(1);
+//        increasingMajorPopulations(1);
         increasingManyIslands(1);
-        increasingMoreGenerations(1);
-        decreasingExtremeGenerations(1);
-        decreasingFewIslands(1);
-        decreasingMajorPopulations(1);
+//        increasingMoreGenerations(1);
+//        decreasingExtremeGenerations(1);
+//       decreasingFewIslands(1);
+//        decreasingMajorPopulations(1);
         decreasingManyIslands(1);
-        decreasingMoreGenerations(1);
-        irregularExtremeGenerations(1);
-        irregularFewIslands(1);
-        irregularMajorPopulations(1);
+//        decreasingMoreGenerations(1);
+//        irregularExtremeGenerations(1);
+//       irregularFewIslands(1);
+//        irregularMajorPopulations(1);
         irregularManyIslands(1);
-        irregularMoreGenerations(1);
-        linear(1);
-        linearExtremeGenerations(1);
-        linearFewIslands(1);
-        linearMajorPopulations(1);
+//        irregularMoreGenerations(1);
+//        linear(1);
+//        linearExtremeGenerations(1);
+//       linearFewIslands(1);
+//        linearMajorPopulations(1);
         linearManyIslands(1);
-        linearMoreGenerations(1);
-        parableExtremeGenerations(1);
-        parableFewIslands(1);
-        parableMajorPopulations(1);
+//        linearMoreGenerations(1);
+//        parableExtremeGenerations(1);
+//       parableFewIslands(1);
+//        parableMajorPopulations(1);
         parableManyIslands(1);
-        parableMoreGenerations(1);
+//        parableMoreGenerations(1);
     }
 
     private static void linear(int i) throws Exception

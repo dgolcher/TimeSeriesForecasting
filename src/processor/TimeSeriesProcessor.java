@@ -136,6 +136,7 @@ public class TimeSeriesProcessor
             }
 
             log += "\nBest Individual found: " + individual.toString();
+            log += "\nIt's fitness was: " + individual.getFitnessValue();
 
             this.logger.logTerminationConditions(log);
         }
