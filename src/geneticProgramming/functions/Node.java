@@ -22,6 +22,13 @@ public interface Node
     public static final int ARITHMETIC_NODE = 2;
     public static final int ALL_TYPES       = 3;
 
+    /**
+     * This constant is used when the evaluation of a node returns an invalid (or not desired) result. In these cases,
+     * the individual that has this node must be eliminated. In this way, the individual will have a really bad fitness
+     * value (which will make it completely unfitted).
+     */
+    public static final int BAD_FITNESS_VALUE = 9999;
+
 
     /**
      * Recursively evaluates the (sub-)tree represented by this node (including any child nodes) and return the fitness

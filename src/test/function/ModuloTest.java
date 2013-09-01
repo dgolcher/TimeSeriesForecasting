@@ -1,5 +1,6 @@
 package test.function;
 
+import geneticProgramming.functions.Node;
 import geneticProgramming.functions.function.complex.Modulo;
 import geneticProgramming.functions.function.trigonometric.Cosine;
 import geneticProgramming.functions.terminal.Constant;
@@ -23,6 +24,6 @@ public class ModuloTest extends TestCase {
             new Constant(Double.NaN)
         );
 
-        assertEquals(modulo.evaluate(args), Double.MAX_VALUE);
+        assertEquals(modulo.evaluate(args), Node.BAD_FITNESS_VALUE);
     }
 }

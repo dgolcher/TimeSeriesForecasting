@@ -17,7 +17,7 @@ public class Parameter extends LeafNode
     public Parameter(int parameterIndex)
     {
         this.parameterIndex = parameterIndex;
-        this.setFitnessValue(Double.MAX_VALUE);
+        this.setFitnessValue(Parameter.BAD_FITNESS_VALUE);
     }
 
     /**
@@ -35,7 +35,7 @@ public class Parameter extends LeafNode
         }
 
         final double returnValue = programParameter[parameterIndex];
-        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Parameter.BAD_FITNESS_VALUE : returnValue;
     }
 
     /**

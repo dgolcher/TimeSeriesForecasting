@@ -25,7 +25,7 @@ public class ArcSineTest extends TestCase {
             new Constant(Double.NaN)
         );
 
-        assertEquals(arcSine.evaluate(args), Double.MAX_VALUE);
+        assertEquals(arcSine.evaluate(args), ArcSine.BAD_FITNESS_VALUE);
     }
 
     @Test
@@ -35,6 +35,6 @@ public class ArcSineTest extends TestCase {
             new Constant(2)
         );
 
-        assertEquals(arcSine.evaluate(args), Double.MAX_VALUE);
+        assertEquals(arcSine.evaluate(args), ArcSine.BAD_FITNESS_VALUE);
     }
 }

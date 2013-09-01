@@ -25,7 +25,7 @@ public class ArcTangentTest extends TestCase {
                 new Constant(Double.NaN)
         );
 
-        assertEquals(arcTangent.evaluate(args), Double.MAX_VALUE);
+        assertEquals(arcTangent.evaluate(args), ArcTangent.BAD_FITNESS_VALUE);
     }
 
     @Test

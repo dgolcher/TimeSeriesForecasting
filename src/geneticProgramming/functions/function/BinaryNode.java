@@ -38,7 +38,7 @@ abstract public class BinaryNode implements Node
         this.left         = left;
         this.right        = right;
         this.symbol       = symbol;
-        this.fitnessValue = Double.MAX_VALUE;
+        this.fitnessValue = Node.BAD_FITNESS_VALUE;
     }
 
     /**

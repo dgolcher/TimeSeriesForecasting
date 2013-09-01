@@ -30,7 +30,7 @@ abstract public class UnaryNode implements Node
     public UnaryNode(Node node)
     {
         this.node = node;
-        this.setFitnessValue(Double.MAX_VALUE);
+        this.setFitnessValue(Node.BAD_FITNESS_VALUE);
     }
 
     /**

@@ -44,7 +44,7 @@ public class Equals extends BinaryNode
     {
         final double returnValue = this.left.evaluate(programParameters) == this.right.evaluate(programParameters) 
                                     ? 1 : 0;
-        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Node.BAD_FITNESS_VALUE : returnValue;
     }
 
     /**

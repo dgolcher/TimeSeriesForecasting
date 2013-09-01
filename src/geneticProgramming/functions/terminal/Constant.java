@@ -25,14 +25,14 @@ public class Constant extends LeafNode
     {
         this.constant = constant;
         this.label    = NUMBER_FORMAT.format(constant);
-        this.setFitnessValue(Double.MAX_VALUE);
+        this.setFitnessValue(Constant.BAD_FITNESS_VALUE);
     }
 
     public Constant(boolean constant)
     {
         this.constant = constant ? 1 : 0;
         this.label    = constant ? "TRUE" : "FALSE";
-        this.setFitnessValue(Double.MAX_VALUE);
+        this.setFitnessValue(Constant.BAD_FITNESS_VALUE);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Constant extends LeafNode
     @Override
     public double evaluate(double[] programParameters)
     {
-        return (Double.isNaN(constant) || Double.isInfinite(constant)) ? Double.MAX_VALUE : constant;
+        return (Double.isNaN(constant) || Double.isInfinite(constant)) ? Constant.BAD_FITNESS_VALUE : constant;
     }
 
     /**

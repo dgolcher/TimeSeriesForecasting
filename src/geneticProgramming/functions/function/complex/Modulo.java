@@ -25,7 +25,7 @@ public class Modulo extends BinaryNode
      * value of this.
      * 
      * If the second parameter (rightNode) is zero, then this operation is invalid (division by zero). In this case, 
-     * this method will return a fitness value equals Double.MAX_VALUE. 
+     * this method will return a fitness value equals Node.BAD_FITNESS_VALUE. 
      *
      * @param programParameters Program parameters, used by this node or its children.
      * @return Returns a double value representing this node's fitness value.
@@ -35,11 +35,11 @@ public class Modulo extends BinaryNode
     {
     	double rightValue = this.right.evaluate(programParameters);
     	if (rightValue == 0) {
-    		return Double.MAX_VALUE;
+    		return Node.BAD_FITNESS_VALUE;
     	}
 
         final double returnValue = this.left.evaluate(programParameters) % rightValue;
-        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Node.BAD_FITNESS_VALUE : returnValue;
     }
 
     /**

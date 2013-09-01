@@ -28,7 +28,7 @@ public class Sine extends UnaryNode
     @Override
     public double evaluate(double[] programParameters) {
         final double returnValue = Math.sin(this.node.evaluate(programParameters));
-        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Node.BAD_FITNESS_VALUE : returnValue;
     }
 
     /**

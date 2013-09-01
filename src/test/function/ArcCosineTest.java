@@ -24,7 +24,7 @@ public class ArcCosineTest extends TestCase {
             new Constant(Double.NaN)
         );
 
-        assertEquals(arcCosine.evaluate(args), Double.MAX_VALUE);
+        assertEquals(arcCosine.evaluate(args), ArcCosine.BAD_FITNESS_VALUE);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ArcCosineTest extends TestCase {
             new Constant(2)
         );
 
-        assertEquals(arcCosine.evaluate(args), Double.MAX_VALUE);
+        assertEquals(arcCosine.evaluate(args), ArcCosine.BAD_FITNESS_VALUE);
     }
 
 }

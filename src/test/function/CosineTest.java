@@ -25,7 +25,7 @@ public class CosineTest extends TestCase {
             new Constant(Double.NaN)
         );
 
-        assertEquals(cosine.evaluate(args), Double.MAX_VALUE);
+        assertEquals(cosine.evaluate(args), ArcSine.BAD_FITNESS_VALUE);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class CosineTest extends TestCase {
                 new Constant(Double.POSITIVE_INFINITY)
         );
 
-        assertEquals(cosine.evaluate(args), Double.MAX_VALUE);
+        assertEquals(cosine.evaluate(args), ArcSine.BAD_FITNESS_VALUE);
     }
 
 }

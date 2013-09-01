@@ -70,7 +70,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
 
         candidate.setFitnessValue(error);
 
-        final double result = (Double.isNaN(error) || Double.isInfinite(error)) ? Double.MAX_VALUE : error;
+        final double result = (Double.isNaN(error) || Double.isInfinite(error)) ? Node.BAD_FITNESS_VALUE : error;
         return result;
     }
 
@@ -113,7 +113,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
                 return this.getForecastSkillFitness(candidate);
             case TimeSeriesEvaluator.AVERAGE_OF_ERROR:
                 return this.getAverageOfErrorFitness(candidate);
-            default: return Double.MAX_VALUE;
+            default: return Node.BAD_FITNESS_VALUE;
         }
     }
 
@@ -136,7 +136,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
 
             double actualValue = this.data.get(i).getValue();
             double forecast  = candidate.evaluate(params);
-            forecast = (Double.isNaN(forecast) || Double.isInfinite(forecast)) ? Double.MAX_VALUE : forecast;
+            forecast = (Double.isNaN(forecast) || Double.isInfinite(forecast)) ? Node.BAD_FITNESS_VALUE : forecast;
             double diff      = actualValue - forecast;
 
             error += Math.pow(diff, 2);

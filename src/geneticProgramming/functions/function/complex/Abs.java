@@ -44,7 +44,7 @@ public class Abs extends UnaryNode
      * Recursively evaluates the (sub-)tree represented by this node (including any child nodes) and return the fitness
      * value of this.
      * 
-     * If its evaluated value is NaN or infinite, then this method will return Double.MAX_VALUE (since this node has an
+     * If its evaluated value is NaN or infinite, then this method will return Node.BAD_FITNESS_VALUE (since this node has an
      * invalid value, the engine will avoid to use this one).
      *
      * @param programParameters Program parameters, used by this node or its children.
@@ -53,7 +53,7 @@ public class Abs extends UnaryNode
     @Override
     public double evaluate(double[] programParameters) {
     	double returnValue = Math.abs(this.node.evaluate(programParameters));
-        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Node.BAD_FITNESS_VALUE : returnValue;
     }
 
     /**

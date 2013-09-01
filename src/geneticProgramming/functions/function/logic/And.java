@@ -41,7 +41,7 @@ public class And extends BinaryNode
     public double evaluate(double[] programParameters) {
         final double returnValue = this.left.evaluate(programParameters) == new True().evaluate(programParameters) &&
                this.right.evaluate(programParameters) == new True().evaluate(programParameters) ? 1 : 0;
-        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Node.BAD_FITNESS_VALUE : returnValue;
     }
 
     /**

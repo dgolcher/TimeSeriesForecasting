@@ -1,5 +1,6 @@
 package preProcessors;
 
+import geneticProgramming.functions.Node;
 import model.TimeNode;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class Normalize
     {
         this.timeSeries          = timeSeries;
         this.maxValue            = Double.MIN_VALUE;
-        this.minValue            = Double.MAX_VALUE;
+        this.minValue            = Node.BAD_FITNESS_VALUE;
         this.normalizationOption = normalizationOption;
 
         this.getLimitValues();

@@ -35,7 +35,7 @@ public class IfThenElse implements Node
         this.condition    = condition;
         this.then         = then;
         this.otherwise    = otherwise;
-        this.fitnessValue = Double.MAX_VALUE;
+        this.fitnessValue = Node.BAD_FITNESS_VALUE;
     }
 
     /**
@@ -50,7 +50,7 @@ public class IfThenElse implements Node
         final double returnValue = condition.evaluate(programParameters) > 0 // If...
                                     ? then.evaluate(programParameters)   // Then...
                                     : otherwise.evaluate(programParameters);  // Else...
-        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Double.MAX_VALUE : returnValue;
+        return (Double.isNaN(returnValue) || Double.isInfinite(returnValue)) ? Node.BAD_FITNESS_VALUE : returnValue;
     }
 
     /**
