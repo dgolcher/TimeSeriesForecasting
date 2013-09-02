@@ -140,7 +140,7 @@ abstract public class BinaryNode implements Node
      * @return value of fitness of this tree.
      */
     @Override
-    public Double getFitnessValue() {
+    public double getFitnessValue() {
         return this.fitnessValue;
     }
 

@@ -106,7 +106,7 @@ public class LeafNode implements Node
      * @return value of fitness of this tree.
      */
     @Override
-    public Double getFitnessValue() {
+    public double getFitnessValue() {
         return this.fitnessvalue;
     }
 

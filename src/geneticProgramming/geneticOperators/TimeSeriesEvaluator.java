@@ -68,10 +68,10 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
             error += candidate.countNodes();
         }
 
+        error = (Double.isNaN(error) || Double.isInfinite(error)) ? Double.MAX_VALUE : error;
         candidate.setFitnessValue(error);
 
-        final double result = (Double.isNaN(error) || Double.isInfinite(error)) ? Node.BAD_FITNESS_VALUE : error;
-        return result;
+        return error;
     }
 
     /**

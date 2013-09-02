@@ -69,7 +69,7 @@ public class Logger
 
         configurations += "\nTESTING DATA: \n\t";
         configurations += "TESTING DATA BETWEEN " + gpConfiguration.getInitOfTestingData() + " AND " +
-                gpConfiguration.getEndOfTestingData()  + " \n\t";;
+                gpConfiguration.getEndOfTestingData()  + " \n\t";
         for (TimeNode node : testingData) {
             configurations += node.getValue() + ", ";
         }

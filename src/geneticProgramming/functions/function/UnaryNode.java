@@ -109,7 +109,7 @@ abstract public class UnaryNode implements Node
      * @return value of fitness of this tree.
      */
     @Override
-    public Double getFitnessValue() {
+    public double getFitnessValue() {
         return this.fitnessValue;
     }
 

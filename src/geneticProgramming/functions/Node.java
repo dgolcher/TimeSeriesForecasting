@@ -90,7 +90,7 @@ public interface Node
      *
      * @return value of fitness of this tree.
      */
-    Double getFitnessValue();
+    double getFitnessValue();
 
     /**
      * Sets the value of fitness value of this tree.

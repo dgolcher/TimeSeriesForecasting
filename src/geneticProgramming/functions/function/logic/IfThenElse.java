@@ -122,7 +122,7 @@ public class IfThenElse implements Node
     }
 
     @Override
-    public Double getFitnessValue() {
+    public double getFitnessValue() {
         return this.fitnessValue;
     }
 

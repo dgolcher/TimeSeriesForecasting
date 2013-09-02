@@ -128,7 +128,7 @@ public class IslandBuilder
             );
         }
 
-        operators.add(new Simplification());
+        operators.add(new Simplification(factory));
 
         return new EvolutionPipeline<Node>(operators);
     }

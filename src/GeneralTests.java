@@ -170,7 +170,7 @@ public class GeneralTests
         List<EvolutionaryOperator<Node>> operators = new ArrayList<EvolutionaryOperator<Node>>();
         operators.add(new TreeMutation(treeFactory, new Probability(MUTATION_PROBABILITY)));
         operators.add(new TreeCrossover(MAX_DEPTH));
-        operators.add(new Simplification());
+        operators.add(new Simplification(treeFactory));
         operators.add(new Plague(
                 treeFactory, SURVIVAL_PROBABILITY, AMOUNT_OF_PLAGUE_SPREADS,
                 GENERATIONS_BEFORE_PLAGUE, IS_FITNESS_NATURAL
