@@ -23,4 +23,4 @@
 @attribute MIGRATION_COUNT                    numeric
 
 @data
-"PARABOLA_3", "data/dados bolsa/trabalho/parabola_3/curva.arrf", 1000, 5, 230, 0, 206, 207, 230, 1, 25, 5, 0, 0, 1, 10000, 0, 0, 1, 100, 100
+"PARABOLA_3", "data/dados bolsas/trabalho/parabola_3/curvas.arrf", 1000, 5, 230, 0, 206, 207, 230, 1, 25, 5, 0, 0, 1, 10000, 0, 0, 1, 100, 100
