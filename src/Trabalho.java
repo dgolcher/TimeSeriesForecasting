@@ -69,8 +69,8 @@ public class Trabalho
 
     private static void crescenteSimulada() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/crescente_simulada/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/crescente_simulada/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -79,8 +79,8 @@ public class Trabalho
 
     private static void decrescente1() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/decrescente_1/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/decrescente_1/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -89,8 +89,8 @@ public class Trabalho
 
     private static void decrescente2() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/decrescente_2/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/decrescente_2";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -99,8 +99,8 @@ public class Trabalho
 
     private static void decrescenteSimulada() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/decrescente_simulada/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/decrescente_simulada/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -109,8 +109,8 @@ public class Trabalho
 
     private static void parabola1() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/parabola_1/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/parabola_1/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -119,8 +119,8 @@ public class Trabalho
 
     private static void parabola2() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/parabola_2/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/parabola_2/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -129,8 +129,8 @@ public class Trabalho
 
     private static void parabola3() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/parabola_3/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/parabola_3/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -139,8 +139,8 @@ public class Trabalho
 
     private static void parabolaSimulada() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/parabola_simulada/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/parabola_simulada/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
@@ -149,8 +149,8 @@ public class Trabalho
 
     private static void terceiroGrauSimulado() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsa/trabalho/terceiro_grau_simulado/gp_configuration.arff";
-        String islandConfigurationPath = "data/dados bolsa/trabalho/island_configuration.arff";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/terceiro_grau_simulado/gp_configuration.arff";
+        String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath
         );
