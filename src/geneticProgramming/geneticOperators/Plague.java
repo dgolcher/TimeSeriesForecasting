@@ -78,11 +78,6 @@ public class Plague implements EvolutionaryOperator<Node>
     @Override
     public List<Node> apply(List<Node> population, Random random)
     {
-        for (Node node : population) {
-            if (Double.isNaN(node.getFitnessValue())) {
-                System.out.println(node.print());
-            }
-        }
         Collections.sort(population, new NodeComparator());
         boolean spreadThePlague  = this.spreadThePlague(population);
 

@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>Decrescente</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="./../graficos/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="./../graficos/lib/js/highcharts.js"></script>
+		<script type="text/javascript" src="./../graficos/lib/js/modules/exporting.js"></script>
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+				$("#container").highcharts({
+					chart: {
+						type: 'line',
+						marginRight: 130,
+                		marginBottom: 25,
+                		zoomType: "x"
+					},
+					title: {
+						text: "Avaliação de séries decrescentes",
+						x: -20 //center
+					},
+					subtitle: {
+		                text: "IBOVESPA Mensal",
+		                x: -20
+		            },
+		            // Dimensão "x".
+		            xAxis: {
+		            	labels: {
+		            		rotarion: 90
+		            	},
+		                categories: getX()
+		            },
+		            yAxis: {
+		                title: {
+		                    text: 'Cotação Mensal (US$)'
+		                },
+		                // Verificar o que isto faz.
+		                plotLines: [{
+		                    value: 0,
+		                    width: 1,
+		                    color: '#808080'
+		                }]
+		            },
+		            // Descrição de cada ponto da série.
+		            tooltip: {
+		                valuePrefix: 'US$'
+		            },
+		            // Verificar o que isto faz.
+		            legend: {
+		                layout: 'vertical',
+		                align: 'right',
+		                verticalAlign: 'top',
+		                x: -10,
+		                y: 100,
+		                borderWidth: 0
+		            },
+		            // Cada serie deve estar representada dentro de um objeto, como o apresentado abaixo.
+		            series: [
+		            	{
+		            		name: "Constante",
+		            		data: [72295.00, 71452.00, 71629.00, 70992.00, 73153.00, 71798.00, 72593.00, 71897.00, 70012.00, 68673.00, 71235.00, 69786.00, 69281.00, 67775.00, 66795.00, 67322.00, 67204.00, 67285.00, 68438.00, 67090.00, 66590.00, 64614.00, 64640.00, 64168.00, 65853.00, 63947.00, 64321.00, 65018.00, 63396.00, 61106.00, 59273.00, 59365.00, 59088.00, 59536.00, 60253.00, 60148.00, 60721.00, 61015.00, 62056.00, 60109.00, 59988.00, 60772.00, 59647.00, 59421.00, 57434.00, 57199.00, 56869.00, 58043.00, 59998.00, 59505.00, 57630.00, 55609.00, 56471.00, 57542.00, 57018.00, 56584.00, 54720.00, 54503.00, 54573.00, 55138.00, 54244.00, 53327.00, 53639.00, 55377.00, 55935.00, 55850.00, 54477.00, 54359.00, 55519.00, 56382.00, 55680.00, 55162.00, 54404.00, 53527.00, 51409.00, 51940.00, 50718.00, 48435.00, 49633.00, 51270.00, 52393.00, 48416.00, 49229.00, 45909.00, 48423.00, 53055.00, 51541.00, 49593.00, 49843.00, 51828.00, 50783.00, 46028.00, 49541.00, 49799.00, 46145.00, 44517.00, 42101.00, 40140.00, 38594.00, 37080.00, 35610.00, 40829.00, 41569.00, 36833.00, 36442.00, 36399.00, 39441.00, 39043.00, 35070.00, 33818.00, 31482.00]
+		            	}
+		            ]
+				});
+			});
+
+		function getX()
+		{
+			var x = new Array();
+			for (var i = 0; i < 200; i++) {
+				x.push(i);
+			}
+
+			return x;
+		}
+
+		</script>
+	</head>
+	<body>
+		<div id="container" style="min-width: 900px; height: 400px; margin: 0 auto"></div>
+	</body>
+</html>

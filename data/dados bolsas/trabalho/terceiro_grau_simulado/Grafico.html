@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>Terceiro Grau Simulado</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="./../graficos/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="./../graficos/lib/js/highcharts.js"></script>
+		<script type="text/javascript" src="./../graficos/lib/js/modules/exporting.js"></script>
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+				$("#container").highcharts({
+					chart: {
+						type: 'line',
+						marginRight: 130,
+                		marginBottom: 25,
+                		zoomType: "x"
+					},
+					title: {
+						text: "Avaliação de Séries - Curva de Terceiro Grau",
+						x: -20 //center
+					},
+					subtitle: {
+		                text: "IBOVESPA Mensal",
+		                x: -20
+		            },
+		            // Dimensão "x".
+		            xAxis: {
+		            	labels: {
+		            		rotarion: 90
+		            	},
+		                categories: getX()
+		            },
+		            yAxis: {
+		                title: {
+		                    text: 'Cotação Mensal (US$)'
+		                },
+		                // Verificar o que isto faz.
+		                plotLines: [{
+		                    value: 0,
+		                    width: 1,
+		                    color: '#808080'
+		                }]
+		            },
+		            // Descrição de cada ponto da série.
+		            tooltip: {
+		                valuePrefix: 'US$'
+		            },
+		            // Verificar o que isto faz.
+		            legend: {
+		                layout: 'vertical',
+		                align: 'right',
+		                verticalAlign: 'top',
+		                x: -10,
+		                y: 100,
+		                borderWidth: 0
+		            },
+		            // Cada serie deve estar representada dentro de um objeto, como o apresentado abaixo.
+		            series: [
+		            	{
+		            		name: "Constante",
+		            		data: [1869821, 1813008, 1757357, 1702856, 1649493, 1597256, 1546133, 1496112, 1447181, 1399328, 1352541, 1306808, 1262117, 1218456, 1175813, 1134176, 1093533, 1053872, 1015181, 977448, 940661, 904808, 869877, 835856, 802733, 770496, 739133, 708632, 678981, 650168, 622181, 595008, 568637, 543056, 518253, 494216, 470933, 448392, 426581, 405488, 385101, 365408, 346397, 328056, 310373, 293336, 276933, 261152, 245981, 231408, 217421, 204008, 191157, 178856, 167093, 155856, 145133, 134912, 125181, 115928, 107141, 98808, 90917, 83456, 76413, 69776, 63533, 57672, 52181, 47048, 42261, 37808, 33677, 29856, 26333, 23096, 20133, 17432, 14981, 12768, 10781, 9008, 7437, 6056, 4853, 3816, 2933, 2192, 1581, 1088, 701, 408, 197, 56, -27, -64, -67, -48, -19, 8, 21, 8, -43, -144, -307, -544, -867, -1288, -1819, -2472, -3259, -4192, -5283, -6544, -7987, -9624, -11467, -13528, -15819, -18352, -21139, -24192, -27523, -31144, -35067, -39304, -43867, -48768, -54019, -59632, -65619, -71992, -78763, -85944, -93547, -101584, -110067, -119008, -128419, -138312, -148699, -159592, -171003, -182944, -195427, -208464, -222067, -236248, -251019, -266392, -282379, -298992, -316243, -334144, -352707, -371944, -391867, -412488, -433819, -455872, -478659, -502192, -526483, -551544, -577387, -604024, -631467, -659728, -688819, -718752, -749539, -781192, -813723, -847144, -881467, -916704, -952867, -989968, -1028019, -1067032, -1107019, -1147992, -1189963, -1232944, -1276947, -1321984, -1368067, -1415208, -1463419, -1512712, -1563099, -1614592, -1667203, -1720944, -1775827, -1831864, -1889067, -1947448, -2007019, -2067792]
+		            	}
+		            ]
+				});
+			});
+
+		function getX()
+		{
+			var x = new Array();
+			for (var i = 0; i < 200; i++) {
+				x.push(i);
+			}
+
+			return x;
+		}
+
+		</script>
+	</head>
+	<body>
+		<div id="container" style="min-width: 900px; height: 400px; margin: 0 auto"></div>
+	</body>
+</html>

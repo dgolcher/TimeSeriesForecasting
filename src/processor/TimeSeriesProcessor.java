@@ -15,12 +15,23 @@ import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
 import postProcessors.Forecast;
+import statistics.GenerationReport;
+import statistics.IslandReport;
+import statistics.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
+ * This class provides a simple interface to use the system of prediction of time series using Genetic Algorithms.
+ * It expects two configuration files: The first pointing to Global configurations' file, and the second pointing to
+ * the file of configurations of the islands used in the evolution engine (the samples of both files can be found in
+ * /TimeSeriesForecasting/data/config/samples).
+ * After creating a new instance of this class, passing both files before explained, it's necessary just call the run
+ * method, which will run all the prediction engine. This method requires a integer parameter, used to identify the log
+ * file (It was used in cases in which it's desired to run the same method many times).
  *
  * Created with IntelliJ IDEA.
  * User: paulo
@@ -41,7 +52,8 @@ public class TimeSeriesProcessor
     private ArrayList<TimeNode>            testingData;
     private Node                           bestCandidate;
 
-    private Logger                         logger;
+    private Logger logger;
+    private ArrayList<IslandReport> islandReports;
 
     public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath)
     {
@@ -50,32 +62,37 @@ public class TimeSeriesProcessor
         this.gpConfiguration             = new GPConfiguration();
         this.islandConfiguration         = new ArrayList<IslandConfiguration>();
         this.logger                      = new Logger();
+        this.islandReports               = new ArrayList<IslandReport>();
     }
 
     public void run(int i) throws Exception
     {
         this.loadConfigurations();
-        // Creating log files and object.
         this.getData();
         List<EvolutionEngine<Node>> islands = this.getIslands();
         this.preProcessData();
         this.bestCandidate = this.processData(islands);
         ArrayList<TimeNode> forecastedTimeSeries = this.getForecastedTimeSeries();
         forecastedTimeSeries = this.postProcessingData(forecastedTimeSeries);
+
         // Presenting results.
         for (TimeNode node : forecastedTimeSeries) {
             System.out.print(node.getValue() + ", ");
         }
         // Comparing forecasted data with the real testing data.
-        // Save log file.
         this.logger.commitLogFile(this.gpConfiguration.getEvolutionIdentifier() + i);
+    }
+
+    public ArrayList<IslandReport> getIslandReports()
+    {
+        return this.islandReports;
     }
 
     private void loadConfigurations() throws IOException, InstantiationException, IllegalAccessException
     {
         ConfigurationLoader.loadConfigurations(this.gpConfigurationFilePath, this.gpConfiguration);
         ConfigurationLoader.loadConfigurations (
-            this.islandConfigurationFilePath, this.islandConfiguration, IslandConfiguration.class
+                this.islandConfigurationFilePath, this.islandConfiguration, IslandConfiguration.class
         );
         this.logger.logConfigurations(this.gpConfiguration, this.islandConfiguration);
     }
@@ -120,11 +137,11 @@ public class TimeSeriesProcessor
         TerminationCondition[] terminationConditions = this.getTerminationConditions();
         try {
             individual = engine.evolve(
-                this.gpConfiguration.getPopulationSize(),
-                this.gpConfiguration.getElitePopulationSize(),
-                this.gpConfiguration.getEpochLength(),
-                this.gpConfiguration.getMigrationCount(),
-                terminationConditions
+                    this.gpConfiguration.getPopulationSize(),
+                    this.gpConfiguration.getElitePopulationSize(),
+                    this.gpConfiguration.getEpochLength(),
+                    this.gpConfiguration.getMigrationCount(),
+                    terminationConditions
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,7 +149,7 @@ public class TimeSeriesProcessor
         finally {
             String log = "\nCondition(s) satisfied.";
             for (TerminationCondition condition :  engine.getSatisfiedTerminationConditions()) {
-                log += ("\n\t" + condition.toString());
+                log += ("\n\t" + condition.getClass());
             }
 
             log += "\nBest Individual found: " + individual.toString();
@@ -180,24 +197,24 @@ public class TimeSeriesProcessor
 
         if (this.gpConfiguration.isEnableTerminationByFitness()) {
             terminationConditions.add(new TargetFitness(
-                this.gpConfiguration.getFitnessValue(), this.gpConfiguration.isFitnessNatural())
+                    this.gpConfiguration.getFitnessValue(), this.gpConfiguration.isFitnessNatural())
             );
         }
 
         if (this.gpConfiguration.isEnableGenerationCount()) {
             terminationConditions.add(new GenerationCountOverEpochs (
-                this.gpConfiguration.getGenerationCount(),
-                this.gpConfiguration.getEpochLength()
+                    this.gpConfiguration.getGenerationCount(),
+                    this.gpConfiguration.getEpochLength()
             ));
         }
 
         if (this.gpConfiguration.isEnableStagnationGenerationCount()) {
             terminationConditions.add(
-                new StagnationOverEpochs(
-                    this.gpConfiguration.getStagnatedGenerationsLimit(),
-                    this.gpConfiguration.isFitnessNatural(),
-                    this.gpConfiguration.getEpochLength()
-                )
+                    new StagnationOverEpochs(
+                            this.gpConfiguration.getStagnatedGenerationsLimit(),
+                            this.gpConfiguration.isFitnessNatural(),
+                            this.gpConfiguration.getEpochLength()
+                    )
             );
         }
 
@@ -212,12 +229,12 @@ public class TimeSeriesProcessor
 
     private IslandEvolution<Node> getEvolutionEngine(List<EvolutionEngine<Node>> islands) {
         IslandEvolution<Node> evolutionEngine = new IslandEvolution<Node> (
-            islands,
-            new RingMigration(),
-            this.gpConfiguration.isFitnessNatural(),
-            new MersenneTwisterRNG()
+                islands,
+                new RingMigration(),
+                this.gpConfiguration.isFitnessNatural(),
+                new MersenneTwisterRNG()
         );
-        this.addEvolutionObservers(evolutionEngine, this.gpConfiguration);
+        this.addEvolutionObservers(evolutionEngine);
 
         return evolutionEngine;
     }
@@ -226,21 +243,49 @@ public class TimeSeriesProcessor
      * @todo Verify if it's possible to use this method (or something like this) to get updated about issues over islands, like migration, etc.
      *
      * @param engine        PG engine, where the observer methods will be created.
-     * @param configuration GP configuration.
      */
-    private void addEvolutionObservers(IslandEvolution<Node> engine, final GPConfiguration configuration)
+    private void addEvolutionObservers(IslandEvolution<Node> engine)
     {
         engine.addEvolutionObserver(new IslandEvolutionObserver<Node>() {
             @Override
-            public void islandPopulationUpdate(int i, PopulationData<? extends Node> populationData) {
-                printEvolutionLog(i, populationData, configuration);
+            public void islandPopulationUpdate(int islandIndex, PopulationData<? extends Node> populationData) {
+                if (populationData.getGenerationNumber() % gpConfiguration.getLogInterval() == 0) {
+                    reportIsland(islandIndex, populationData);
+                    printEvolutionLog(islandIndex, populationData);
+                }
             }
 
             @Override
             public void populationUpdate(PopulationData<? extends Node> populationData) {
-                printEvolutionLog(populationData, configuration);
+                if (populationData.getGenerationNumber() % gpConfiguration.getLogInterval() == 0) {
+                    printEvolutionLog(populationData);
+                }
             }
         });
+    }
+
+    private void reportIsland(int islandIndex, PopulationData<? extends Node> populationData)
+    {
+        IslandReport islandReport = null;
+        for (IslandReport report : this.islandReports) {
+            if (islandIndex == report.getIslandIdentifier()) {
+                islandReport = report;
+            }
+        }
+
+        // If there's no record of this island in the array of records, then it's necessary to create a new one.
+        if (islandReport == null) {
+            islandReport = new IslandReport(islandIndex);
+            this.islandReports.add(islandReport);
+        }
+
+        int currentGeneration = islandReport.getGenerationCounter() + this.gpConfiguration.getLogInterval();
+        GenerationReport generationReport = new GenerationReport();
+        generationReport.setBestSolution(populationData.getBestCandidate());
+        generationReport.setFitness(populationData.getBestCandidateFitness());
+        generationReport.setGeneration(currentGeneration);
+        islandReport.setGenerationCounter(currentGeneration);
+        islandReport.addEvolutionReport(generationReport);
     }
 
     /**
@@ -248,22 +293,17 @@ public class TimeSeriesProcessor
      *
      * @param islandIndex    Island index.
      * @param populationData Data about the evolution process.
-     * @param configuration  GPConfiguration object.
      */
-    private void printEvolutionLog(int islandIndex, PopulationData<? extends Node> populationData,
-                                   GPConfiguration configuration) {
-        if (configuration.isVerboseModeActivated()) {
+    private void printEvolutionLog(int islandIndex, PopulationData<? extends Node> populationData) {
+        if (gpConfiguration.isVerboseModeActivated()) {
             String evolutionLog = "";
-
-            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
-                evolutionLog += "\nIsland #" + islandIndex;
-                evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
-                evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
-                evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
-                evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
-                evolutionLog += "\n-----------------------------------------------------------";
-                System.out.println(evolutionLog);
-            }
+            evolutionLog += "\nIsland #" + islandIndex;
+            evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
+            evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
+            evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
+            evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
+            evolutionLog += "\n-----------------------------------------------------------";
+            System.out.println(evolutionLog);
 
             logger.logEvolution(evolutionLog);
         }
@@ -273,24 +313,20 @@ public class TimeSeriesProcessor
      * This method prints all data about the evolution (if it is parametrized for it).
      *
      * @param populationData Data about the evolution process.
-     * @param configuration  GPConfiguration object.
      */
-    private void printEvolutionLog(PopulationData<? extends Node> populationData,
-                                   GPConfiguration configuration) {
-        if (configuration.isVerboseModeActivated()) {
+    private void printEvolutionLog(PopulationData<? extends Node> populationData) {
+        if (gpConfiguration.isVerboseModeActivated()) {
             String evolutionLog = "";
 
-            if (populationData.getGenerationNumber() % configuration.getLogInterval() == 0) {
-                evolutionLog += "\nGLOBAL EVOLUTION: ";
-                evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
-                evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
-                evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
-                evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
-                evolutionLog += "\n-----------------------------------------------------------";
-                System.out.println(evolutionLog);
-            }
+            evolutionLog += "\nGLOBAL EVOLUTION: ";
+            evolutionLog += "\nGeneration: " + populationData.getGenerationNumber();
+            evolutionLog += "\n\tBest Solution: " + populationData.getBestCandidate();
+            evolutionLog += "\n\tIts Fitness is: " + populationData.getBestCandidateFitness();
+            evolutionLog += "\n\tPopulation size: " + populationData.getPopulationSize();
+            evolutionLog += "\n-----------------------------------------------------------";
+            System.out.println(evolutionLog);
 
-            if (populationData.getBestCandidateFitness() == configuration.getFitnessValue()) {
+            if (populationData.getBestCandidateFitness() == gpConfiguration.getFitnessValue()) {
                 evolutionLog += "\n=============================================================";
                 evolutionLog += "\n======================== FINAL RESULT =======================";
                 evolutionLog += "\n=============================================================";

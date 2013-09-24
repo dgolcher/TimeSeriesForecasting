@@ -1,0 +1,77 @@
+% NOTES:
+% Selection Strategies
+%   ROULETTE_WHEEL_SELECTION      = 1
+%   TOURNAMENT_SELECTION          = 2
+%   STOCHASTIC_UNIVERSAL_SAMPLING = 3
+%   RANK_SELECTION                = 4
+%   SIGMA_SCALING                 = 5
+%   TRUNCATION_SELECTION          = 6
+% The attribute SELECTION_PROBABILITY will be used only if the SELECTION_STRATEGY = TOURNAMENT_SELECTION
+% The attribute SELECTION_RATIO will be used only if the SELECTION_STRATEGY = TRUNCATION_SELECTION
+% Fitness Strategies:
+%   SQUARED_ERROR                      = 0;
+%   MEAN_ABSOLUTE_ERROR                = 1;
+%   MEAN_ABSOLUTE_PERCENT_ERROR        = 2;
+%   MEAN_ABSOLUTE_DEVIATION            = 3;
+%   PERCENT_MEAN_ABSOLUTE_DEVIATION    = 4;
+%   MEAN_SQUARED_ERROR                 = 5;
+%   ROOT_MEAN_SQUARED_ERROR            = 6;
+%   FORECAST_SKILL                     = 7;
+%   AVERAGE_OF_ERROR                   = 8;
+@relation Islands_configurations
+
+@attribute MAX_INIT_TREE_DEPTH             numeric
+@attribute MAX_TREE_DEPTH                  numeric
+@attribute LEAF_PROBABILITY                numeric
+@attribute SELECTION_STRATEGY              numeric
+@attribute SELECTION_PROBABILITY           numeric
+@attribute SELECTION_RATIO                 numeric
+@attribute ENABLE_ELITISM                  numeric
+@attribute ENABLE_CROSSOVER                numeric
+@attribute ENABLE_MUTATION                 numeric
+@attribute MUTATION_PROBABILITY            numeric
+@attribute ENABLE_PLAGUE                   numeric
+@attribute SURVIVOR_PLAGUE_PROBABILITY     numeric
+@attribute TOTAL_OF_PLAGUE_SPREADS         numeric
+@attribute GENERATIONS_COUNT_BEFORE_PLAGUE numeric
+@attribute FITNESS_STRATEGY                numeric
+@attribute ENABLE_BASIC_OPERATORS          numeric
+@attribute ENABLE_COMPLEX_OPERATORS        numeric
+@attribute ENABLE_LOGIC_OPERATORS          numeric
+@attribute ENABLE_STATISTICS_OPERATORS     numeric
+@attribute ENABLE_TRIGONOMETRIC_OPERATORS  numeric
+
+@data
+% MAX_INIT_TREE_DEPTH, MAX_TREE_DEPTH, LEAF_PROBABILITY, SELECTION_STRATEGY, SELECTION_PROBABILITY, SELECTION_RATIO, ENABLE_ELITISM, ENABLE_CROSSOVER, ENABLE_MUTATION, MUTATION_PROBABILITY, ENABLE_PLAGUE, SURVIVOR_PLAGUE_PROBABILITY, TOTAL_OF_PLAGUE_SPREADS, GENERATIONS_COUNT_BEFORE_PLAGUE, FITNESS_STRATEGY, ENABLE_BASIC_OPERATORS, ENABLE_COMPLEX_OPERATORS, ENABLE_LOGIC_OPERATORS, ENABLE_STATISTICS_OPERATORS, ENABLE_TRIGONOMETRIC_OPERATORS
+% selecao por torneio, utilizando todos os modos de avaliação de fitness
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 4, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 5, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 6, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 7, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 8, 1, 1, 1, 1, 1
+
+% selecao por torneio, utilizando pressao de seleção muito baixa, utilizando todos os modos de avaliação de fitness
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 4, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 5, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 6, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 7, 1, 1, 1, 1, 1
+4, 25, 0.6d, 2, 0.9d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 8, 1, 1, 1, 1, 1
+
+% selecao por roleta, utilizando todos os modos de avaliação de fitness
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 4, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 5, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 6, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 7, 1, 1, 1, 1, 1
+4, 25, 0.6d, 1, 0.7d, 0, 1, 1, 1, 0.5d, 0, 0, 0, 0, 8, 1, 1, 1, 1, 1

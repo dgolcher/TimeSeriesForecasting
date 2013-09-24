@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>Caótico II</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="./../graficos/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="./../graficos/lib/js/highcharts.js"></script>
+		<script type="text/javascript" src="./../graficos/lib/js/modules/exporting.js"></script>
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+				$("#container").highcharts({
+					chart: {
+						type: 'line',
+						marginRight: 130,
+                		marginBottom: 25,
+                		zoomType: "x"
+					},
+					title: {
+						text: "Avaliação de Séries decrescentes",
+						x: -20 //center
+					},
+					subtitle: {
+		                text: "IBOVESPA Mensal",
+		                x: -20
+		            },
+		            // Dimensão "x".
+		            xAxis: {
+		            	labels: {
+		            		rotarion: 90
+		            	},
+		                categories: getX()
+		            },
+		            yAxis: {
+		                title: {
+		                    text: 'Cotação Mensal (US$)'
+		                },
+		                // Verificar o que isto faz.
+		                plotLines: [{
+		                    value: 0,
+		                    width: 1,
+		                    color: '#808080'
+		                }]
+		            },
+		            // Descrição de cada ponto da série.
+		            tooltip: {
+		                valuePrefix: 'US$'
+		            },
+		            // Verificar o que isto faz.
+		            legend: {
+		                layout: 'vertical',
+		                align: 'right',
+		                verticalAlign: 'top',
+		                x: -10,
+		                y: 100,
+		                borderWidth: 0
+		            },
+		            // Cada serie deve estar representada dentro de um objeto, como o apresentado abaixo.
+		            series: [
+		            	{
+		            		name: "Constante",
+		            		data: [67193.00, 67419.00, 67997.00, 68587.00, 69268.00, 69704.00, 69838.00, 69037.00, 69176.00, 68718.00, 68164.00, 66896.00, 66486.00, 66279.00, 66684.00, 65415.00, 66158.00, 67058.00, 66972.00, 67144.00, 66264.00, 65673.00, 66133.00, 65463.00, 64318.00, 63616.00, 63407.00, 64417.00, 64622.00, 64877.00, 63776.00, 64003.00, 63235.00, 62830.00, 63673.00, 62841.00, 62367.00, 62597.00, 62345.00, 63337.00, 63388.00, 64099.00, 64295.00, 63954.00, 64620.00, 63411.00, 64218.00, 64341.00, 63068.00, 63218.00, 63033.00, 63469.00, 62697.00, 62023.00, 62205.00, 61604.00, 60881.00, 61060.00, 61168.00, 61424.00, 61194.00, 61017.00, 61217.00, 62303.00, 62334.00, 62404.00, 63394.00, 63891.00, 63039.00, 62565.00, 62207.00, 61513.00, 60224.00, 59705.00, 60670.00, 59679.00, 59478.00, 58838.00, 59082.00, 59120.00, 60263.00, 60270.00, 59971.00, 59340.00, 58288.00, 58708.00, 58823.00, 58536.00, 57311.00, 56017.00, 52811.00, 52949.00]
+		            	}
+		            ]
+				});
+			});
+
+		function getX()
+		{
+			var x = new Array();
+			for (var i = 0; i < 200; i++) {
+				x.push(i);
+			}
+
+			return x;
+		}
+
+		</script>
+	</head>
+	<body>
+		<div id="container" style="min-width: 900px; height: 400px; margin: 0 auto"></div>
+	</body>
+</html>
