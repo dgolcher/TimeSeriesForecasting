@@ -47,6 +47,7 @@ public class IslandBuilder
     {
         List<EvolutionEngine<Node>> islands = new ArrayList<EvolutionEngine<Node>>();
         for (IslandConfiguration configuration : configurations) {
+            System.out.println("creating a new island");
             islands.add(createSingleIsland(configuration, gpConfiguration, data));
         }
 

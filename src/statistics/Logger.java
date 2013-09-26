@@ -91,6 +91,11 @@ public class Logger
         this.content += terminationConditions;
     }
 
+    public void logIslands(String islandsReport)
+    {
+        this.content += islandsReport;
+    }
+
     public void commitLogFile(String fileName) throws IOException
     {
         this.fileName  = fileName;

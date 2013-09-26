@@ -333,6 +333,14 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
             expected += Math.pow(this.data.get(i).getValue(), 2);
         }
 
+        if (1 - (forecast/expected) < 0) {
+            try {
+                throw new Exception("Invalido ae porra.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         return 1 - (forecast/expected);
     }
 

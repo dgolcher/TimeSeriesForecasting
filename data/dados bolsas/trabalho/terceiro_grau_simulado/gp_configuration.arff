@@ -23,4 +23,4 @@
 @attribute MIGRATION_COUNT                    numeric
 
 @data
-"TERCEIRO_GRAU_SIMULADO", "data/dados bolsas/trabalho/terceiro_grau_simulado/curva.arff", 1000, 5, 200, 0, 180, 181, 199, 1, 25, 5, 0, 0, 1, 10000, 0, 0, 1, 100, 100
+"TERCEIRO_GRAU_SIMULADO", "data/dados bolsas/trabalho/terceiro_grau_simulado/curva.arff", 100, 5, 200, 0, 180, 181, 199, 1, 25, 5, 0, 0, 1, 1000, 0, 0, 1, 100, 100

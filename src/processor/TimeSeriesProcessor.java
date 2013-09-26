@@ -67,18 +67,40 @@ public class TimeSeriesProcessor
 
     public void run(int i) throws Exception
     {
+System.out.println("load configurations");
         this.loadConfigurations();
+System.out.println("Get data");
         this.getData();
+System.out.println("get islands");
         List<EvolutionEngine<Node>> islands = this.getIslands();
+System.out.println("Pre process data");
         this.preProcessData();
+System.out.println("Process data");
         this.bestCandidate = this.processData(islands);
+System.out.println("Get forecasted data");
         ArrayList<TimeNode> forecastedTimeSeries = this.getForecastedTimeSeries();
+System.out.println("Post process data");
         forecastedTimeSeries = this.postProcessingData(forecastedTimeSeries);
 
         // Presenting results.
         for (TimeNode node : forecastedTimeSeries) {
             System.out.print(node.getValue() + ", ");
         }
+
+        String logIslands = "\nRelatorio sobre as ilhas\n";
+        ArrayList<IslandReport> reports = this.getIslandReports();
+        for (IslandReport islandReport : reports) {
+            logIslands += "Island:" + islandReport.getIslandIdentifier()+"\n";
+            logIslands += "Number of Generations" + islandReport.getGenerationCounter()+"\n";
+            for (GenerationReport generationReport : islandReport.getEvolutionHistory()) {
+                logIslands += ("\tGeneration Number: " + generationReport.getGeneration()+"\n");
+                logIslands += ("\tBest solution" + generationReport.getBestSolution()+"\n");
+                logIslands += ("\tBest fitness: " + generationReport.getFitness()+"\n");
+            }
+
+            logIslands += "\n\n";
+        }
+        this.logger.logIslands(logIslands);
         // Comparing forecasted data with the real testing data.
         this.logger.commitLogFile(this.gpConfiguration.getEvolutionIdentifier() + i);
     }

@@ -11,19 +11,19 @@ public class Trabalho
 
     public static void main(String[] args) throws Exception
     {
-//        caotica();
-//        constanteSimulada();
-//        crescente1();
+        caotica();
+        constanteSimulada();
+//        crescente1(); // Verificar curva
         crescente2();
-//        crescenteSimulada();
-//        decrescente1();
-//        decrescente2();
-//        decrescenteSimulada();
-//        parabola1();
-//        parabola2();
-//        parabola3();
-//        parabolaSimulada();
-//        terceiroGrauSimulado();
+        crescenteSimulada();
+        decrescente1();
+        decrescente2();
+        decrescenteSimulada();
+        parabola1();
+        parabola2();
+        parabola3();
+        parabolaSimulada();
+        terceiroGrauSimulado();
     }
 
     private static void caotica() throws Exception
@@ -89,7 +89,7 @@ public class Trabalho
 
     private static void decrescente2() throws Exception
     {
-        String gpConfigurationPath     = "data/dados bolsas/trabalho/decrescente_2";
+        String gpConfigurationPath     = "data/dados bolsas/trabalho/decrescente_2/gp_configuration.arff";
         String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
         TimeSeriesProcessor timeSeriesProcessor = new TimeSeriesProcessor (
                 gpConfigurationPath, islandConfigurationPath

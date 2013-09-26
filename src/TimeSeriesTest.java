@@ -80,20 +80,6 @@ public class TimeSeriesTest
                 gpConfigurationPath, islandConfigurationPath
         );
         timeSeriesProcessor.run(i);
-        ArrayList<IslandReport> reports = timeSeriesProcessor.getIslandReports();
-
-        System.out.println("\n\n\n REPORT ABOUT THE EVOLUTION.");
-        for (IslandReport islandReport : reports) {
-            System.out.println("Island:" + islandReport.getIslandIdentifier());
-            System.out.println("Number of Generations" + islandReport.getGenerationCounter());
-            for (GenerationReport generationReport : islandReport.getEvolutionHistory()) {
-                System.out.println("\tGeneration Number: " + generationReport.getGeneration());
-                System.out.println("\tBest solution" + generationReport.getBestSolution());
-                System.out.println("\tBest fitness: " + generationReport.getFitness());
-            }
-
-            System.out.println("\n");
-        }
     }
 
     private static void linear(int i) throws Exception
