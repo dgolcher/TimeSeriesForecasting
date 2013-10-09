@@ -1,7 +1,5 @@
-import model.TimeNode;
 import processor.TimeSeriesProcessor;
 
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.

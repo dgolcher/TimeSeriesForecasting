@@ -1,6 +1,5 @@
 package preProcessors;
 
-import geneticProgramming.functions.Node;
 import model.TimeNode;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  * When normalized data is used to do a forecast, it's important to turn it back to its original form. So, this class
  * will have to public operators. The first getNormalizedData will return the data of a time series (the original one
  * will be set to this class as parameter) normalized in a specific range of values (generally, values between 0 and 1).
- * The second function getDenormalizedData. This method will get the time series (with the original data and the
+ * The second function getUnNormalizedData. This method will get the time series (with the original data and the
  * forecast) and put in on the original range.
  *
  * The equation used to normalize data, in this class, is
@@ -53,7 +52,7 @@ public class Normalizer
     {
         this.timeSeries          = timeSeries;
         this.maxValue            = Double.MIN_VALUE;
-        this.minValue            = Node.BAD_FITNESS_VALUE;
+        this.minValue            = Double.MAX_VALUE;
         this.normalizationOption = normalizationOption;
 
         this.getLimitValues();
@@ -97,7 +96,7 @@ public class Normalizer
      *
      * @return Returns a time series denormalized.
      */
-    public ArrayList<TimeNode> getDenormalizedData(ArrayList<TimeNode> normalizedData)
+    public ArrayList<TimeNode> getUnNormalizedData(ArrayList<TimeNode> normalizedData)
     {
         ArrayList<TimeNode> denormalizedData = new ArrayList<TimeNode>();
         for (TimeNode node : normalizedData) {
@@ -126,11 +125,12 @@ public class Normalizer
      */
     private TimeNode normalizationBetween0and1(TimeNode node)
     {
+        TimeNode newNode = new TimeNode();
         double actualValue = node.getValue();
         double newValue    = (actualValue - this.minValue) / (this.maxValue - this.minValue);
-        node.setValue(newValue);
+        newNode.setValue(newValue);
 
-        return node;
+        return newNode;
     }
 
     /**
@@ -148,11 +148,12 @@ public class Normalizer
      */
     private TimeNode normalizationBetweenMinus1And1(TimeNode node)
     {
+        TimeNode newNode = new TimeNode();
         double actualValue = node.getValue();
         double newValue    = (actualValue - this.maxValue - this.minValue) / (this.maxValue - this.minValue);
-        node.setValue(newValue);
+        newNode.setValue(newValue);
 
-        return node;
+        return newNode;
     }
 
     /**
@@ -171,11 +172,12 @@ public class Normalizer
      */
     private TimeNode denormalizationBetween0And1(TimeNode node)
     {
+        TimeNode newNode = new TimeNode();
         double actualValue = node.getValue();
         double newValue    = (actualValue * (this.maxValue - this.minValue)) + this.minValue;
-        node.setValue(newValue);
+        newNode.setValue(newValue);
 
-        return node;
+        return newNode;
     }
 
     /**
@@ -194,11 +196,12 @@ public class Normalizer
      */
     private TimeNode denormalizationBetweenMinus1And1(TimeNode node)
     {
+        TimeNode newNode = new TimeNode();
         double actualValue = node.getValue();
         double newValue    = (actualValue * (this.maxValue - this.minValue)) + this.maxValue + this.minValue;
-        node.setValue(newValue);
+        newNode.setValue(newValue);
 
-        return node;
+        return newNode;
     }
 
     /**
@@ -207,7 +210,7 @@ public class Normalizer
     private void getLimitValues() {
         for (TimeNode node : this.timeSeries) {
             this.minValue = (node.getValue() < this.minValue) ? node.getValue() : this.minValue;
-            this.maxValue = (node.getValue() > this.minValue) ? node.getValue() : this.maxValue;
+            this.maxValue = (node.getValue() > this.maxValue) ? node.getValue() : this.maxValue;
         }
     }
 

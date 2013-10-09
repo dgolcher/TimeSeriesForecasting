@@ -27,7 +27,7 @@ public interface Node
      * the individual that has this node must be eliminated. In this way, the individual will have a really bad fitness
      * value (which will make it completely unfitted).
      */
-    public static final int BAD_FITNESS_VALUE = 99;
+    public static final int BAD_FITNESS_VALUE = 9999999;
 
 
     /**

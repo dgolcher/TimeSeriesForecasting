@@ -15,6 +15,7 @@ import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
 import postProcessors.Forecast;
+import preProcessors.Normalizer;
 import statistics.GenerationReport;
 import statistics.IslandReport;
 import statistics.Logger;
@@ -71,21 +72,16 @@ System.out.println("load configurations");
         this.loadConfigurations();
 System.out.println("Get data");
         this.getData();
-System.out.println("get islands");
-        List<EvolutionEngine<Node>> islands = this.getIslands();
 System.out.println("Pre process data");
         this.preProcessData();
+System.out.println("get islands");
+        List<EvolutionEngine<Node>> islands = this.getIslands();
 System.out.println("Process data");
         this.bestCandidate = this.processData(islands);
 System.out.println("Get forecasted data");
         ArrayList<TimeNode> forecastedTimeSeries = this.getForecastedTimeSeries();
 System.out.println("Post process data");
         forecastedTimeSeries = this.postProcessingData(forecastedTimeSeries);
-
-        // Presenting results.
-        for (TimeNode node : forecastedTimeSeries) {
-            System.out.print(node.getValue() + ", ");
-        }
 
         String logIslands = "\nRelatorio sobre as ilhas\n";
         ArrayList<IslandReport> reports = this.getIslandReports();
@@ -94,13 +90,23 @@ System.out.println("Post process data");
             logIslands += "Number of Generations" + islandReport.getGenerationCounter()+"\n";
             for (GenerationReport generationReport : islandReport.getEvolutionHistory()) {
                 logIslands += ("\tGeneration Number: " + generationReport.getGeneration()+"\n");
-                logIslands += ("\tBest solution" + generationReport.getBestSolution()+"\n");
+                logIslands += ("\tBest solution: " + generationReport.getBestSolution()+"\n");
                 logIslands += ("\tBest fitness: " + generationReport.getFitness()+"\n");
             }
 
             logIslands += "\n\n";
         }
         this.logger.logIslands(logIslands);
+
+        // Presenting results.
+        String logForecastedData = "Data found:\n";
+        for (TimeNode node : forecastedTimeSeries) {
+            logForecastedData += (node.getValue() + ", ");
+        }
+
+        // @todo Create a new method for logForecastedData on logger (or, it was best just create a method appendLog)
+        this.logger.logIslands(logForecastedData);
+
         // Comparing forecasted data with the real testing data.
         this.logger.commitLogFile(this.gpConfiguration.getEvolutionIdentifier() + i);
     }
@@ -142,7 +148,8 @@ System.out.println("Post process data");
      */
     private void preProcessData()
     {
-        // This method must execute the pre-processing methods.
+        Normalizer normalizer = new Normalizer(this.trainingData);
+        this.trainingData = normalizer.getNormalizedData();
     }
 
     /**
