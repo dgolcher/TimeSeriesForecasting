@@ -46,11 +46,13 @@ public class Forecast
      */
     public ArrayList<TimeNode> processForecasting()
     {
-        int forecastHorizon = this.configuration.getEndOfTrainingData() - this.configuration.getInitOfTrainingData();
+        int forecastHorizon = this.configuration.getEndOfTestingData() - this.configuration.getInitOfTestingData();
         for (int i = 0; i < forecastHorizon; i++) {
-            double[] params = new double[forecastHorizon];
+            double[] params = new double[this.configuration.getWindowSize()];
             for (int j = 0; j < this.configuration.getWindowSize(); j++) {
                 int index = (this.forecastedTimeSeries.size() + j) - forecastHorizon;
+                // @todo Verify if this is as corrected as the line below.
+                // params[j] = this.originalTimeSeries.get(index).getValue();
                 params[j] = this.forecastedTimeSeries.get(index).getValue();
             }
 
