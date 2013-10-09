@@ -9222,7 +9222,7 @@ Pointer.prototype = {
 			}
 		}
 			
-		// Normalize each touch
+		// Normalizer each touch
 		map(touches, function (e) {
 			return self.normalize(e);
 		});

@@ -817,7 +817,7 @@ window.CodeMirror = (function() {
       // Remember that these lines changed, for updating the display
       changes.push({from: from.line, to: to.line + 1, diff: lendiff});
       if (options.onChange) {
-        // Normalize lines to contain only strings, since that's what
+        // Normalizer lines to contain only strings, since that's what
         // the change event handler expects
         for (var i = 0; i < lines.length; ++i)
           if (typeof lines[i] != "string") lines[i] = lines[i].text;

@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * Date: 02/08/13
  * Time: 12:45
  */
-public class Normalize
+public class Normalizer
 {
 
     private ArrayList<TimeNode> timeSeries;
@@ -49,7 +49,7 @@ public class Normalize
      * @param normalizationOption which kind of normalization will be used. The possibilities are to normalize the
      *                            series in numbers between 1 and 0 or between 1 and -1.
      */
-    public Normalize(ArrayList<TimeNode> timeSeries, int normalizationOption)
+    public Normalizer(ArrayList<TimeNode> timeSeries, int normalizationOption)
     {
         this.timeSeries          = timeSeries;
         this.maxValue            = Double.MIN_VALUE;
@@ -65,9 +65,9 @@ public class Normalize
      *
      * @param timeSeries The list of values that will be normalized.
      */
-    public Normalize(ArrayList<TimeNode> timeSeries)
+    public Normalizer(ArrayList<TimeNode> timeSeries)
     {
-        this(timeSeries, Normalize.NORMALIZE_BETWEEN_ONE_AND_ZERO);
+        this(timeSeries, Normalizer.NORMALIZE_BETWEEN_ONE_AND_ZERO);
     }
 
     /**
@@ -80,7 +80,7 @@ public class Normalize
     {
         ArrayList<TimeNode> normalizedData = new ArrayList<TimeNode>();
         for (TimeNode node : this.timeSeries) {
-            if (this.normalizationOption == Normalize.NORMALIZE_BETWEEN_ONE_AND_MINUS_ONE) {
+            if (this.normalizationOption == Normalizer.NORMALIZE_BETWEEN_ONE_AND_MINUS_ONE) {
                 normalizedData.add(this.normalizationBetweenMinus1And1(node));
             } else {
                 normalizedData.add(this.normalizationBetween0and1(node));
@@ -101,7 +101,7 @@ public class Normalize
     {
         ArrayList<TimeNode> denormalizedData = new ArrayList<TimeNode>();
         for (TimeNode node : normalizedData) {
-            if (this.normalizationOption == Normalize.NORMALIZE_BETWEEN_ONE_AND_ZERO) {
+            if (this.normalizationOption == Normalizer.NORMALIZE_BETWEEN_ONE_AND_ZERO) {
                 denormalizedData.add(this.denormalizationBetween0And1(node));
             } else {
                 denormalizedData.add(this.denormalizationBetweenMinus1And1(node));

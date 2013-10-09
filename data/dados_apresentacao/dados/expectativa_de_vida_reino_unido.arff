@@ -1,0 +1,11 @@
+@relation TimeSeriesData
+
+@attribute date date "dd/MM/yyyy"
+@attribute open numeric
+@attribute high numeric
+@attribute low numeric
+@attribute close numeric
+@attribute volume numeric
+@attribute adjClose numeric
+
+@data

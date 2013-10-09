@@ -1,4 +1,7 @@
+import model.TimeNode;
 import processor.TimeSeriesProcessor;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -6,11 +9,14 @@ import processor.TimeSeriesProcessor;
  * Date: 22/09/13
  * Time: 14:46
  */
-public class Trabalho
+public class IbovespaTestes
 {
 
     public static void main(String[] args) throws Exception
     {
+//        for (int i = 0; i < 10; i++) {
+//            parabola1(i);
+//        }
         caotica();
         constanteSimulada();
 //        crescente1(); // Verificar curva
@@ -107,7 +113,7 @@ public class Trabalho
         timeSeriesProcessor.run(1);
     }
 
-    private static void parabola1() throws Exception
+    private static void parabola1(/*int i*/) throws Exception
     {
         String gpConfigurationPath     = "data/dados bolsas/trabalho/parabola_1/gp_configuration.arff";
         String islandConfigurationPath = "data/dados bolsas/trabalho/island_configuration.arff";
@@ -115,6 +121,7 @@ public class Trabalho
                 gpConfigurationPath, islandConfigurationPath
         );
         timeSeriesProcessor.run(1);
+//        timeSeriesProcessor.run(i);
     }
 
     private static void parabola2() throws Exception
