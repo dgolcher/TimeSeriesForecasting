@@ -90,7 +90,7 @@ public class Normalizer
     }
 
     /**
-     * This method returns the time series denormalized. This method can use two kinds of denormalization. The first one,
+     * This method returns the time series denormalized. This method can use two kinds of unnormalization. The first one,
      * consider that the time series was normalized with values between 0 and 1. The second one, uses the range between
      * -1 and 1.
      *
@@ -98,16 +98,16 @@ public class Normalizer
      */
     public ArrayList<TimeNode> getUnNormalizedData(ArrayList<TimeNode> normalizedData)
     {
-        ArrayList<TimeNode> denormalizedData = new ArrayList<TimeNode>();
+        ArrayList<TimeNode> unnormalizedData = new ArrayList<TimeNode>();
         for (TimeNode node : normalizedData) {
             if (this.normalizationOption == Normalizer.NORMALIZE_BETWEEN_ONE_AND_ZERO) {
-                denormalizedData.add(this.denormalizationBetween0And1(node));
+                unnormalizedData.add(this.unnormalizationBetween0And1(node));
             } else {
-                denormalizedData.add(this.denormalizationBetweenMinus1And1(node));
+                unnormalizedData.add(this.unnormalizationBetweenMinus1And1(node));
             }
         }
 
-        return denormalizedData;
+        return unnormalizedData;
     }
 
     /**
@@ -129,6 +129,7 @@ public class Normalizer
         double actualValue = node.getValue();
         double newValue    = (actualValue - this.minValue) / (this.maxValue - this.minValue);
         newNode.setValue(newValue);
+        newNode.setDate(node.getDate());
 
         return newNode;
     }
@@ -157,7 +158,7 @@ public class Normalizer
     }
 
     /**
-     * This method process the denormalization, considering a range of values between 0 and 1. The Equation used here
+     * This method process the unnormalization, considering a range of values between 0 and 1. The Equation used here
      * is
      *
      * Z(t) = Z(t)' * (max(Z) - min(Z)) + min(Z)
@@ -170,7 +171,7 @@ public class Normalizer
      * @param node the moment representing the moment t in the time series Z.
      * @return Returns the value of the variable Z(t) normalized.
      */
-    private TimeNode denormalizationBetween0And1(TimeNode node)
+    private TimeNode unnormalizationBetween0And1(TimeNode node)
     {
         TimeNode newNode = new TimeNode();
         double actualValue = node.getValue();
@@ -181,7 +182,7 @@ public class Normalizer
     }
 
     /**
-     * This method process the denormalization, considering a range of values between -1 and 1. The Equation used here
+     * This method process the unnormalization, considering a range of values between -1 and 1. The Equation used here
      * is
      *
      * Z(t) = Z(t)' * (max(Z) - min(Z)) + min(Z) + max(Z)
@@ -194,7 +195,7 @@ public class Normalizer
      * @param node the moment representing the moment t in the time series Z.
      * @return Returns the value of the variable Z(t) normalized.
      */
-    private TimeNode denormalizationBetweenMinus1And1(TimeNode node)
+    private TimeNode unnormalizationBetweenMinus1And1(TimeNode node)
     {
         TimeNode newNode = new TimeNode();
         double actualValue = node.getValue();

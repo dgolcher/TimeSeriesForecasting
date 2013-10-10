@@ -27,16 +27,20 @@ public class Forecast
      * Constructor.
      * This method initializes all instances used in this class.
      *
-     * @param originalTimeSeries Full time series used to train and test the model.
+     * @param originalTimeSeries Original time series. In this class, it's used just to get the correct date for the
+    *                            forecaste data.
+     * @param trainingData       Data used to train the GP engine. It's used as initial part of the forecasted data.
      * @param configuration      GPConfiguration instance, used get some information about the forecasting.
      * @param bestCandidate      Individual provided by the GP Machine, consider the best candidate found.
      */
-    public Forecast(ArrayList<TimeNode> originalTimeSeries, GPConfiguration configuration, Node bestCandidate)
+    public Forecast(ArrayList<TimeNode> originalTimeSeries, ArrayList<TimeNode> trainingData, 
+                    GPConfiguration configuration, Node bestCandidate)
     {
-        this.originalTimeSeries = originalTimeSeries;
-        this.configuration      = configuration;
-        this.model              = bestCandidate;
-        this.initializeForecastingData(configuration);
+        this.originalTimeSeries   = originalTimeSeries;
+        this.configuration        = configuration;
+        this.model                = bestCandidate;
+        this.forecastedTimeSeries = trainingData;
+        // this.initializeForecastingData(trainingData);
     }
 
     /**
@@ -46,25 +50,33 @@ public class Forecast
      */
     public ArrayList<TimeNode> processForecasting()
     {
-        int forecastHorizon = this.configuration.getEndOfTestingData() - this.configuration.getInitOfTestingData();
+        int forecastHorizon = this.configuration.getEndOfTestingData() - this.configuration.getInitOfTestingData() + 1;
         for (int i = 0; i < forecastHorizon; i++) {
-            double[] params = new double[this.configuration.getWindowSize()];
-            for (int j = 0; j < this.configuration.getWindowSize(); j++) {
-                int index = (this.forecastedTimeSeries.size() + j) - forecastHorizon;
-                // @todo Verify if this is as corrected as the line below.
-                // params[j] = this.originalTimeSeries.get(index).getValue();
-                params[j] = this.forecastedTimeSeries.get(index).getValue();
-            }
-
+            double[] params = this.getModelParams();
             double forecastedValue = this.model.evaluate(params);
-            // @todo Verify how to get the date values.
             TimeNode node = new TimeNode();
-            node.setDate(null);
+            node.setDate(this.originalTimeSeries.get(this.forecastedTimeSeries.size()).getDate());
             node.setValue(forecastedValue);
             this.forecastedTimeSeries.add(node);
         }
 
         return this.forecastedTimeSeries;
+    }
+
+    /**
+     * This method returns the set of params used by the model found by the forecast engine (the node representing the
+     * expression found to describe the time series).
+     *
+     */
+    private double[] getModelParams() 
+    {
+        double[] params = new double[this.configuration.getWindowSize()];
+        for (int j = 0; j < this.configuration.getWindowSize(); j++) {
+            int index = (this.forecastedTimeSeries.size() + j) - this.configuration.getWindowSize();
+            params[j] = this.forecastedTimeSeries.get(index).getValue();
+        }
+
+        return params;
     }
 
     /**

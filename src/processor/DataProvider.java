@@ -60,7 +60,7 @@ public class DataProvider
     {
         ArrayList<TimeNode> trainingSeries = new ArrayList<TimeNode>();
         this.validateDataBoundaries(this.initOfTrainingData, this.endOfTrainingData);
-        for (int i = this.initOfTrainingData; i < this.endOfTrainingData; i++) {
+        for (int i = this.initOfTrainingData; i <= this.endOfTrainingData; i++) {
             trainingSeries.add(this.fullTimeSeriesData.get(i));
         }
 
@@ -78,7 +78,7 @@ public class DataProvider
     {
         ArrayList<TimeNode> testingTimeSeries = new ArrayList<TimeNode>();
         this.validateDataBoundaries(this.initOfTestingData, this.endOfTestingData);
-        for (int i = this.initOfTestingData; i < this.endOfTestingData; i++) {
+        for (int i = this.initOfTestingData; i <= this.endOfTestingData; i++) {
             testingTimeSeries.add(this.fullTimeSeriesData.get(i));
         }
 

@@ -56,6 +56,8 @@ public class TimeSeriesProcessor
     private Logger logger;
     private ArrayList<IslandReport> islandReports;
 
+    private Normalizer normalizer;
+
     public TimeSeriesProcessor(String gpConfigurationFilePath, String islandConfigurationFilePath)
     {
         this.gpConfigurationFilePath     = gpConfigurationFilePath;
@@ -148,7 +150,7 @@ System.out.println("Post process data");
      */
     private void preProcessData()
     {
-        Normalizer normalizer = new Normalizer(this.trainingData);
+        this.normalizer = new Normalizer(this.trainingData);
         this.trainingData = normalizer.getNormalizedData();
     }
 
@@ -198,8 +200,8 @@ System.out.println("Post process data");
      */
     private ArrayList<TimeNode> postProcessingData(ArrayList<TimeNode> forecastedTimeSeries)
     {
-        // This method must undo all modifications in data made by the preProcessData method.
-        return forecastedTimeSeries;
+        ArrayList<TimeNode> postProcessedData = this.normalizer.getUnNormalizedData(forecastedTimeSeries);
+        return postProcessedData;
     }
 
     /**
@@ -211,7 +213,9 @@ System.out.println("Post process data");
      */
     private ArrayList<TimeNode> getForecastedTimeSeries()
     {
-        Forecast forecast = new Forecast(this.originalTimeSeries, this.gpConfiguration, this.bestCandidate);
+        Forecast forecast = new Forecast (
+            this.originalTimeSeries, this.trainingData, this.gpConfiguration, this.bestCandidate
+        );
         return forecast.processForecasting();
     }
 
