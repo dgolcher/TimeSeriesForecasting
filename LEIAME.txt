@@ -1,0 +1,45 @@
+==========================================================================
+================= PROCEDIMENTOS PARA EXECUÇÃO DO PROJETO =================
+==========================================================================
+1. Sobre os arquivos de dados e configurações
+       Todos os arquivos utilizados neste projeto deverão estar no diretório data. 
+	Dentro deste diretório, há outros três subdiretórios, o diretório de "dados", 
+	o diretório "gpconfiguration" e o diretório "island_configuration". O primeiro
+	deles, o diretório de dados, é onde são colocados os arquivos contendo os dados
+	das séries temporais. Apesar de especificados, a utilização deste diretório é 
+	opcional, visto que o caminho dos dados a serem utilizados é descrito pelos 
+	arquivos de configuração.
+	    O segundo e terceiro diretórios, o gpconfiguration e o island_configuration,
+	são de utilização obrigatórias. Cada um destes deverá receber os arquivos de 
+	configuração (configurações do motor de PG e as configurações das ilhas). A utili-
+	zação dos arquivos armazenados dentro destes diretórios se dá de forma automática: 
+	todos os arquivos incluídos no diretório de gpconfiguration serão executados uma
+	vez para cada um dos arquivos de configuracao para ilhas (no diretório de 
+	island_configuration). No conjunto de configurações empacotados neste projeto, 11
+	arquivos de configuração foram disponibilizaods no diretório gpconfiguration, enquanto
+	somente um foi disponibilizado no diretório island_configuration. Isto significa que 
+	todas as configurações do motor de busca apresentados serão utilizados uma vez, em 
+	união ao arquivo de configuração de ilha apresentado no outro diretório.
+	    Para todos os dados apresentados, tanto os arquivos de configurações quanto os ar-
+	quivos de dados utilizados, foi escolhido o formato "arff".
+	
+2. Sobre a execução do projeto.
+        Dadas as configurações e dados utilizados para a execução do modelo de predição, este
+	já pode ser utilizado.
+	    Neste pacote, foram disponibilizados os arquivos para inicialização do projeto para as
+	plataformas Windows e Linux. Para ambos os casos, antes da execução do projeto, é necessário
+	que seja inicializada a variável de ambiente JAVA_HOME.
+	    Para a execução na plataforma Windows, basta executar o arquivo start-forecasting.bat. 
+	Este arquivo já está preparado para iniciar a execução do projeto, com os dados e configura-
+	ções apresentados para o projeto. Da mesma forma, para a execução do projeto na plataforma
+	Linux, deve-se abrir o terminal, navegar até o diretório raiz do projeto, e executar o comando
+	
+										./start-forecasting.sh
+										
+3. Sobre a apresentação dos resultados
+        Após a execução do processo de predição, os resultados obtidos, assim como todo o processo
+	executado até este ponto serão documentados em arquivos de log. Estes arquivos serão gerados no 
+	diretório "log". Para cada projeto de execução da prediçã configurados (ou seja, para cada arquivo
+	de configuração do motor de busca criado), um arquivo de log também será gerado. O arquivo adotará
+	o nome descrito no parâmetro "EVOLUTION_IDENTIFIER", presente no mesmo arquivo de configuração do 
+	motor de GP.

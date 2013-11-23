@@ -52,9 +52,11 @@ public class Logger
         String configurations = "\n=================================================================================\n";
         configurations += "\n\nDATA SETs\n";
         configurations += "TIME SERIES DATA: \n\t";
+        configurations += "[";
         for (TimeNode node : originalTimeSeries) {
             configurations += node.getValue() + ", ";
         }
+        configurations += "]";
 
         configurations = configurations.substring(0, configurations.length()-2) + "\n";
 

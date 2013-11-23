@@ -39,8 +39,6 @@ import java.util.List;
  * Date: 10/08/13
  * Time: 20:28
  */
-// @todo at the end of the implementation of this class, remove this line and the other below.
-@SuppressWarnings("UnusedDeclaration")
 public class TimeSeriesProcessor
 {
     private GPConfiguration                gpConfiguration;
@@ -70,19 +68,19 @@ public class TimeSeriesProcessor
 
     public void run(int i) throws Exception
     {
-System.out.println("load configurations");
+        System.out.println("load configurations");
         this.loadConfigurations();
-System.out.println("Get data");
+        System.out.println("Get data");
         this.getData();
-System.out.println("Pre process data");
+        System.out.println("Pre process data");
         this.preProcessData();
-System.out.println("get islands");
+        System.out.println("get islands");
         List<EvolutionEngine<Node>> islands = this.getIslands();
-System.out.println("Process data");
+        System.out.println("Process data");
         this.bestCandidate = this.processData(islands);
-System.out.println("Get forecasted data");
+        System.out.println("Get forecasted data");
         ArrayList<TimeNode> forecastedTimeSeries = this.getForecastedTimeSeries();
-System.out.println("Post process data");
+        System.out.println("Post process data");
         forecastedTimeSeries = this.postProcessingData(forecastedTimeSeries);
 
         String logIslands = "\nRelatorio sobre as ilhas\n";
@@ -102,9 +100,11 @@ System.out.println("Post process data");
 
         // Presenting results.
         String logForecastedData = "Data found:\n";
+        logForecastedData += "[";
         for (TimeNode node : forecastedTimeSeries) {
             logForecastedData += (node.getValue() + ", ");
         }
+        logForecastedData += "]";
 
         // @todo Create a new method for logForecastedData on logger (or, it was best just create a method appendLog)
         this.logger.logIslands(logForecastedData);
@@ -150,8 +150,8 @@ System.out.println("Post process data");
      */
     private void preProcessData()
     {
-        this.normalizer = new Normalizer(this.trainingData);
-        this.trainingData = normalizer.getNormalizedData();
+       this.normalizer = new Normalizer(this.trainingData);
+       this.trainingData = normalizer.getNormalizedData();
     }
 
     /**
@@ -200,8 +200,9 @@ System.out.println("Post process data");
      */
     private ArrayList<TimeNode> postProcessingData(ArrayList<TimeNode> forecastedTimeSeries)
     {
-        ArrayList<TimeNode> postProcessedData = this.normalizer.getUnNormalizedData(forecastedTimeSeries);
-        return postProcessedData;
+       ArrayList<TimeNode> postProcessedData = this.normalizer.getUnNormalizedData(forecastedTimeSeries);
+       return postProcessedData;
+       // return forecastedTimeSeries;
     }
 
     /**

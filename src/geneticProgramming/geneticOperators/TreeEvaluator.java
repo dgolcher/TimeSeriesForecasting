@@ -33,9 +33,9 @@ public class TreeEvaluator implements FitnessEvaluator<Node>
             error += Math.pow(diff, 2);
         }
 
-        if (error != 0) {
-            error += candidate.countNodes();
-        }
+        // if (error != 0) {
+        //     error += candidate.countNodes();
+        // }
 
         candidate.setFitnessValue(error);
         return error;
