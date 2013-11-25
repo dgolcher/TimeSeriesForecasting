@@ -335,7 +335,7 @@ public class TimeSeriesEvaluator implements FitnessEvaluator<Node>
 
         if (1 - (forecast/expected) < 0) {
             try {
-                throw new Exception("Invalido ae porra.");
+                throw new Exception("Invalid.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
